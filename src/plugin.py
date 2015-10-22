@@ -951,7 +951,7 @@ class SignalFinder(ConfigListScreen, Screen):
 						self.scan_sat.polarization.value,
 						fec,
 						self.scan_sat.inversion.value,
-						satpos,
+						orbpos,
 						self.scan_sat.system.value,
 						self.scan_sat.modulation.value,
 						self.scan_sat.rolloff.value,
