@@ -108,7 +108,7 @@ msgstr ""
 "Пожалуйста настройте ваш тюнер перед сканированием каналов."
 
 msgid "None"
-msgstr "нет"
+msgstr "Никакой"
 
 msgid ""
 "Nothing to scan!\n"
@@ -116,6 +116,7 @@ msgid ""
 msgstr ""
 "Нечего сканировать!\n"
 "Пожалуйста, настройте ваш тюнер перед началом сканирования."
+
 msgid "Off"
 msgstr "Выкл."
 
@@ -232,7 +233,7 @@ msgid "horizontal"
 msgstr "горизонтальная"
 
 msgid "multi scan list empty!"
-msgstr ""
+msgstr "лист мульти сканирования пустой!"
 
 msgid "no"
 msgstr "нет"
@@ -250,4 +251,4 @@ msgid "yes"
 msgstr "да"
 
 msgid "yes (keep feeds)"
-msgstr "да (хранить каналы)"
+msgstr "да (сохранить feeds сервисы)"
