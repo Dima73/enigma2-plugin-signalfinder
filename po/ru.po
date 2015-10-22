@@ -2,14 +2,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-02-28 19:54+0100\n"
+"POT-Creation-Date: 2015-10-22 21:41+0300\n"
 "PO-Revision-Date: 2015-10-22 20:30+0300\n"
 "Last-Translator: Dimitrij <Dima-73@inbox.lv>\n"
 "Language-Team: LANGUAGE <Dima-73@inbox.lv>\n"
+"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru\n"
 "X-Generator: Poedit 1.8.4\n"
 
 msgid " (only this transponder)"
@@ -18,18 +18,17 @@ msgstr " (только этот ТР)"
 msgid " (only transponders provider)"
 msgstr " (только ТР провайдера)"
 
-msgid "\"MTS TV"
-msgstr "МТС ТВ"
+msgid "A recording is currently running. Please stop the recording before trying to start a service scan."
+msgstr "В настоящее время идет запись. Пожалуйста, остановите вначале запись перед началом сканирования сервисов."
 
-msgid ""
-"A recording is currently running. Please stop the recording before trying to "
-"start a service scan."
-msgstr ""
-"В настоящее время идет запись. Пожалуйста, остановите вначале запись перед "
-"началом сканирования сервисов."
+msgid "AGC:"
+msgstr "AGC:"
 
 msgid "Auto"
 msgstr "Авто"
+
+msgid "BER:"
+msgstr "BER:"
 
 msgid "Cancel"
 msgstr "Отмена"
@@ -61,8 +60,17 @@ msgstr "Инверсия"
 msgid "Kontinent TV"
 msgstr "Континент ТВ"
 
+msgid "LOCK"
+msgstr "LOCK"
+
+msgid "LOCK:"
+msgstr "LOCK:"
+
 msgid "Left, right or press OK to select transporder."
 msgstr "Лево/право или нажатие ОК для выбора транспордера."
+
+msgid "MTS TV"
+msgstr "МТС ТВ"
 
 msgid "Maybe the reason that recording is currently running."
 msgstr "Может быть причина в том, что сейчас идет запись."
@@ -85,18 +93,12 @@ msgstr "НТВ Плюс Восток"
 msgid "Network scan"
 msgstr "Сканирование сети"
 
-msgid "No satellite frontend found!"
-msgstr "Не найден спутниковый фронтенд!"
-
 msgid ""
 "No satellites configured for DVB-S2 tuner(s).\n"
 "Please check your tuner(s) setup."
 msgstr ""
 "Нет спутников настроенных для тюнера(ов) DVB-S2).\n"
 "Пожалуйста, проверьте конфигурацию ваших тюнеров."
-
-msgid "No service"
-msgstr "Нет сервиса"
 
 msgid ""
 "No tuner is enabled!\n"
@@ -114,6 +116,11 @@ msgid ""
 msgstr ""
 "Нечего сканировать!\n"
 "Пожалуйста, настройте ваш тюнер перед началом сканирования."
+msgid "Off"
+msgstr "Выкл."
+
+msgid "On"
+msgstr "Вкл."
 
 msgid "Only free scan"
 msgstr "Сканирование только бесплатных сервисов"
@@ -129,9 +136,6 @@ msgstr "Поляризация"
 
 msgid "Predefined transponder"
 msgstr "Предопределенный транспондер"
-
-msgid "Press OK to start the scan"
-msgstr "Нажмите OK для начала поиска."
 
 msgid "Press OK to toggle the selection"
 msgstr "Нажмите OK для подверждения выбора."
@@ -151,41 +155,29 @@ msgstr "Rolloff фактор"
 msgid "Russian providers"
 msgstr "Российские провайдеры"
 
+msgid "SNR:"
+msgstr "SNR:"
+
 msgid "Satellite"
 msgstr "Спутник"
 
 msgid "Scan"
 msgstr "Сканирование"
 
-msgid "Service scan"
-msgstr "Сканирование сервисов"
-
-msgid "Signal Finder DVB-S/T"
-msgstr "Поиск сигнала DVB-S/T"
-
 msgid "Signal Finder DVB-S2"
 msgstr "Поиск сигнала DVB-S2"
+
+msgid "Signal finder"
+msgstr "Поиск сигнала"
 
 msgid "Signal finder for DVB-S(S2) tuners"
 msgstr "Поиск сигнала/сканирование для тюнеров DVB-S(S2)"
 
-msgid "Signal finder for DVB-S(S2)/T(T2) tuners"
-msgstr "Поиск сигнала для DVB-S(S2)/T(T2) тюнеров"
-
 msgid "Signal finder for DVB-S2 tuners"
 msgstr "Поиск сигнала для тюнеров DVB-S2"
 
-msgid "Simple Satellite Scan"
-msgstr "Сканирование с сатфайндером"
-
-msgid "Simple Service Scan"
-msgstr "Сканирование сервисов"
-
 msgid "Single satellite"
 msgstr "Один спутник"
-
-msgid "Single transponder"
-msgstr "Один транспондер"
 
 msgid "Sorry, this tuner is in use."
 msgstr "Извините, этот тюнер сейчас занят."
@@ -202,6 +194,7 @@ msgstr "Транспондер"
 msgid "Transponders list"
 msgstr "Список транспондеров"
 
+#, python-format
 msgid "Transponders list: %s"
 msgstr "Список транспондеров: %s"
 
@@ -216,6 +209,9 @@ msgstr "Тюнер"
 
 msgid "Type of scan"
 msgstr "Тип сканирования"
+
+msgid "User defined transponder"
+msgstr "Транспондер вручную"
 
 msgid "Viasat"
 msgstr "Виасат"
@@ -235,23 +231,14 @@ msgstr "круговая правая"
 msgid "horizontal"
 msgstr "горизонтальная"
 
-msgid "multiscanlist empty!"
-msgstr "список спутников пустой!"
+msgid "multi scan list empty!"
+msgstr ""
 
 msgid "no"
 msgstr "нет"
 
 msgid "not selected provider!"
 msgstr "не выбран провайдер!"
-
-msgid "off"
-msgstr "выкл."
-
-msgid "on"
-msgstr "вкл."
-
-msgid "scan state"
-msgstr "статус сканирования"
 
 msgid "search failed!"
 msgstr "поиск не удался!"
