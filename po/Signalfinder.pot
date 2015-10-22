@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-22 21:12+0300\n"
+"POT-Creation-Date: 2015-10-22 21:41+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: plugin.py:616
@@ -298,4 +298,32 @@ msgstr ""
 
 #: plugin.py:710
 msgid "yes (keep feeds)"
+msgstr ""
+
+#: skin.xml
+msgid "AGC:"
+msgstr ""
+
+#: skin.xml
+msgid "BER:"
+msgstr ""
+
+#: skin.xml
+msgid "Current position:"
+msgstr ""
+
+#: skin.xml
+msgid "LOCK"
+msgstr ""
+
+#: skin.xml
+msgid "LOCK:"
+msgstr ""
+
+#: skin.xml
+msgid "SNR:"
+msgstr ""
+
+#: skin.xml
+msgid "Signal finder"
 msgstr ""
