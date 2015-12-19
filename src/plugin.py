@@ -71,7 +71,7 @@ class SignalFinder(ConfigListScreen, Screen):
 	if HD:
 		skin = """
 			<screen position="center,center" size="1200,640" title="Signal finder" >
-				<eLabel name="pos" text="Current position:" position="10,10" size="210,25" font="Regular;22" halign="right" transparent="1" />
+				<widget name="pos" position="10,10" size="210,25" font="Regular;22" halign="right" transparent="1" />
 				<widget name="status" position="230,10" size="370,25" font="Regular;22" halign="left" foregroundColor="#f8f711" transparent="1" />
 				<widget source="Frontend" render="Progress" pixmap="/usr/lib/enigma2/python/Plugins/SystemPlugins/Signalfinder/image/bar_big.png" position="140,40" size="1000,50" borderColor="#00808888">
 					<convert type="FrontendInfo">SNR</convert>
@@ -118,7 +118,7 @@ class SignalFinder(ConfigListScreen, Screen):
 	else:
 		skin = """
 		<screen position="center,center" size="630,575" title="Signal finder">
-			<eLabel name="pos" text="Current position:" position="10,10" size="210,20" font="Regular;19" halign="right" transparent="1" />
+			<widget name="pos" position="10,10" size="210,20" font="Regular;19" halign="right" transparent="1" />
 			<widget name="status" position="230,10" size="270,20" font="Regular;19" halign="left" foregroundColor="#f8f711" transparent="1" />
 			<widget source="Frontend" render="Label" position="190,35" zPosition="2" size="260,20" font="Regular;19" halign="center" valign="center" transparent="1">
 				<convert type="FrontendInfo">SNRdB</convert>
@@ -176,6 +176,7 @@ class SignalFinder(ConfigListScreen, Screen):
 		self.tuner = None
 		self.DLG = None
 		self.frontendData = None
+		self["pos"] = Label(_("Current position:"))
 		self["status"] = Label("")
 		self["Cancel"] = Label(_("Cancel"))
 		self["Scan"] = Label(_("Scan"))
@@ -415,6 +416,7 @@ class SignalFinder(ConfigListScreen, Screen):
 					orbpos = 0
 					providerList = None
 					viasat = False
+					kontinent = False
 					if self.provider_list.value == "viasat":
 						orbpos = 49
 						providerList = VIASAT
@@ -445,12 +447,13 @@ class SignalFinder(ConfigListScreen, Screen):
 						orbpos = 750
 						providerList = MTSTV
 					elif self.provider_list.value == "kontinent":
-						orbpos = 851 
+						kontinent = True
+						orbpos = 850 
 						providerList = KONTINENT
 					if orbpos > 0 and providerList is not None:
 						SatList = nimmanager.getSatListForNim(index_to_scan)
 						for sat in SatList:
-							if sat[0] == orbpos or (viasat and sat[0] in (48, 49)):
+							if sat[0] == orbpos or (viasat and sat[0] in (48, 49)) or (kontinent and sat[0] in (849, 850, 851)):
 								tps = nimmanager.getTransponders(sat[0])
 								for x in tps:
 									pol = x[3]
@@ -487,7 +490,7 @@ class SignalFinder(ConfigListScreen, Screen):
 			(fec == 4 and "5/6") or (fec == 5 and "7/8") or (fec == 6 and "8/9") or (fec == 7 and "3/5") or \
 			(fec == 8 and "4/5") or (fec == 9 and "9/10") or (fec == 15 and "None") or "Unknown"
 
-	def updateTranspondersList(self, orbpos, tr=None):
+	def updateTranspondersList(self, orbpos, tr=None, pol=None):
 		if orbpos is not None:
 			index = 0
 			default = "0"
@@ -497,7 +500,7 @@ class SignalFinder(ConfigListScreen, Screen):
 				if x[0] == 0:	#SAT
 					s = str(x[1]/1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2]/1000) + " / " + self.FecToStr(x[4])
 					list.append((str(index), s))
-					if tr is not None and tr == x[1]/1000:
+					if tr is not None and tr == x[1]/1000 and pol is not None and pol == x[3]:
 						default = str(index)
 					index += 1
 			if orbpos == 360 and len(list) >= 20 and default == "0":
@@ -559,7 +562,7 @@ class SignalFinder(ConfigListScreen, Screen):
 				self.list.append(self.satelliteEntry)
 				sat = self.satList[index_to_scan][self.scan_satselection[index_to_scan].index]
 				if firstStart is not None:
-					self.updateTranspondersList(sat[0], tr=self.scan_sat.frequency.value)
+					self.updateTranspondersList(sat[0], tr=self.scan_sat.frequency.value, pol=self.scan_sat.polarization.value)
 				else:
 					self.updateTranspondersList(sat[0])
 				self.transpondersEntry = getConfigListEntry(_('Transponder'), self.scan_transponders)
@@ -602,7 +605,7 @@ class SignalFinder(ConfigListScreen, Screen):
 					elif sat[0] == 750:
 						satchoises.append(("raduga", _("Raduga TV")))
 						satchoises.append(("mtstv", _("MTS TV")))
-					elif sat[0] == 851:
+					elif sat[0] in (849, 850, 851):
 						satchoises.append(("kontinent", _("Kontinent TV")))
 				self.provider_list = ConfigSelection(default = "none", choices = satchoises)
 				ProviderEntry = getConfigListEntry(_("Provider"), self.provider_list)
@@ -785,7 +788,7 @@ class SignalFinder(ConfigListScreen, Screen):
 		self.newConfig()
 
 	def addSatTransponder(self, tlist, frequency, symbol_rate, polarisation, fec, inversion, orbital_position, system, modulation, rolloff, pilot):
-		print "Add Sat: frequ: " + str(frequency) + " symbol: " + str(symbol_rate) + " pol: " + str(polarisation) + " fec: " + str(fec) + " inversion: " + str(inversion) + " modulation: " + str(modulation) + " system: " + str(system) + " rolloff" + str(rolloff) + " pilot" + str(pilot)
+		print "Add Sat: frequency: " + str(frequency) + " symbol: " + str(symbol_rate) + " pol: " + str(polarisation) + " fec: " + str(fec) + " inversion: " + str(inversion) + " modulation: " + str(modulation) + " system: " + str(system) + " rolloff" + str(rolloff) + " pilot" + str(pilot)
 		print "orbpos: " + str(orbital_position)
 		parm = eDVBFrontendParametersSatellite()
 		parm.modulation = modulation
@@ -842,7 +845,7 @@ class SignalFinder(ConfigListScreen, Screen):
 	def providersSat(self):
 		providers_sat = False
 		for sat in nimmanager.satList:
-			if sat[0] == 48 or sat[0] == 49 or sat[0] == 360 or sat[0] == 560 or sat[0] == 600 or sat[0] == 750 or sat[0] == 851:
+			if sat[0] == 48 or sat[0] == 49 or sat[0] == 360 or sat[0] == 560 or sat[0] == 600 or sat[0] == 750 or sat[0] in (849, 850, 851):
 				providers_sat = True
 				break
 		return providers_sat
@@ -950,6 +953,7 @@ class SignalFinder(ConfigListScreen, Screen):
 					startScan = False
 					providerList = None
 					viasat = False
+					kontinent = False
 					if self.provider_list.value == "viasat":
 						orbpos = 49
 						providerList = VIASAT
@@ -980,12 +984,13 @@ class SignalFinder(ConfigListScreen, Screen):
 						orbpos = 750
 						providerList = MTSTV
 					elif self.provider_list.value == "kontinent":
-						orbpos = 851 
+						orbpos = 850 
 						providerList = KONTINENT
+						kontinent = True
 					if orbpos > 0 and providerList is not None:
 						SatList = nimmanager.getSatListForNim(index_to_scan)
 						for sat in SatList:
-							if sat[0] == orbpos or (viasat and sat[0] in (48, 49)):
+							if sat[0] == orbpos or (viasat and sat[0] in (48, 49)) or (kontinent and sat[0] in (849, 850, 851)):
 								self.getInitialTransponderProviderList(tlist, sat[0], providers=providerList)
 						removeAll = False
 						startScan = True
@@ -1110,7 +1115,9 @@ def SignalFinderMain(session, **kwargs):
 	for x in sat_nims:
 		if nimmanager.getNimConfig(x).configMode.value in ("loopthrough", "satposdepends", "nothing"):
 			continue
-		if nimmanager.getNimConfig(x).configMode.value in ("simple", "equal","advanced") and len(nimmanager.getSatListForNim(x)) < 1:
+		if nimmanager.getNimConfig(x).configMode.value in ("simple" ,"advanced") and len(nimmanager.getSatListForNim(x)) < 1:
+			nimmanager.getNimConfig(x).configMode.value = "nothing"
+			nimmanager.getNimConfig(x).configMode.save()
 			continue
 		sat_nimList.append(x)
 	sat = len(sat_nimList)
