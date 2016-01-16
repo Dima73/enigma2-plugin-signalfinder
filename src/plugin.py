@@ -513,6 +513,8 @@ class SignalFinder(ConfigListScreen, Screen):
 		for slot in nimmanager.nim_slots:
 			if slot.isCompatible("DVB-S"):
 				self.satList.append(nimmanager.getSatListForNim(slot.slot))
+			else:
+				self.satList.append(None)
 
 	def createSetup(self, firstStart=None):
 		self.tuneTimer.stop()
@@ -653,9 +655,9 @@ class SignalFinder(ConfigListScreen, Screen):
 			if n.config_mode in ("simple", "equal","advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
 				continue
 			if n.config_mode in ("loopthrough", "satposdepends"):
-				root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
-				if n.type == nimmanager.nim_slots[root_id].type:
-					continue
+				#root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
+				#if n.type == nimmanager.nim_slots[root_id].type:
+				continue
 			if n.isCompatible("DVB-S"):
 				nim_list.append((str(n.slot), n.friendly_full_description))
 		self.scan_nims = ConfigSelection(choices = nim_list)
@@ -689,7 +691,8 @@ class SignalFinder(ConfigListScreen, Screen):
 				else:
 					defaultSat["fec"] = frontendData.get("fec_inner", eDVBFrontendParametersSatellite.FEC_Auto)
 				defaultSat["modulation"] = frontendData.get("modulation", eDVBFrontendParametersSatellite.Modulation_QPSK)
-				defaultSat["orbpos"] = frontendData.get("orbital_position", 0)
+				if frontendData.has_key('orbital_position'):
+					defaultSat["orbpos"] = frontendData['orbital_position']
 				default_scan = "predefined_transponder"
 
 		self.scan_sat = ConfigSubsection()
