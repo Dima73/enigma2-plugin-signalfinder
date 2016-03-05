@@ -15,6 +15,8 @@ from Components.MenuList import MenuList
 from Screens.ChoiceBox import ChoiceBox
 from Screens.ServiceScan import ServiceScan
 
+plugin_version = "1.1"
+
 HD = False
 if getDesktop(0).size().width() >= 1280:
 	HD = True
@@ -238,7 +240,7 @@ class SignalFinder(ConfigListScreen, Screen):
 			self.feid = None
 		self["config"].onSelectionChanged.append(self.textHelp)
 		self.initcomplete = self.feid != None
-		self.setTitle(_("Signal finder for DVB-S(S2) tuners"))
+		self.setTitle(_("Signal finder for DVB-S(S2) tuners") + ": " + plugin_version)
 		self.onShow.append(self.initFrontend)
 
 	def openFrontend(self):
@@ -652,12 +654,14 @@ class SignalFinder(ConfigListScreen, Screen):
 		for n in nimmanager.nim_slots:
 			if n.config_mode == "nothing":
 				continue
+			if hasattr(n, "isFBCLink") and n.isFBCLink():
+				continue
 			if n.config_mode in ("simple", "equal","advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
 				continue
 			if n.config_mode in ("loopthrough", "satposdepends"):
-				#root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
-				#if n.type == nimmanager.nim_slots[root_id].type:
-				continue
+				root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
+				if n.type == nimmanager.nim_slots[root_id].type:
+					continue
 			if n.isCompatible("DVB-S"):
 				nim_list.append((str(n.slot), n.friendly_full_description))
 		self.scan_nims = ConfigSelection(choices = nim_list)
@@ -673,7 +677,7 @@ class SignalFinder(ConfigListScreen, Screen):
 			"polarization": eDVBFrontendParametersSatellite.Polarisation_Horizontal,
 			"fec": eDVBFrontendParametersSatellite.FEC_Auto,
 			"fec_s2": eDVBFrontendParametersSatellite.FEC_9_10,
-			"modulation": eDVBFrontendParametersSatellite.Modulation_QPSK }
+			"modulation": eDVBFrontendParametersSatellite.Modulation_QPSK}
 
 		default_scan = "single_transponder"
 		if frontendData is not None:
@@ -750,9 +754,10 @@ class SignalFinder(ConfigListScreen, Screen):
 			(eDVBFrontendParametersSatellite.FEC_7_8, "7/8"),
 			(eDVBFrontendParametersSatellite.FEC_8_9, "8/9"),
 			(eDVBFrontendParametersSatellite.FEC_9_10, "9/10")])
-		self.scan_sat.modulation = ConfigSelection(default = defaultSat["modulation"], choices = [
-			(eDVBFrontendParametersSatellite.Modulation_QPSK, "QPSK"),
-			(eDVBFrontendParametersSatellite.Modulation_8PSK, "8PSK")])
+		lst = [(eDVBFrontendParametersSatellite.Modulation_QPSK, "QPSK"),(eDVBFrontendParametersSatellite.Modulation_8PSK, "8PSK")]
+		if hasattr(eDVBFrontendParametersSatellite, "Modulation_16APSK") and hasattr(eDVBFrontendParametersSatellite, "Modulation_32APSK"):
+			lst += [(eDVBFrontendParametersSatellite.Modulation_16APSK, "16APSK"),(eDVBFrontendParametersSatellite.Modulation_32APSK, "32APSK")]
+		self.scan_sat.modulation = ConfigSelection(default = defaultSat["modulation"], choices = lst)
 		self.scan_sat.rolloff = ConfigSelection(default = defaultSat.get("rolloff", eDVBFrontendParametersSatellite.RollOff_alpha_0_35), choices = [
 			(eDVBFrontendParametersSatellite.RollOff_alpha_0_35, "0.35"),
 			(eDVBFrontendParametersSatellite.RollOff_alpha_0_25, "0.25"),
