@@ -15,21 +15,22 @@ from Components.MenuList import MenuList
 from Screens.ChoiceBox import ChoiceBox
 from Screens.ServiceScan import ServiceScan
 
-plugin_version = "1.1"
+plugin_version = "1.2"
 
 HD = False
 if getDesktop(0).size().width() >= 1280:
 	HD = True
 
 VIASAT = [ (11265000, 0), (11265000, 1), (11305000, 0), (11305000, 1), (11345000, 1), (11345000, 0), (11385000, 1) , (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12054000, 1), (12092000, 1), (12245000, 1), (12380000, 0), (12437000, 1), (12476000, 1), (12608000, 0), (12637000, 0) ]
-VIASATUKR = [ (12169000, 1), (12207000, 1), (12399000, 1) ]
-NTVPLUS = [ (11785000, 1), (11823000, 1), (11862000, 1), (11900000, 1), (11938000, 1), (11977000, 1), (11996000, 0), (12015000, 1), (12073000, 0), (12092000, 1), (12130000, 1), (12207000, 1), (12245000, 1), (12265000, 0), (12284000, 1), (12322000, 1), (12341000, 0), (12380000, 0), (12399000, 1), (12437000, 1), (12456000, 0), (12476000, 1) ]
-TRIKOLOR = [ (11727000, 0),(11747000, 1), (11766000, 0), (11804000, 0), (11843000, 0), (11881000, 0), (11919000, 0), (11958000, 0), (12034000, 0), (12054000, 1), (12111000, 0), (12149000, 0), (12169000, 1), (12190000, 0), (12226000, 0), (12303000, 0), (12360000, 1), (12418000, 0) ]
+VIASATUKR = [ (11222000, 0), (11258000, 0) ]
+VIASATLATVIJA = [ (11265000, 0), (11265000, 1), (11305000, 1), (11345000, 1), (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12437000, 1), (12608000, 0) ]
+NTVPLUS = [ (11785000, 1), (11823000, 1), (11862000, 1), (11900000, 1), (11938000, 1), (11977000, 1), (11996000, 0), (12015000, 1), (12092000, 1), (12130000, 1), (12207000, 1), (12245000, 1), (12265000, 0), (12284000, 1), (12322000, 1), (12341000, 0), (12380000, 0), (12399000, 1), (12437000, 1) ]
+TRIKOLOR = [ (11727000, 0), (11747000, 1), (11766000, 0), (11804000, 0), (11843000, 0), (11881000, 0), (11919000, 0), (11958000, 0), (11996000, 0), (12034000, 0), (12054000, 1), (12073000, 0), (12111000, 0), (12149000, 0), (12169000, 1), (12190000, 0), (12226000, 0), (12303000, 0), (12360000, 1), (12418000, 0), (12456000, 0) ]
 NTVPLUS_VOSTOK = [ (12169000, 1), (12245000, 1), (12322000, 1), (12399000, 1), (12476000, 1) ]
 TRIKOLOR_SIBIR = [ (11881000, 0), (11919000, 0), (11958000, 0), (11996000, 0), (12034000, 0), (12073000, 0), (12111000, 0), (12149000, 0), (12188000, 0), (12226000, 0), (12265000, 0), (12303000, 0), (12341000, 0) ]
-OTAUTV = [ (11555000, 0), (11635000, 0), (11675000, 0) ]
+OTAUTV = [ (11555000, 0), (11595000, 0), (11635000, 0), (11675000, 0) ]
 RADUGA = [ (11473000, 1), (11559000, 1), (11793000, 1) ]
-MTSTV = [ (11733000, 1), (11853000, 1), (11913000, 1), (11973000, 1), (12033000, 1), (12093000, 1), (12153000, 1) ]
+MTSTV = [ (11733000, 1), (11793000, 1), (11853000, 1), (11913000, 1), (11973000, 1), (12033000, 1), (12093000, 1), (12153000, 1) ]
 KONTINENT = [ (11720000, 0), (11760000, 0), (11800000, 0), (11840000, 0), (11872000, 0), (11920000, 0), (11960000, 0), (12000000, 0), (12040000, 0), (12080000, 0), (12120000, 0), (12160000, 0), (12560000, 1), (12600000, 1), (12640000, 1) ]
 
 class TranspondersList(Screen):
@@ -423,10 +424,13 @@ class SignalFinder(ConfigListScreen, Screen):
 						orbpos = 49
 						providerList = VIASAT
 						viasat = True
-					elif self.provider_list.value == "viasat_ukr":
+					elif self.provider_list.value == "viasat_lat":
 						orbpos = 49
-						providerList = VIASATUKR
+						providerList = VIASATLATVIJA
 						viasat = True
+					elif self.provider_list.value == "viasat_ukr":
+						orbpos = 3560
+						providerList = VIASATUKR
 					elif self.provider_list.value == "ntv":
 						orbpos = 360
 						providerList = NTVPLUS
@@ -597,6 +601,8 @@ class SignalFinder(ConfigListScreen, Screen):
 				for sat in satList:
 					if sat[0] == 48 or sat[0] == 49:
 						satchoises.append(("viasat", _("Viasat")))
+						satchoises.append(("viasat_lat", _("Viasat Latvija")))
+					elif sat[0] == 3560:
 						satchoises.append(("viasat_ukr", _("Viasat Ukraine")))
 					elif sat[0] == 360:
 						satchoises.append(("ntv", _("NTV Plus")))
@@ -607,10 +613,10 @@ class SignalFinder(ConfigListScreen, Screen):
 					elif sat[0] == 600:
 						satchoises.append(("otautv", _("Otau TV")))
 					elif sat[0] == 750:
-						satchoises.append(("raduga", _("Raduga TV")))
+						#satchoises.append(("raduga", _("Raduga TV")))
 						satchoises.append(("mtstv", _("MTS TV")))
 					elif sat[0] in (849, 850, 851):
-						satchoises.append(("kontinent", _("Kontinent TV")))
+						satchoises.append(("kontinent", _("Telekarta (HD)")))
 				self.provider_list = ConfigSelection(default = "none", choices = satchoises)
 				ProviderEntry = getConfigListEntry(_("Provider"), self.provider_list)
 				self.list.append(ProviderEntry)
@@ -855,7 +861,7 @@ class SignalFinder(ConfigListScreen, Screen):
 	def providersSat(self):
 		providers_sat = False
 		for sat in nimmanager.satList:
-			if sat[0] == 48 or sat[0] == 49 or sat[0] == 360 or sat[0] == 560 or sat[0] == 600 or sat[0] == 750 or sat[0] in (849, 850, 851):
+			if sat[0] == 48 or sat[0] == 49 or sat[0] == 360 or sat[0] == 560 or sat[0] == 600 or sat[0] == 750 or sat[0] in (849, 850, 851) or sat[0] == 3560:
 				providers_sat = True
 				break
 		return providers_sat
@@ -968,10 +974,13 @@ class SignalFinder(ConfigListScreen, Screen):
 						orbpos = 49
 						providerList = VIASAT
 						viasat = True
-					elif self.provider_list.value == "viasat_ukr":
+					elif self.provider_list.value == "viasat_lat":
 						orbpos = 49
-						providerList = VIASATUKR
+						providerList = VIASATLATVIJA
 						viasat = True
+					elif self.provider_list.value == "viasat_ukr":
+						orbpos = 3560
+						providerList = VIASATUKR
 					elif self.provider_list.value == "ntv":
 						orbpos = 360
 						providerList = NTVPLUS

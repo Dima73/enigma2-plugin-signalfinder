@@ -57,8 +57,8 @@ msgstr "Частота"
 msgid "Inversion"
 msgstr "Инверсия"
 
-msgid "Kontinent TV"
-msgstr "Континент ТВ"
+msgid "Telekarta (HD)"
+msgstr "Телекарта (HD)"
 
 msgid "LOCK"
 msgstr "LOCK"
@@ -154,7 +154,7 @@ msgid "Rolloff"
 msgstr "Rolloff фактор"
 
 msgid "Russian providers"
-msgstr "Российские провайдеры"
+msgstr "Русскоязычные провайдеры"
 
 msgid "SNR:"
 msgstr "SNR:"
@@ -219,6 +219,9 @@ msgstr "Виасат"
 
 msgid "Viasat Ukraine"
 msgstr "Виасат Украина"
+
+msgid "Viasat Latvija"
+msgstr "Виасат Латвия"
 
 msgid "Zap back to service before a service scan?"
 msgstr "Вернутся на предыдущий сервис до начала сканирования?"
