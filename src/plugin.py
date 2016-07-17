@@ -335,7 +335,10 @@ class SignalFinder(ConfigListScreen, Screen):
 	def tune(self, transponder):
 		if self.initcomplete:
 			if transponder is not None and self.tuner is not None:
-				self.tuner.tune(transponder)
+				try:
+					self.tuner.tune(transponder)
+				except Exception as e:
+					print e
 
 	def retune(self, configElement=None):
 		if configElement is None:
@@ -579,7 +582,6 @@ class SignalFinder(ConfigListScreen, Screen):
 				self.updateSatList()
 				sat = self.satList[index_to_scan][self.scan_satselection[index_to_scan].index]
 				self.updateTranspondersList(sat[0])
-				print self.scan_satselection[index_to_scan]
 				self.list.append(getConfigListEntry(_("Satellite"), self.scan_satselection[index_to_scan]))
 				self.scan_networkScan.value = True
 			elif "multisat" in self.scan_type.value:
@@ -804,8 +806,8 @@ class SignalFinder(ConfigListScreen, Screen):
 		self.newConfig()
 
 	def addSatTransponder(self, tlist, frequency, symbol_rate, polarisation, fec, inversion, orbital_position, system, modulation, rolloff, pilot):
-		print "Add Sat: frequency: " + str(frequency) + " symbol: " + str(symbol_rate) + " pol: " + str(polarisation) + " fec: " + str(fec) + " inversion: " + str(inversion) + " modulation: " + str(modulation) + " system: " + str(system) + " rolloff" + str(rolloff) + " pilot" + str(pilot)
-		print "orbpos: " + str(orbital_position)
+		#print "Add Sat: frequency: " + str(frequency) + " symbol: " + str(symbol_rate) + " pol: " + str(polarisation) + " fec: " + str(fec) + " inversion: " + str(inversion) + " modulation: " + str(modulation) + " system: " + str(system) + " rolloff" + str(rolloff) + " pilot" + str(pilot)
+		#print "orbpos: " + str(orbital_position)
 		parm = eDVBFrontendParametersSatellite()
 		parm.modulation = modulation
 		parm.system = system
@@ -958,7 +960,6 @@ class SignalFinder(ConfigListScreen, Screen):
 			SatList = nimmanager.getSatListForNim(index_to_scan)
 			for x in self.multiscanlist:
 				if x[1].value:
-					print "   " + str(x[0])
 					self.getInitialTransponderList(tlist, x[0])
 		elif self.scan_type.value == "provider":
 			if self.provider_list is not None:
