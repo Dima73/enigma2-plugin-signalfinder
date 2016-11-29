@@ -25,7 +25,7 @@ VIASAT = [ (11265000, 0), (11265000, 1), (11305000, 0), (11305000, 1), (11345000
 VIASATUKR = [ (11222000, 0), (11258000, 0) ]
 VIASATLATVIJA = [ (11265000, 0), (11265000, 1), (11305000, 1), (11345000, 1), (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12437000, 1), (12608000, 0) ]
 NTVPLUS = [ (11785000, 1), (11823000, 1), (11862000, 1), (11900000, 1), (11938000, 1), (11977000, 1), (12015000, 1), (12092000, 1), (12130000, 1), (12207000, 1), (12245000, 1), (12265000, 0), (12284000, 1), (12322000, 1), (12341000, 0), (12399000, 1), (12437000, 1) ]
-TRIKOLOR = [ (11727000, 0), (11747000, 1), (11766000, 0), (11804000, 0), (11843000, 0), (11881000, 0), (11919000, 0), (11958000, 0), (11996000, 0), (12034000, 0), (12054000, 1), (12073000, 0), (12111000, 0), (12149000, 0), (12169000, 1), (12190000, 0), (12226000, 0), (12303000, 0), (12360000, 1), (12380000, 1), (12418000, 0), (12456000, 0) ]
+TRIKOLOR = [ (11727000, 0), (11747000, 1), (11766000, 0), (11804000, 0), (11843000, 0), (11881000, 0), (11919000, 0), (11958000, 0), (11996000, 0), (12034000, 0), (12054000, 1), (12073000, 0), (12111000, 0), (12149000, 0), (12169000, 1), (12190000, 0), (12226000, 0), (12303000, 0), (12360000, 1), (12380000, 0), (12418000, 0), (12456000, 0) ]
 NTVPLUS_VOSTOK = [ (12169000, 1), (12245000, 1), (12322000, 1), (12399000, 1), (12476000, 1) ]
 TRIKOLOR_SIBIR = [ (11881000, 0), (11919000, 0), (11958000, 0), (11996000, 0), (12034000, 0), (12073000, 0), (12111000, 0), (12149000, 0), (12188000, 0), (12226000, 0), (12265000, 0), (12303000, 0), (12341000, 0) ]
 OTAUTV = [ (11555000, 0), (11595000, 0), (11635000, 0), (11675000, 0) ]
@@ -261,7 +261,7 @@ class SignalFinder(ConfigListScreen, Screen):
 			if self.frontendData and not self.stop_service:
 				self.getCurrentTuner = self.frontendData and self.frontendData.get("tuner_number", None)
 				if self.session.postScanService and self.getCurrentTuner is not None:
-					if self.getCurrentTuner < 4 and self.feid is not None and self.feid != self.getCurrentTuner:
+					if self.feid is not None and self.feid != self.getCurrentTuner:
 						stop_service = False
 			if self.session.postScanService and stop_service:
 				self.session.nav.stopService()
@@ -847,14 +847,21 @@ class SignalFinder(ConfigListScreen, Screen):
 			if x[3] == 3:
 				pol = 1
 			if x[0] == 0 and providers is not None and (x[1], pol) in providers:
+				fec = x[4]
+				system = x[5]
+				if providers is TRIKOLOR and x[1] == 12360000 and (x[3] == 3 or x[3] == 1):
+					fec = 0
+					system = 1
+				elif providers is KONTINENT and x[1] == 11960000 and x[3] == 0:
+					fec = 2
 				parm = eDVBFrontendParametersSatellite()
 				parm.frequency = x[1]
 				parm.symbol_rate = x[2]
 				parm.polarisation = x[3]
-				parm.fec = x[4]
+				parm.fec = fec
 				parm.inversion = x[7]
 				parm.orbital_position = pos
-				parm.system = x[5]
+				parm.system = system
 				parm.modulation = x[6]
 				parm.rolloff = x[8]
 				parm.pilot = x[9]
