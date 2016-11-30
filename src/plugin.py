@@ -15,7 +15,7 @@ from Components.MenuList import MenuList
 from Screens.ChoiceBox import ChoiceBox
 from Screens.ServiceScan import ServiceScan
 
-plugin_version = "1.3"
+plugin_version = "1.4"
 
 HD = False
 if getDesktop(0).size().width() >= 1280:
@@ -767,11 +767,10 @@ class SignalFinder(ConfigListScreen, Screen):
 		if hasattr(eDVBFrontendParametersSatellite, "Modulation_16APSK") and hasattr(eDVBFrontendParametersSatellite, "Modulation_32APSK"):
 			lst += [(eDVBFrontendParametersSatellite.Modulation_16APSK, "16APSK"),(eDVBFrontendParametersSatellite.Modulation_32APSK, "32APSK")]
 		self.scan_sat.modulation = ConfigSelection(default = defaultSat["modulation"], choices = lst)
-		self.scan_sat.rolloff = ConfigSelection(default = defaultSat.get("rolloff", eDVBFrontendParametersSatellite.RollOff_alpha_0_35), choices = [
-			(eDVBFrontendParametersSatellite.RollOff_alpha_0_35, "0.35"),
-			(eDVBFrontendParametersSatellite.RollOff_alpha_0_25, "0.25"),
-			(eDVBFrontendParametersSatellite.RollOff_alpha_0_20, "0.20"),
-			(eDVBFrontendParametersSatellite.RollOff_auto, _("Auto"))])
+		lst = [(eDVBFrontendParametersSatellite.RollOff_alpha_0_35, "0.35"),(eDVBFrontendParametersSatellite.RollOff_alpha_0_25, "0.25"),(eDVBFrontendParametersSatellite.RollOff_alpha_0_20, "0.20")]
+		if hasattr(eDVBFrontendParametersSatellite, "RollOff_auto"):
+			lst += [(eDVBFrontendParametersSatellite.RollOff_auto, _("Auto"))]
+		self.scan_sat.rolloff = ConfigSelection(default = defaultSat.get("rolloff", eDVBFrontendParametersSatellite.RollOff_alpha_0_35), choices = lst)
 		self.scan_sat.pilot = ConfigSelection(default = defaultSat.get("pilot", eDVBFrontendParametersSatellite.Pilot_Unknown), choices = [
 			(eDVBFrontendParametersSatellite.Pilot_Off, _("Off")),
 			(eDVBFrontendParametersSatellite.Pilot_On, _("On")),
