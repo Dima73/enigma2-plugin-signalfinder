@@ -263,6 +263,11 @@ class SignalFinder(ConfigListScreen, Screen):
 				if self.session.postScanService and self.getCurrentTuner is not None:
 					if self.feid is not None and self.feid != self.getCurrentTuner:
 						stop_service = False
+						for n in nimmanager.nim_slots:
+							if n.config_mode in ("loopthrough", "satposdepends"):
+								root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
+								if n.config.connectedTo.value and int(n.config.connectedTo.value) == self.feid:
+									stop_service = True
 			if self.session.postScanService and stop_service:
 				self.session.nav.stopService()
 				self.stop_service = True
