@@ -15,7 +15,7 @@ from Components.MenuList import MenuList
 from Screens.ChoiceBox import ChoiceBox
 from Screens.ServiceScan import ServiceScan
 
-plugin_version = "1.4"
+plugin_version = "1.5"
 
 HD = False
 if getDesktop(0).size().width() >= 1280:
@@ -179,6 +179,10 @@ class SignalFinder(ConfigListScreen, Screen):
 		self.tuner = None
 		self.DLG = None
 		self.frontendData = None
+		try:
+			self.rotor_pos = config.usage.showdish.value and config.misc.lastrotorposition.value != 9999
+		except:
+			self.rotor_pos = False
 		self["pos"] = Label(_("Current position:"))
 		self["status"] = Label("")
 		self["Cancel"] = Label(_("Cancel"))
@@ -1141,20 +1145,24 @@ class SignalFinder(ConfigListScreen, Screen):
 #		dlg.setTitle("DVB-S2/T(T2)")
 
 def SignalFinderMain(session, **kwargs):
-	sat_nims = nimmanager.getNimListOfType("DVB-S")
+	nims = nimmanager.nim_slots
 	sat_nimList = []
-	for x in sat_nims:
-		if nimmanager.getNimConfig(x).configMode.value in ("loopthrough", "satposdepends", "nothing"):
+	for x in nims:
+		if not x.isCompatible("DVB-S"):
 			continue
-		if nimmanager.getNimConfig(x).configMode.value in ("simple" ,"advanced") and len(nimmanager.getSatListForNim(x)) < 1:
-			nimmanager.getNimConfig(x).configMode.value = "nothing"
-			nimmanager.getNimConfig(x).configMode.save()
+		nimConfig = nimmanager.getNimConfig(x.slot)
+		if not hasattr(nimConfig, 'configMode'):
+			continue
+		if nimConfig.configMode.value in ("loopthrough", "satposdepends", "nothing"):
+			continue
+		if nimConfig.configMode.value in ("simple" ,"advanced") and len(nimmanager.getSatListForNim(x.slot)) < 1:
+			nimConfig.configMode.value = "nothing"
+			nimConfig.configMode.save()
 			continue
 		sat_nimList.append(x)
 	sat = len(sat_nimList)
 	record = session.nav.getRecordings()
-	error_sat = len(sat_nims) > 0 and sat == 0
-	if error_sat:
+	if sat == 0:
 		session.open(MessageBox, _("No satellites configured for DVB-S2 tuner(s).\nPlease check your tuner(s) setup."), MessageBox.TYPE_ERROR)
 		return
 	if record and sat == 1:
