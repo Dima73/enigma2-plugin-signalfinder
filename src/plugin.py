@@ -15,7 +15,7 @@ from Components.MenuList import MenuList
 from Screens.ChoiceBox import ChoiceBox
 from Screens.ServiceScan import ServiceScan
 
-plugin_version = "1.5"
+plugin_version = "1.6"
 
 HD = False
 if getDesktop(0).size().width() >= 1280:
@@ -250,7 +250,7 @@ class SignalFinder(ConfigListScreen, Screen):
 
 	def openFrontend(self):
 		res_mgr = eDVBResourceManager.getInstance()
-		if res_mgr:
+		if res_mgr and self.feid != None:
 			self.raw_channel = res_mgr.allocateRawChannel(self.feid)
 			if self.raw_channel:
 				self.frontend = self.raw_channel.getFrontend()
@@ -268,9 +268,13 @@ class SignalFinder(ConfigListScreen, Screen):
 					if self.feid is not None and self.feid != self.getCurrentTuner:
 						stop_service = False
 						for n in nimmanager.nim_slots:
-							if n.config_mode in ("loopthrough", "satposdepends"):
+							if hasattr(n, 'config_mode') and n.config_mode in ("loopthrough", "satposdepends"):
 								root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
 								if n.config.connectedTo.value and int(n.config.connectedTo.value) == self.feid:
+									stop_service = True
+							elif hasattr(n, 'config') and hasattr(n.config, 'dvbs') and n.config.dvbs.configMode.value in ("loopthrough", "satposdepends"):
+								root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.dvbs.connectedTo.value))
+								if n.config.dvbs.connectedTo.value and int(n.config.dvbs.connectedTo.value) == self.feid:
 									stop_service = True
 			if self.session.postScanService and stop_service:
 				self.session.nav.stopService()
@@ -669,18 +673,32 @@ class SignalFinder(ConfigListScreen, Screen):
 	def getNimvalue(self):
 		nim_list = []
 		for n in nimmanager.nim_slots:
-			if n.config_mode == "nothing":
-				continue
-			if hasattr(n, "isFBCLink") and n.isFBCLink():
-				continue
-			if n.config_mode in ("simple", "equal","advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
-				continue
-			if n.config_mode in ("loopthrough", "satposdepends"):
-				root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
-				if n.type == nimmanager.nim_slots[root_id].type:
+			if hasattr(n, 'config_mode'):
+				if n.config_mode == "nothing":
 					continue
-			if n.isCompatible("DVB-S"):
-				nim_list.append((str(n.slot), n.friendly_full_description))
+				if hasattr(n, "isFBCLink") and n.isFBCLink():
+					continue
+				if n.config_mode in ("simple", "equal","advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
+					continue
+				if n.config_mode in ("loopthrough", "satposdepends"):
+					root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
+					if n.type == nimmanager.nim_slots[root_id].type:
+						continue
+				if n.isCompatible("DVB-S"):
+					nim_list.append((str(n.slot), n.friendly_full_description))
+			elif hasattr(n, 'config') and hasattr(n.config, 'dvbs'):
+				if n.config.dvbs.configMode.value == "nothing":
+					continue
+				if hasattr(n, "isFBCLink") and n.isFBCLink():
+					continue
+				if n.config.dvbs.configMode.value in ("simple", "equal","advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
+					continue
+				if n.config.dvbs.configMode.value in ("loopthrough", "satposdepends"):
+					root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.dvbs.connectedTo.value))
+					if n.type == nimmanager.nim_slots[root_id].type:
+						continue
+				if n.isCompatible("DVB-S"):
+					nim_list.append((str(n.slot), n.friendly_full_description))
 		self.scan_nims = ConfigSelection(choices = nim_list)
 		return nim_list
 
@@ -1150,7 +1168,10 @@ def SignalFinderMain(session, **kwargs):
 	for x in nims:
 		if not x.isCompatible("DVB-S"):
 			continue
-		nimConfig = nimmanager.getNimConfig(x.slot)
+		try:
+			nimConfig = nimmanager.getNimConfig(x.slot).dvbs
+		except:
+			nimConfig = nimmanager.getNimConfig(x.slot)
 		if not hasattr(nimConfig, 'configMode'):
 			continue
 		if nimConfig.configMode.value in ("loopthrough", "satposdepends", "nothing"):
