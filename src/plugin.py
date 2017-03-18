@@ -15,7 +15,9 @@ from Components.MenuList import MenuList
 from Screens.ChoiceBox import ChoiceBox
 from Screens.ServiceScan import ServiceScan
 
-plugin_version = "1.6"
+config.misc.direct_tuner = ConfigYesNo(False)
+
+plugin_version = "1.7"
 
 HD = False
 if getDesktop(0).size().width() >= 1280:
@@ -202,11 +204,12 @@ class SignalFinder(ConfigListScreen, Screen):
 						get_tuner = False
 						for x in nim:
 							if int(x[0]) != tuner:
-								satList = nimmanager.getSatListForNim(int(x[0]))
-								for sat in satList:
-									if sat[0] == orbital_position:
-										need_sat = True
-										self.scan_nims.setValue(x[0])
+								if not config.misc.direct_tuner.value:
+									satList = nimmanager.getSatListForNim(int(x[0]))
+									for sat in satList:
+										if sat[0] == orbital_position:
+											need_sat = True
+											self.scan_nims.setValue(x[0])
 							else:
 								satList = nimmanager.getSatListForNim(int(x[0]))
 								for sat in satList:
@@ -221,11 +224,12 @@ class SignalFinder(ConfigListScreen, Screen):
 		del feinfo
 		del self.service
 		self["Frontend"] = FrontendStatus(frontend_source = lambda: self.frontend, update_interval = 500)
-		self["actions"] = ActionMap(["SetupActions"],
+		self["actions"] = ActionMap(["SetupActions", "MenuActions"],
 		{
 			"save": self.keyGo,
 			"ok": self.keyOK,
 			"cancel": self.keyCancel,
+			"menu": self.setDirectTuners,
 		}, -2)
 		self.list = []
 		self.tpslist = [ ]
@@ -247,6 +251,17 @@ class SignalFinder(ConfigListScreen, Screen):
 		self.initcomplete = self.feid != None
 		self.setTitle(_("Signal finder for DVB-S(S2) tuners") + ": " + plugin_version)
 		self.onShow.append(self.initFrontend)
+
+	def setDirectTuners(self):
+		text = _("Set free tuner?")
+		if not config.misc.direct_tuner.value:
+			text = _("Set direct tuner?")
+		self.session.openWithCallback(self.setDirectTunersCallback, MessageBox, text, MessageBox.TYPE_YESNO)
+
+	def setDirectTunersCallback(self, answer):
+		if answer:
+			config.misc.direct_tuner.value = not config.misc.direct_tuner.value
+			config.misc.direct_tuner.save()
 
 	def openFrontend(self):
 		res_mgr = eDVBResourceManager.getInstance()

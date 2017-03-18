@@ -327,3 +327,10 @@ msgstr ""
 #: skin.xml
 msgid "Signal finder"
 msgstr ""
+
+msgid "Set free tuner?"
+msgstr ""
+
+msgid "Set direct tuner?"
+msgstr ""
+

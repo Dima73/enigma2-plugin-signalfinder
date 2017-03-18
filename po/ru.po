@@ -255,3 +255,10 @@ msgstr "да"
 
 msgid "yes (keep feeds)"
 msgstr "да (сохранить feeds сервисы)"
+
+msgid "Set free tuner?"
+msgstr "Установить свободный тюнер?"
+
+msgid "Set direct tuner?"
+msgstr "Установить непосредственный тюнер?"
+
