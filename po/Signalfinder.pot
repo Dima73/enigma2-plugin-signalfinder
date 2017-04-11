@@ -334,3 +334,14 @@ msgstr ""
 msgid "Set direct tuner?"
 msgstr ""
 
+msgid "Input Stream ID"
+msgstr ""
+
+msgid "PLS Mode"
+msgstr ""
+
+msgid "PLS Code"
+msgstr ""
+
+msgid "This image not support multistream!"
+msgstr ""

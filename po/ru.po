@@ -262,3 +262,16 @@ msgstr "Установить свободный тюнер?"
 msgid "Set direct tuner?"
 msgstr "Установить непосредственный тюнер?"
 
+msgid "Input Stream ID"
+msgstr "ID входа стрима"
+
+msgid "PLS Mode"
+msgstr "Режим PLS"
+
+msgid "PLS Code"
+msgstr "Код PLS"
+
+msgid "This image not support multistream!"
+msgstr "Этот имидж не поддерживает мультистрим!"
+
+
