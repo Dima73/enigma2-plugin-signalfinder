@@ -1042,7 +1042,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 					tps = nimmanager.getTransponders(orbpos)
 					if len(tps) > self.scan_transponders.index:
 						x = tps[self.scan_transponders.index]
-						self.addSatTransponder(tlist, x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], tp[10], tp[11], tp[12])
+						self.addSatTransponder(tlist, x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12])
 			removeAll = False
 		elif self.scan_type.value == "single_satellite":
 			sat = self.satList[index_to_scan][self.scan_satselection[index_to_scan].index]
