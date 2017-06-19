@@ -1,0 +1,358 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Signalfinder\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-05-28 07:41+0300\n"
+"PO-Revision-Date: 2017-06-19 08:41+0300\n"
+"Language-Team: Vytenis P. (vyteniui@gmail.com)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.2\n"
+"Last-Translator: Vytenis P. <vyteniui@gmail.com>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: lt\n"
+
+#: plugin.py:616
+msgid " (only this transponder)"
+msgstr " (tik šis transponderis)"
+
+#: plugin.py:618
+msgid " (only transponders provider)"
+msgstr " (tik transponderio tiekėjas)"
+
+#: plugin.py:1123
+msgid ""
+"A recording is currently running. Please stop the recording before trying to "
+"start a service scan."
+msgstr ""
+"Dabar vyksta įrašymas. Prieš pradėdami kanalų paiešką, išjunkite įrašymą."
+
+#: plugin.py:722 plugin.py:730 plugin.py:757
+msgid "Auto"
+msgstr "Automatiškai"
+
+#: plugin.py:180
+msgid "Cancel"
+msgstr "Atšaukti"
+
+#: plugin.py:614
+msgid "Clear before scan"
+msgstr "Prieš paiešką išvalyti"
+
+#: plugin.py:716
+msgid "DVB-S"
+msgstr "DVB-S"
+
+#: plugin.py:717
+msgid "DVB-S2"
+msgstr "DVB-S2"
+
+#: plugin.py:1041
+msgid "Do you want to scan another transponder/satellite?"
+msgstr "Ar norite ieškoti kitame transponderyje/palydove?"
+
+#: plugin.py:549 plugin.py:551
+msgid "FEC"
+msgstr "FEC"
+
+#: plugin.py:544
+msgid "Frequency"
+msgstr "Dažnis"
+
+#: plugin.py:545
+msgid "Inversion"
+msgstr "Inversija"
+
+#: plugin.py:606
+msgid "Kontinent TV"
+msgstr "Kontinent TV"
+
+#: plugin.py:303
+msgid "Left, right or press OK to select transporder."
+msgstr "Kairėn, dešinėn, arba spauskite 'OK' ir pasirinkite transporderį."
+
+#: plugin.py:604
+msgid "MTS TV"
+msgstr "MTS TV"
+
+#: plugin.py:281 plugin.py:889
+msgid "Maybe the reason that recording is currently running."
+msgstr "Galima priežastis - šiuo metu vykstantis įrašymas."
+
+#: plugin.py:552
+msgid "Modulation"
+msgstr "Moduliacija"
+
+#: plugin.py:697 plugin.py:704
+msgid "Multisat"
+msgstr "Kelių palydovų"
+
+#: plugin.py:698 plugin.py:705
+msgid "Multisat all select"
+msgstr "Pasirinkti visus palydovus"
+
+#: plugin.py:595
+msgid "NTV Plus"
+msgstr "NTV plius"
+
+#: plugin.py:598
+msgid "NTV Plus Vostok"
+msgstr "NTV plius Rytai"
+
+#: plugin.py:613
+msgid "Network scan"
+msgstr "Paieška tinkle"
+
+#: plugin.py:1120
+msgid ""
+"No satellites configured for DVB-S2 tuner(s).\n"
+"Please check your tuner(s) setup."
+msgstr ""
+"Palydovų ,tinkamų DVB-S2 imtuvams nėra.\n"
+"Patikrinkite imtuvo(ų) nustatymus."
+
+#: plugin.py:903
+msgid ""
+"No tuner is enabled!\n"
+"Please setup your tuner settings before you start a service scan."
+msgstr ""
+"Nėra paruošto imtuvo!\n"
+"Prieš pradėdami kanalų paiešką, suderinkite imtuvo(ų) nustatymus."
+
+#: plugin.py:589 plugin.py:736
+msgid "None"
+msgstr "Nieko"
+
+#: plugin.py:308 plugin.py:1036
+msgid ""
+"Nothing to scan!\n"
+"Please setup your tuner settings before you start a service scan."
+msgstr ""
+"Nėra ko ieškoti!\n"
+"Prieš pradėdami kanalų paiešką, sukonfigūruokite savo imtuvą(us)."
+
+#: plugin.py:720 plugin.py:755
+msgid "Off"
+msgstr "Išjungta"
+
+#: plugin.py:721 plugin.py:756
+msgid "On"
+msgstr "Įjungta"
+
+#: plugin.py:621
+msgid "Only free scan"
+msgstr "Ieškoti tik nekoduotų kanalų"
+
+#: plugin.py:601
+msgid "Otau TV"
+msgstr "Otau TV"
+
+#: plugin.py:555
+msgid "Pilot"
+msgstr "Pilotavimas"
+
+#: plugin.py:547
+msgid "Polarity"
+msgstr "Poliarizacija"
+
+#: plugin.py:695 plugin.py:702
+msgid "Predefined transponder"
+msgstr "Numatytas transponderis"
+
+#: plugin.py:52
+msgid "Press OK to toggle the selection"
+msgstr "Pasirinkimams sukeisti, spauskite 'OK'"
+
+#: plugin.py:305
+msgid "Press button OK to start the scan."
+msgstr "Paieškai pradėti, spauskite 'OK'."
+
+#: plugin.py:608
+msgid "Provider"
+msgstr "Tiekėjas"
+
+#: plugin.py:603
+msgid "Raduga TV"
+msgstr "Raduga TV"
+
+#: plugin.py:554
+msgid "Rolloff"
+msgstr "Nukrypimas"
+
+#: plugin.py:706
+msgid "Russian providers"
+msgstr "Rusijos teikėjai"
+
+#: plugin.py:543 plugin.py:558 plugin.py:572
+msgid "Satellite"
+msgstr "Palydovas"
+
+#: plugin.py:181
+msgid "Scan"
+msgstr "Paieška"
+
+#: plugin.py:1129
+msgid "Signal Finder DVB-S2"
+msgstr "DVB-S2 signalo ieškiklis"
+
+#: plugin.py:240
+msgid "Signal finder for DVB-S(S2) tuners"
+msgstr "Signalų ieškiklis DVB-S(S2) imtuvams"
+
+#: plugin.py:1135
+msgid "Signal finder for DVB-S2 tuners"
+msgstr "Signalų ieškiklis DVB-S2 imtuvams"
+
+#: plugin.py:696 plugin.py:703
+msgid "Single satellite"
+msgstr "Vienas palydovas"
+
+#: plugin.py:278 plugin.py:886
+msgid "Sorry, this tuner is in use."
+msgstr "Atleiskite, šis imtuvas užimtas."
+
+#: plugin.py:546
+msgid "Symbol Rate"
+msgstr "Simbolių sparta"
+
+#: plugin.py:539
+msgid "System"
+msgstr "Sistema"
+
+#: plugin.py:565
+msgid "Transponder"
+msgstr "Transponderis"
+
+#: plugin.py:50
+msgid "Transponders list"
+msgstr "Transponderių sąrašas"
+
+#: plugin.py:48
+#, python-format
+msgid "Transponders list: %s"
+msgstr "Transponderių sąrašas: %s"
+
+#: plugin.py:596
+msgid "Tricolor TV"
+msgstr "Tricolor TV"
+
+#: plugin.py:599
+msgid "Tricolor TV Sibir"
+msgstr "Tricolor TV Sibiras"
+
+#: plugin.py:522
+msgid "Tuner"
+msgstr "Tiuneris"
+
+#: plugin.py:532
+msgid "Type of scan"
+msgstr "Paieškos būdas"
+
+#: plugin.py:694 plugin.py:701
+msgid "User defined transponder"
+msgstr "Vartotojo pasirinktas transponderis"
+
+#: plugin.py:592
+msgid "Viasat"
+msgstr "Viasat"
+
+#: plugin.py:593
+msgid "Viasat Ukraine"
+msgstr "Viasat Ukraina"
+
+#: plugin.py:1015
+msgid "Zap back to service before a service scan?"
+msgstr "Įjungti prieš kanalų paiešką naudotą kanalą?"
+
+#: plugin.py:727
+msgid "circular left"
+msgstr "apskritiminė kairė"
+
+#: plugin.py:728
+msgid "circular right"
+msgstr "apskritiminė dešinė"
+
+#: plugin.py:725
+msgid "horizontal"
+msgstr "horizontali"
+
+#: plugin.py:404
+msgid "multi scan list empty!"
+msgstr "multipaieškos sąrašas tuščias!"
+
+#: plugin.py:710
+msgid "no"
+msgstr "ne"
+
+#: plugin.py:466
+msgid "not selected provider!"
+msgstr "nepasirinktas tiekėjas!"
+
+#: plugin.py:322
+msgid "search failed!"
+msgstr "paieška nepavyko!"
+
+#: plugin.py:726
+msgid "vertical"
+msgstr "vertikali"
+
+#: plugin.py:710
+msgid "yes"
+msgstr "taip"
+
+#: plugin.py:710
+msgid "yes (keep feeds)"
+msgstr "taip (išsaugoti šaltinius)"
+
+#: skin.xml
+msgid "AGC:"
+msgstr "AGC:"
+
+#: skin.xml
+msgid "BER:"
+msgstr "BER:"
+
+#: skin.xml
+msgid "Current position:"
+msgstr "Dabartinė padėtis:"
+
+#: skin.xml
+msgid "LOCK"
+msgstr "FIKS."
+
+#: skin.xml
+msgid "LOCK:"
+msgstr "FIKS.:"
+
+#: skin.xml
+msgid "SNR:"
+msgstr "SNR:"
+
+#: skin.xml
+msgid "Signal finder"
+msgstr "Signalo ieškiklis"
+
+msgid "Set free tuner?"
+msgstr "Nustatyti laisvą imtuvą?"
+
+msgid "Set direct tuner?"
+msgstr "Nustatyti imtuvą tiesiogiai?"
+
+msgid "Input Stream ID"
+msgstr "Įvesties srauto ID"
+
+msgid "PLS Mode"
+msgstr "PLS režimas"
+
+msgid "PLS Code"
+msgstr "PLS kodas"
+
+msgid "This image not support multistream!"
+msgstr "Šis atvaizdas nepalaiko daugiasrautiškumo!"
