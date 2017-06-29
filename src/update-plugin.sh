@@ -3,7 +3,7 @@
 
 case $1 in
 	update)
-		SRC="https://raw.githubusercontent.com/Dima73/enigma2-plugin-signalfinder/src/plugin.py"
+		SRC="https://raw.githubusercontent.com/Dima73/enigma2-plugin-signalfinder/master/src/plugin.py"
 		DEST=/tmp/plugin.py
 		if which curl >/dev/null 2>&1 ; then
 			curl -o $DEST $SRC

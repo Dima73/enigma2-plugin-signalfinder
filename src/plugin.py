@@ -18,7 +18,7 @@ from Screens.ServiceScan import ServiceScan
 
 config.misc.direct_tuner = ConfigYesNo(False)
 
-plugin_version = "2.0"
+plugin_version = "2.1"
 
 HD = False
 if getDesktop(0).size().width() >= 1280:
@@ -524,7 +524,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 						providerList = KONTINENT
 					elif self.provider_list.value == "ntv_dalvostok":
 						orbpos = 1400
-						providerList = KONTINENT_DAL_VOSTOK
+						providerList = NTVPLUS_DAL_VOSTOK
 					elif self.provider_list.value == "kontinent_dalvostok":
 						orbpos = 1400
 						providerList = KONTINENT_DAL_VOSTOK
@@ -1136,7 +1136,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 						kontinent = True
 					elif self.provider_list.value == "ntv_dalvostok":
 						orbpos = 1400
-						providerList = KONTINENT_DAL_VOSTOK
+						providerList = NTVPLUS_DAL_VOSTOK
 					elif self.provider_list.value == "kontinent_dalvostok":
 						orbpos = 1400
 						providerList = KONTINENT_DAL_VOSTOK
@@ -1695,7 +1695,7 @@ class SignalFinder(ConfigListScreen, Screen):
 						providerList = KONTINENT
 					elif self.provider_list.value == "ntv_dalvostok":
 						orbpos = 1400
-						providerList = KONTINENT_DAL_VOSTOK
+						providerList = NTVPLUS_DAL_VOSTOK
 					elif self.provider_list.value == "kontinent_dalvostok":
 						orbpos = 1400
 						providerList = KONTINENT_DAL_VOSTOK
@@ -2277,7 +2277,7 @@ class SignalFinder(ConfigListScreen, Screen):
 						kontinent = True
 					elif self.provider_list.value == "ntv_dalvostok":
 						orbpos = 1400
-						providerList = KONTINENT_DAL_VOSTOK
+						providerList = NTVPLUS_DAL_VOSTOK
 					elif self.provider_list.value == "kontinent_dalvostok":
 						orbpos = 1400
 						providerList = KONTINENT_DAL_VOSTOK
