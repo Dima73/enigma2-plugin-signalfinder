@@ -7,6 +7,7 @@ from Components.ActionMap import NumberActionMap, ActionMap
 from Components.ConfigList import ConfigListScreen
 from Components.NimManager import nimmanager, getConfigSatlist
 from Components.Label import Label
+from Screens.Console import Console
 from Screens.MessageBox import MessageBox
 from enigma import eTimer, eDVBFrontendParametersSatellite, eDVBFrontendParametersTerrestrial, eComponentScan, eDVBResourceManager, getDesktop
 from Components.Sources.FrontendStatus import FrontendStatus
@@ -25,8 +26,11 @@ if getDesktop(0).size().width() >= 1280:
 
 multistream = hasattr(eDVBFrontendParametersSatellite, "PLS_Root")
 
+loadScript = "/usr/lib/enigma2/python/Plugins/SystemPlugins/Signalfinder/update-plugin.sh"
+
+VIASATUKR = [ (12288000, 0) ] #Amos 4w
 VIASAT = [ (11265000, 0), (11265000, 1), (11305000, 0), (11305000, 1), (11345000, 1), (11345000, 0), (11385000, 1) , (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12054000, 1), (12092000, 1), (12245000, 1), (12380000, 0), (12437000, 1), (12476000, 1), (12608000, 0), (12637000, 0) ]
-VIASATUKR = [ (11222000, 0), (11258000, 0) ]
+XTRATV = [ (12111000, 1),  (12149000, 1) ]
 VIASATLATVIJA = [ (11265000, 0), (11265000, 1), (11305000, 1), (11345000, 1), (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12437000, 1), (12608000, 0) ]
 NTVPLUS = [ (11785000, 1), (11823000, 1), (11862000, 1), (11900000, 1), (11938000, 1), (11977000, 1), (12015000, 1), (12092000, 1), (12130000, 1), (12207000, 1), (12245000, 1), (12265000, 0), (12284000, 1), (12322000, 1), (12341000, 0), (12399000, 1), (12437000, 1) ]
 TRIKOLOR = [ (11727000, 0), (11747000, 1), (11766000, 0), (11804000, 0), (11843000, 0), (11881000, 0), (11919000, 0), (11958000, 0), (11996000, 0), (12034000, 0), (12054000, 1), (12073000, 0), (12111000, 0), (12149000, 0), (12169000, 1), (12190000, 0), (12226000, 0), (12303000, 0), (12360000, 1), (12380000, 0), (12418000, 0), (12456000, 0), (12476000, 0) ]
@@ -36,6 +40,8 @@ OTAUTV = [ (10720000, 0), (10762000, 0), (10804000, 0), (10887000, 0) ]
 RADUGA = [ (11473000, 1), (11559000, 1), (11793000, 1) ]
 MTSTV = [ (11733000, 1), (11793000, 1), (11853000, 1), (11913000, 1), (11973000, 1), (12033000, 1), (12093000, 1), (12153000, 1) ]
 KONTINENT = [ (11720000, 0), (11760000, 0), (11800000, 0), (11840000, 0), (11880000, 0), (11872000, 0), (11920000, 0), (11960000, 0), (12000000, 0), (12040000, 0), (12080000, 0), (12120000, 0), (12160000, 0), (12560000, 1), (12600000, 1), (12640000, 1) ]
+NTVPLUS_DAL_VOSTOK = [ (12226000, 0), (12245000, 1), (12303000, 0), (12322000, 1), (12380000, 0), (12399000, 1), (12456000, 0), (12476000, 1) ]
+KONTINENT_DAL_VOSTOK = [ (10981000, 1), (11387000, 1), (11530000, 0), (11557000, 0), (11665000, 1) ]
 
 class TranspondersList(Screen):
 	skin = """
@@ -232,7 +238,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			"save": self.keyGo,
 			"ok": self.keyOK,
 			"cancel": self.keyCancel,
-			"menu": self.setDirectTuners,
+			"menu": self.extaMenu,
 		}, -2)
 		self.list = []
 		self.tpslist = [ ]
@@ -255,10 +261,25 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		self.setTitle(_("Signal finder for DVB-S(S2) tuners") + ": " + plugin_version)
 		self.onShow.append(self.initFrontend)
 
-	def setDirectTuners(self):
-		text = _("Set free tuner?")
+	def extaMenu(self):
+		menu_text = _("Set free tuner")
 		if not config.misc.direct_tuner.value:
-			text = _("Set direct tuner?")
+			menu_text = _("Set direct tuner")
+		menu = [(menu_text, "setdirect"),(_("Update plugin"), "update")]
+		def extraAction(choice):
+			if choice is not None:
+				if choice[1] == "setdirect":
+					self.setDirectTuners()
+				elif choice[1] == "update":
+					cmd = "chmod 755 %s && %s update" % (loadScript, loadScript)
+					text = _("Update plugin")
+					self.session.open(Console, text, [cmd])
+		self.session.openWithCallback(extraAction, ChoiceBox, title=_("Select action:"), list=menu)
+		
+	def setDirectTuners(self):
+		text = _("Set free tuner") + "?"
+		if not config.misc.direct_tuner.value:
+			text = _("Set direct tuner") + "?"
 		self.session.openWithCallback(self.setDirectTunersCallback, MessageBox, text, MessageBox.TYPE_YESNO)
 
 	def setDirectTunersCallback(self, answer):
@@ -423,8 +444,6 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 					index = 0
 				tps = nimmanager.getTransponders(orbpos)
 				if len(tps) > index:
-					#if orbpos == 360 and len(tps) >= 20:
-					#	index = 20
 					x = tps[index]
 					tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12]))
 		elif self.scan_type.value == "single_satellite":
@@ -472,6 +491,9 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 						orbpos = 49
 						providerList = VIASATLATVIJA
 						viasat = True
+					elif self.provider_list.value == "xtratv":
+						orbpos = 90
+						providerList = XTRATV
 					elif self.provider_list.value == "viasat_ukr":
 						orbpos = 3560
 						providerList = VIASATUKR
@@ -500,6 +522,12 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 						kontinent = True
 						orbpos = 850 
 						providerList = KONTINENT
+					elif self.provider_list.value == "ntv_dalvostok":
+						orbpos = 1400
+						providerList = KONTINENT_DAL_VOSTOK
+					elif self.provider_list.value == "kontinent_dalvostok":
+						orbpos = 1400
+						providerList = KONTINENT_DAL_VOSTOK
 					if orbpos > 0 and providerList is not None:
 						SatList = nimmanager.getSatListForNim(index_to_scan)
 						for sat in SatList:
@@ -650,7 +678,9 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 						satchoises.append(("viasat", _("Viasat")))
 						satchoises.append(("viasat_lat", _("Viasat Latvija")))
 					elif sat[0] == 3560:
-						satchoises.append(("viasat_ukr", _("Viasat Ukraine")))
+						satchoises.append(("viasat_ukr", _("Viasat Ukraine") + " (Amos)"))
+					elif sat[0] == 90:
+						satchoises.append(("xtratv", _("Xtra TV")))
 					elif sat[0] == 360:
 						satchoises.append(("ntv", _("NTV Plus")))
 						satchoises.append(("tricolor", _("Tricolor TV")))
@@ -664,6 +694,9 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 						satchoises.append(("mtstv", _("MTS TV")))
 					elif sat[0] in (849, 850, 851):
 						satchoises.append(("kontinent", _("Telekarta (HD)")))
+					elif sat[0] == 1400:
+						satchoises.append(("ntv_dalvostok", _("NTV Plus Dalniy Vostok")))
+						satchoises.append(("kontinent_dalvostok", _("Telekarta-Vostok")))
 				self.provider_list = ConfigSelection(default = "none", choices = satchoises)
 				ProviderEntry = getConfigListEntry(_("Provider"), self.provider_list)
 				self.list.append(ProviderEntry)
@@ -951,7 +984,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 	def providersSat(self):
 		providers_sat = False
 		for sat in nimmanager.satList:
-			if sat[0] == 48 or sat[0] == 49 or sat[0] == 360 or sat[0] == 560 or sat[0] == 585 or sat[0] == 750 or sat[0] in (849, 850, 851) or sat[0] == 3560:
+			if sat[0] == 48 or sat[0] == 49 or sat[0] == 90 or sat[0] == 360 or sat[0] == 560 or sat[0] == 585 or sat[0] == 750 or sat[0] in (849, 850, 851) or sat[0] == 1400 or sat[0] == 3560:
 				providers_sat = True
 				break
 		return providers_sat
@@ -1070,6 +1103,9 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 						orbpos = 49
 						providerList = VIASATLATVIJA
 						viasat = True
+					elif self.provider_list.value == "xtratv":
+						orbpos = 90
+						providerList = XTRATV
 					elif self.provider_list.value == "viasat_ukr":
 						orbpos = 3560
 						providerList = VIASATUKR
@@ -1098,6 +1134,12 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 						orbpos = 850 
 						providerList = KONTINENT
 						kontinent = True
+					elif self.provider_list.value == "ntv_dalvostok":
+						orbpos = 1400
+						providerList = KONTINENT_DAL_VOSTOK
+					elif self.provider_list.value == "kontinent_dalvostok":
+						orbpos = 1400
+						providerList = KONTINENT_DAL_VOSTOK
 					if orbpos > 0 and providerList is not None:
 						SatList = nimmanager.getSatListForNim(index_to_scan)
 						for sat in SatList:
@@ -1377,7 +1419,7 @@ class SignalFinder(ConfigListScreen, Screen):
 			"save": self.keyGo,
 			"ok": self.keyOK,
 			"cancel": self.keyCancel,
-			"menu": self.setDirectTuners,
+			"menu": self.extaMenu,
 		}, -2)
 		self.list = []
 		self.tpslist = [ ]
@@ -1400,10 +1442,25 @@ class SignalFinder(ConfigListScreen, Screen):
 		self.setTitle(_("Signal finder for DVB-S(S2) tuners") + ": " + plugin_version)
 		self.onShow.append(self.initFrontend)
 
-	def setDirectTuners(self):
-		text = _("Set free tuner?")
+	def extaMenu(self):
+		menu_text = _("Set free tuner")
 		if not config.misc.direct_tuner.value:
-			text = _("Set direct tuner?")
+			menu_text = _("Set direct tuner")
+		menu = [(menu_text, "setdirect"),(_("Update plugin"), "update")]
+		def extraAction(choice):
+			if choice is not None:
+				if choice[1] == "setdirect":
+					self.setDirectTuners()
+				elif choice[1] == "update":
+					cmd = "chmod 755 %s && %s update" % (loadScript, loadScript)
+					text = _("Update plugin")
+					self.session.open(Console, text, [cmd])
+		self.session.openWithCallback(extraAction, ChoiceBox, title=_("Select action:"), list=menu)
+		
+	def setDirectTuners(self):
+		text = _("Set free tuner") + "?"
+		if not config.misc.direct_tuner.value:
+			text = _("Set direct tuner") + "?"
 		self.session.openWithCallback(self.setDirectTunersCallback, MessageBox, text, MessageBox.TYPE_YESNO)
 
 	def setDirectTunersCallback(self, answer):
@@ -1558,8 +1615,6 @@ class SignalFinder(ConfigListScreen, Screen):
 					index = 0
 				tps = nimmanager.getTransponders(orbpos)
 				if len(tps) > index:
-					#if orbpos == 360 and len(tps) >= 20:
-					#	index = 20
 					x = tps[index]
 					tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9]))
 		elif self.scan_type.value == "single_satellite":
@@ -1607,6 +1662,9 @@ class SignalFinder(ConfigListScreen, Screen):
 						orbpos = 49
 						providerList = VIASATLATVIJA
 						viasat = True
+					elif self.provider_list.value == "xtratv":
+						orbpos = 90
+						providerList = XTRATV
 					elif self.provider_list.value == "viasat_ukr":
 						orbpos = 3560
 						providerList = VIASATUKR
@@ -1635,6 +1693,12 @@ class SignalFinder(ConfigListScreen, Screen):
 						kontinent = True
 						orbpos = 850 
 						providerList = KONTINENT
+					elif self.provider_list.value == "ntv_dalvostok":
+						orbpos = 1400
+						providerList = KONTINENT_DAL_VOSTOK
+					elif self.provider_list.value == "kontinent_dalvostok":
+						orbpos = 1400
+						providerList = KONTINENT_DAL_VOSTOK
 					if orbpos > 0 and providerList is not None:
 						SatList = nimmanager.getSatListForNim(index_to_scan)
 						for sat in SatList:
@@ -1781,7 +1845,9 @@ class SignalFinder(ConfigListScreen, Screen):
 						satchoises.append(("viasat", _("Viasat")))
 						satchoises.append(("viasat_lat", _("Viasat Latvija")))
 					elif sat[0] == 3560:
-						satchoises.append(("viasat_ukr", _("Viasat Ukraine")))
+						satchoises.append(("viasat_ukr", _("Viasat Ukraine") + " (Amos)"))
+					elif sat[0] == 90:
+						satchoises.append(("xtratv", _("Xtra TV")))
 					elif sat[0] == 360:
 						satchoises.append(("ntv", _("NTV Plus")))
 						satchoises.append(("tricolor", _("Tricolor TV")))
@@ -1795,6 +1861,9 @@ class SignalFinder(ConfigListScreen, Screen):
 						satchoises.append(("mtstv", _("MTS TV")))
 					elif sat[0] in (849, 850, 851):
 						satchoises.append(("kontinent", _("Telekarta (HD)")))
+					elif sat[0] == 1400:
+						satchoises.append(("ntv_dalvostok", _("NTV Plus Dalniy Vostok")))
+						satchoises.append(("kontinent_dalvostok", _("Telekarta-Vostok")))
 				self.provider_list = ConfigSelection(default = "none", choices = satchoises)
 				ProviderEntry = getConfigListEntry(_("Provider"), self.provider_list)
 				self.list.append(ProviderEntry)
@@ -2059,7 +2128,7 @@ class SignalFinder(ConfigListScreen, Screen):
 	def providersSat(self):
 		providers_sat = False
 		for sat in nimmanager.satList:
-			if sat[0] == 48 or sat[0] == 49 or sat[0] == 360 or sat[0] == 560 or sat[0] == 585 or sat[0] == 750 or sat[0] in (849, 850, 851) or sat[0] == 3560:
+			if sat[0] == 48 or sat[0] == 49 or sat[0] == 90 or sat[0] == 360 or sat[0] == 560 or sat[0] == 585 or sat[0] == 750 or sat[0] in (849, 850, 851) or sat[0] == 1400 or sat[0] == 3560:
 				providers_sat = True
 				break
 		return providers_sat
@@ -2175,6 +2244,9 @@ class SignalFinder(ConfigListScreen, Screen):
 						orbpos = 49
 						providerList = VIASATLATVIJA
 						viasat = True
+					elif self.provider_list.value == "xtratv":
+						orbpos = 90
+						providerList = XTRATV
 					elif self.provider_list.value == "viasat_ukr":
 						orbpos = 3560
 						providerList = VIASATUKR
@@ -2203,6 +2275,12 @@ class SignalFinder(ConfigListScreen, Screen):
 						orbpos = 850 
 						providerList = KONTINENT
 						kontinent = True
+					elif self.provider_list.value == "ntv_dalvostok":
+						orbpos = 1400
+						providerList = KONTINENT_DAL_VOSTOK
+					elif self.provider_list.value == "kontinent_dalvostok":
+						orbpos = 1400
+						providerList = KONTINENT_DAL_VOSTOK
 					if orbpos > 0 and providerList is not None:
 						SatList = nimmanager.getSatListForNim(index_to_scan)
 						for sat in SatList:

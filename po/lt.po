@@ -339,11 +339,11 @@ msgstr "SNR:"
 msgid "Signal finder"
 msgstr "Signalo ieškiklis"
 
-msgid "Set free tuner?"
-msgstr "Nustatyti laisvą imtuvą?"
+msgid "Set free tuner"
+msgstr "Nustatyti laisvą imtuvą"
 
-msgid "Set direct tuner?"
-msgstr "Nustatyti imtuvą tiesiogiai?"
+msgid "Set direct tuner"
+msgstr "Nustatyti imtuvą tiesiogiai"
 
 msgid "Input Stream ID"
 msgstr "Įvesties srauto ID"

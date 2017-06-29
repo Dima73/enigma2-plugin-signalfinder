@@ -328,10 +328,10 @@ msgstr ""
 msgid "Signal finder"
 msgstr ""
 
-msgid "Set free tuner?"
+msgid "Set free tuner"
 msgstr ""
 
-msgid "Set direct tuner?"
+msgid "Set direct tuner"
 msgstr ""
 
 msgid "Input Stream ID"
@@ -345,3 +345,16 @@ msgstr ""
 
 msgid "This image not support multistream!"
 msgstr ""
+
+msgid "Update plugin"
+msgstr ""
+
+msgid "Select action:"
+msgstr ""
+
+msgid "NTV Plus Dalniy Vostok"
+msgstr ""
+
+msgid "Telekarta-Vostok"
+msgstr ""
+
