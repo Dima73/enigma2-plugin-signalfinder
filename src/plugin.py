@@ -318,7 +318,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 								root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
 								if n.config.connectedTo.value and int(n.config.connectedTo.value) == self.feid:
 									stop_service = True
-							elif hasattr(n, 'config') and hasattr(n.config, 'dvbs') and n.config.dvbs.configMode.value in ("loopthrough", "satposdepends"):
+							elif hasattr(n, 'config') and hasattr(n.config, 'dvbs') and hasattr(n.config.dvbs, 'configMode') and n.config.dvbs.configMode.value in ("loopthrough", "satposdepends"):
 								root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.dvbs.connectedTo.value))
 								if n.config.dvbs.connectedTo.value and int(n.config.dvbs.connectedTo.value) == self.feid:
 									stop_service = True
@@ -753,7 +753,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 						continue
 				if n.isCompatible("DVB-S"):
 					nim_list.append((str(n.slot), n.friendly_full_description))
-			elif hasattr(n, 'config') and hasattr(n.config, 'dvbs'):
+			elif hasattr(n, 'config') and hasattr(n.config, 'dvbs') and hasattr(n.config.dvbs, 'configMode'):
 				if n.config.dvbs.configMode.value == "nothing":
 					continue
 				if hasattr(n, "isFBCLink") and n.isFBCLink():
@@ -1492,7 +1492,7 @@ class SignalFinder(ConfigListScreen, Screen):
 								root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
 								if n.config.connectedTo.value and int(n.config.connectedTo.value) == self.feid:
 									stop_service = True
-							elif hasattr(n, 'config') and hasattr(n.config, 'dvbs') and n.config.dvbs.configMode.value in ("loopthrough", "satposdepends"):
+							elif hasattr(n, 'config') and hasattr(n.config, 'dvbs')  and hasattr(n.config.dvbs, 'configMode') and n.config.dvbs.configMode.value in ("loopthrough", "satposdepends"):
 								root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.dvbs.connectedTo.value))
 								if n.config.dvbs.connectedTo.value and int(n.config.dvbs.connectedTo.value) == self.feid:
 									stop_service = True
@@ -1918,7 +1918,7 @@ class SignalFinder(ConfigListScreen, Screen):
 						continue
 				if n.isCompatible("DVB-S"):
 					nim_list.append((str(n.slot), n.friendly_full_description))
-			elif hasattr(n, 'config') and hasattr(n.config, 'dvbs'):
+			elif hasattr(n, 'config') and hasattr(n.config, 'dvbs') and hasattr(n.config.dvbs, 'configMode'):
 				if n.config.dvbs.configMode.value == "nothing":
 					continue
 				if hasattr(n, "isFBCLink") and n.isFBCLink():
