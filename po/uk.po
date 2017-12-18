@@ -1,0 +1,290 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-10-22 21:41+0300\n"
+"PO-Revision-Date: 2017-12-17 11:38+0200\n"
+"Last-Translator: Dimitrij <Dima-73@inbox.lv>\n"
+"Language-Team: LANGUAGE <Dima-73@inbox.lv>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.5\n"
+
+msgid " (only this transponder)"
+msgstr " (тільки цей ТР)"
+
+msgid " (only transponders provider)"
+msgstr " (тільки ТР провайдера)"
+
+msgid ""
+"A recording is currently running. Please stop the recording before trying to "
+"start a service scan."
+msgstr ""
+"В даний йде запис. Будь-ласка, зупиніть спочатку запис перед початком "
+"сканування каналів."
+
+msgid "AGC:"
+msgstr "AGC:"
+
+msgid "Auto"
+msgstr "Авто"
+
+msgid "BER:"
+msgstr "BER:"
+
+msgid "Cancel"
+msgstr "Відміна"
+
+msgid "Clear before scan"
+msgstr "Очистка перед скануванням"
+
+msgid "Current position:"
+msgstr "Поточна позиція:"
+
+msgid "DVB-S"
+msgstr "DVB-S"
+
+msgid "DVB-S2"
+msgstr "DVB-S2"
+
+msgid "Do you want to scan another transponder/satellite?"
+msgstr "Ви хочете сканувати ще один транспондер/супутник?"
+
+msgid "FEC"
+msgstr "FEC"
+
+msgid "Frequency"
+msgstr "Частота"
+
+msgid "Input Stream ID"
+msgstr "ID входу стріму"
+
+msgid "Inversion"
+msgstr "Інверсія"
+
+msgid "LOCK"
+msgstr "LOCK"
+
+msgid "LOCK:"
+msgstr "LOCK:"
+
+msgid "Left, right or press OK to select transporder."
+msgstr "Вліво/вправо або натиснути ОК для вибору транспордера."
+
+msgid "MTS TV"
+msgstr "МТС ТБ"
+
+msgid "Maybe the reason that recording is currently running."
+msgstr "Можливо причина в тому, что зараз іде запис."
+
+msgid "Modulation"
+msgstr "Модуляція"
+
+msgid "Multisat"
+msgstr "Декілька супутників"
+
+msgid "Multisat all select"
+msgstr "Декілька супутників (вибір всіх)"
+
+msgid "NTV Plus"
+msgstr "НТВ Плюс"
+
+msgid "NTV Plus Dalniy Vostok"
+msgstr "НТВ Плюс Далекий Схід"
+
+msgid "NTV Plus Vostok"
+msgstr "НТВ Плюс Схід"
+
+msgid "Network scan"
+msgstr "Сканування мережі"
+
+msgid ""
+"No satellites configured for DVB-S2 tuner(s).\n"
+"Please check your tuner(s) setup."
+msgstr ""
+"Немає супутників налаштованих для тюнера(ів) DVB-S2).\n"
+"Будь-ласка, перевірте конфігурацію ваших тюнерів."
+
+msgid ""
+"No tuner is enabled!\n"
+"Please setup your tuner settings before you start a service scan."
+msgstr ""
+"Нмає ввімкненого тюнера!\n"
+"Будь-ласка налаштуйте ваш тюнер перед скануванням каналів."
+
+msgid "None"
+msgstr "Жодний"
+
+msgid ""
+"Nothing to scan!\n"
+"Please setup your tuner settings before you start a service scan."
+msgstr ""
+"Немає що сканувати!\n"
+"Будь-ласка налаштуйте ваш тюнер перед початком сканування."
+
+msgid "Off"
+msgstr "Вимкн."
+
+msgid "On"
+msgstr "Ввімк."
+
+msgid "Only free scan"
+msgstr "Сканування тільки безкоштовних каналів"
+
+msgid "Otau TV"
+msgstr "Отау ТБ"
+
+msgid "PLS Code"
+msgstr "Код PLS"
+
+msgid "PLS Mode"
+msgstr "Режим PLS"
+
+msgid "Pilot"
+msgstr "Пілот"
+
+msgid "Polarity"
+msgstr "Поляризація"
+
+msgid "Predefined transponder"
+msgstr "Наперед визначений транспондер"
+
+msgid "Press OK to toggle the selection"
+msgstr "Натисніть OK для підверждення вибору."
+
+msgid "Press button OK to start the scan."
+msgstr "Натисніть кнопку OK для початку сканування."
+
+msgid "Provider"
+msgstr "Провайдер"
+
+msgid "Raduga TV"
+msgstr "Радуга ТВ"
+
+msgid "Rolloff"
+msgstr "Rolloff фактор"
+
+msgid "Russian providers"
+msgstr "Російськомовні провайдери"
+
+msgid "SNR:"
+msgstr "SNR:"
+
+msgid "Satellite"
+msgstr "Супутник"
+
+msgid "Scan"
+msgstr "Сканування"
+
+msgid "Select action:"
+msgstr "Вибір діЇ:"
+
+msgid "Set direct tuner"
+msgstr "Встановити безпосередній тюнер"
+
+msgid "Set free tuner"
+msgstr "Встановити вільний тюнер"
+
+msgid "Signal Finder DVB-S2"
+msgstr "Пошук сигналу DVB-S2"
+
+msgid "Signal finder"
+msgstr "Пошук сигналу"
+
+msgid "Signal finder for DVB-S(S2) tuners"
+msgstr "Пошук сигналу/сканування для тюнерів DVB-S(S2)"
+
+msgid "Signal finder for DVB-S2 tuners"
+msgstr "Пошук сигналу для тюнерів DVB-S2"
+
+msgid "Single satellite"
+msgstr "Один супутник"
+
+msgid "Sorry, this tuner is in use."
+msgstr "Вибачте, даний тюнер зараз зайнятий."
+
+msgid "Symbol Rate"
+msgstr "Символьна швидкість"
+
+msgid "System"
+msgstr "Система"
+
+msgid "Telekarta (HD)"
+msgstr "Телекарта (HD)"
+
+msgid "Telekarta-Vostok"
+msgstr "Телекарта-Схід"
+
+msgid "This image not support multistream!"
+msgstr "Цей імідж не підтримує мультистрім!"
+
+msgid "Transponder"
+msgstr "Транспондер"
+
+msgid "Transponders list"
+msgstr "Список транспондерів"
+
+msgid "Transponders list: %s"
+msgstr "Список транспондерів: %s"
+
+msgid "Tricolor TV"
+msgstr "Триколор ТВ"
+
+msgid "Tricolor TV Sibir"
+msgstr "Триколор ТВ Сибирь"
+
+msgid "Tuner"
+msgstr "Тюнер"
+
+msgid "Type of scan"
+msgstr "Тип сканування"
+
+msgid "Update plugin"
+msgstr "Обновити плагін"
+
+msgid "User defined transponder"
+msgstr "Транспондер вручну"
+
+msgid "Viasat"
+msgstr "Віасат"
+
+msgid "Viasat Latvija"
+msgstr "Віасат Латвія"
+
+msgid "Viasat Ukraine"
+msgstr "Віасат Україна"
+
+msgid "Zap back to service before a service scan?"
+msgstr "Повернутися на попередній канал до початку сканування?"
+
+msgid "circular left"
+msgstr "кругова ліва"
+
+msgid "circular right"
+msgstr "кругова права"
+
+msgid "horizontal"
+msgstr "горизонтальна"
+
+msgid "multi scan list empty!"
+msgstr "лист мульти сканування пустий!"
+
+msgid "no"
+msgstr "ні"
+
+msgid "not selected provider!"
+msgstr "не вибрано провайдера!"
+
+msgid "search failed!"
+msgstr "пошук не удався!"
+
+msgid "vertical"
+msgstr "вертикальна"
+
+msgid "yes"
+msgstr "так"
+
+msgid "yes (keep feeds)"
+msgstr "так (зберегти робочі канали)"
