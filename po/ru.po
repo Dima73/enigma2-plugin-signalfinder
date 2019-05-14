@@ -172,7 +172,7 @@ msgid "Signal finder"
 msgstr "Поиск сигнала"
 
 msgid "Signal finder for DVB-S(S2) tuners"
-msgstr "Поиск сигнала/сканирование для тюнеров DVB-S(S2)"
+msgstr "Поиск сигнала/сканирование для тюнеров DVB-S2(X)"
 
 msgid "Signal finder for DVB-S2 tuners"
 msgstr "Поиск сигнала для тюнеров DVB-S2"
@@ -263,13 +263,13 @@ msgid "Set direct tuner"
 msgstr "Установить непосредственный тюнер"
 
 msgid "Input Stream ID"
-msgstr "ID входа стрима"
+msgstr "Входной поток ID"
 
 msgid "PLS Mode"
-msgstr "Режим PLS"
+msgstr "PLS режим"
 
 msgid "PLS Code"
-msgstr "Код PLS"
+msgstr "PLS код"
 
 msgid "This image not support multistream!"
 msgstr "Этот имидж не поддерживает мультистрим!"
@@ -285,3 +285,12 @@ msgstr "НТВ Плюс Дальний Восток"
 
 msgid "Telekarta-Vostok"
 msgstr "Телекарта-Восток"
+
+msgid "Transport Stream Type"
+msgstr "Тип транспортного потока"
+
+msgid "Multistream"
+msgstr "Мультистрим"
+
+msgid "Ordinary"
+msgstr "Обычный"

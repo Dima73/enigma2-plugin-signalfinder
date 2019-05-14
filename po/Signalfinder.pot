@@ -196,7 +196,7 @@ msgid "Signal finder for DVB-S(S2) tuners"
 msgstr ""
 
 #: plugin.py:1135
-msgid "Signal finder for DVB-S2 tuners"
+msgid "Signal finder for DVB-S2(X) tuners"
 msgstr ""
 
 #: plugin.py:696 plugin.py:703
@@ -358,3 +358,11 @@ msgstr ""
 msgid "Telekarta-Vostok"
 msgstr ""
 
+msgid "Transport Stream Type"
+msgstr ""
+
+msgid "Multistream"
+msgstr ""
+
+msgid "Ordinary"
+msgstr ""
