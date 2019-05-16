@@ -290,7 +290,13 @@ msgid "Transport Stream Type"
 msgstr "Тип транспортного потока"
 
 msgid "Multistream"
-msgstr "Мультистрим"
+msgstr "мультистрим"
 
 msgid "Ordinary"
-msgstr "Обычный"
+msgstr "обычный"
+
+msgid "Enabled"
+msgstr "включено"
+
+msgid "Disabled"
+msgstr "выключено"

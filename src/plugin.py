@@ -26,7 +26,7 @@ if getDesktop(0).size().width() >= 1280:
 	HD = True
 
 multistream = hasattr(eDVBFrontendParametersSatellite, "PLS_Root")
-t2mi = hasattr(eDVBFrontendParametersSatellite, "No_T2MI_PLP_Id")
+t2mi = hasattr(eDVBFrontendParametersSatellite, "No_T2MI_PLP_Id") and hasattr(eDVBFrontendParametersSatellite, "T2MI_Default_Pid")
 
 loadScript = "/usr/lib/enigma2/python/Plugins/SystemPlugins/Signalfinder/update-plugin.sh"
 
@@ -603,6 +603,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		return False
 
 	def createSetup(self, firstStart=None):
+		indent = "--"
 		self.tuneTimer.stop()
 		self.list = []
 		self.multiscanlist = []
@@ -618,6 +619,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		self.modulationEntry = None
 		self.transpondersEntry = None
 		self.is_id_boolEntry = None
+		self.t2mi_plp_id_boolEntry = None
 		self.scan_networkScan.value = False
 		nim = nimmanager.nim_slots[index_to_scan]
 		if nim.isCompatible("DVB-S"):
@@ -646,16 +648,25 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 					self.list.append(getConfigListEntry(_('Rolloff'), self.scan_sat.rolloff))
 					self.list.append(getConfigListEntry(_('Pilot'), self.scan_sat.pilot))
 					if hasattr(nim, "isMultistream") and nim.isMultistream():
-						indent = "--"
 						self.is_id_boolEntry = getConfigListEntry(_('Transport Stream Type'), self.scan_sat.is_id_bool)
 						self.list.append(self.is_id_boolEntry)
 						if self.scan_sat.is_id_bool.value:
 							self.list.append(getConfigListEntry("%s%s" % (indent, _('Input Stream ID')), self.scan_sat.is_id))
 							self.list.append(getConfigListEntry("%s%s" % (indent, _('PLS Mode')), self.scan_sat.pls_mode))
 							self.list.append(getConfigListEntry("%s%s" % (indent, _('PLS Code')), self.scan_sat.pls_code))
+					else:
+						self.scan_sat.is_id.value = eDVBFrontendParametersSatellite.No_Stream_Id_Filter
+						self.scan_sat.pls_mode.value = eDVBFrontendParametersSatellite.PLS_Gold
+						self.scan_sat.pls_code.value = eDVBFrontendParametersSatellite.PLS_Default_Gold_Code
 					if self.isT2MI():
-						self.list.append(getConfigListEntry(_('T2MI PLP ID'), self.scan_sat.t2mi_plp_id))
-						self.list.append(getConfigListEntry(_('T2MI PID'), self.scan_sat.t2mi_pid))
+						self.t2mi_plp_id_boolEntry = getConfigListEntry(_('T2MI PLP'), self.scan_sat.t2mi_plp_id_bool)
+						self.list.append(self.t2mi_plp_id_boolEntry)
+						if self.scan_sat.t2mi_plp_id_bool.value:
+							self.list.append(getConfigListEntry("%s%s" % (indent, _('T2MI PLP ID')), self.scan_sat.t2mi_plp_id))
+							self.list.append(getConfigListEntry("%s%s" % (indent, _('T2MI PID')), self.scan_sat.t2mi_pid))
+					else:
+						self.scan_sat.t2mi_plp_id.value = eDVBFrontendParametersSatellite.No_T2MI_PLP_Id
+						self.scan_sat.t2mi_pid.value = eDVBFrontendParametersSatellite.T2MI_Default_Pid
 			elif self.scan_type.value == "predefined_transponder":
 				self.updateSatList()
 				self.satelliteEntry = getConfigListEntry(_('Satellite'), self.scan_satselection[index_to_scan])
@@ -750,9 +761,33 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		elif cur == self.typeOfScanEntry or \
 			cur == self.systemEntry or \
 			cur == self.satelliteEntry or \
-			cur == self.is_id_boolEntry or \
 			(self.modulationEntry and self.systemEntry[1].value == eDVBFrontendParametersSatellite.System_DVB_S2 and cur == self.modulationEntry):
 			self.createSetup()
+		elif cur == self.is_id_boolEntry:
+			if self.is_id_boolEntry[1].value:
+				self.scan_sat.is_id.value = 0 if self.is_id_memory < 0 else self.is_id_memory
+				self.scan_sat.pls_mode.value = self.pls_mode_memory
+				self.scan_sat.pls_code.value = self.pls_code_memory
+			else:
+				self.is_id_memory = self.scan_sat.is_id.value
+				self.pls_mode_memory = self.scan_sat.pls_mode.value
+				self.pls_code_memory = self.scan_sat.pls_code.value
+				self.scan_sat.is_id.value = eDVBFrontendParametersSatellite.No_Stream_Id_Filter
+				self.scan_sat.pls_mode.value = eDVBFrontendParametersSatellite.PLS_Gold
+				self.scan_sat.pls_code.value = eDVBFrontendParametersSatellite.PLS_Default_Gold_Code
+			self.createSetup()
+			self.retune()
+		elif cur == self.t2mi_plp_id_boolEntry:
+			if self.t2mi_plp_id_boolEntry[1].value:
+				self.scan_sat.t2mi_plp_id.value = 0 if self.t2mi_plp_id_memory < 0 else self.t2mi_plp_id_memory
+				self.scan_sat.t2mi_pid.value = self.t2mi_pid_memory
+			else:
+				self.t2mi_plp_id_memory = self.scan_sat.t2mi_plp_id.value
+				self.t2mi_pid_memory = self.scan_sat.t2mi_pid.value
+				self.scan_sat.t2mi_plp_id.value = eDVBFrontendParametersSatellite.No_T2MI_PLP_Id
+				self.scan_sat.t2mi_pid.value = eDVBFrontendParametersSatellite.T2MI_Default_Pid
+			self.createSetup()
+			self.retune()
 
 	def getNimvalue(self):
 		nim_list = []
@@ -905,6 +940,13 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		self.scan_sat.pls_code = ConfigInteger(default = defaultSat.get("pls_code", 0), limits = (0, 262142))
 		self.scan_sat.t2mi_plp_id = ConfigInteger(default = defaultSat.get("t2mi_plp_id", eDVBFrontendParametersSatellite.No_T2MI_PLP_Id), limits = (0, 255))
 		self.scan_sat.t2mi_pid = ConfigInteger(default = defaultSat.get("t2mi_pid", eDVBFrontendParametersSatellite.T2MI_Default_Pid), limits = (0, 8191))
+		self.scan_sat.t2mi_plp_id_bool  = ConfigSelection(default = defaultSat["t2mi_plp_id"] != eDVBFrontendParametersSatellite.No_T2MI_PLP_Id, choices = [(True, _("Enabled")),(False, _("Disabled"))])
+
+		self.is_id_memory = self.scan_sat.is_id.value # used to prevent is_id value being lost when self.scan_sat.is_id_bool state changes
+		self.pls_mode_memory = self.scan_sat.pls_mode.value
+		self.pls_code_memory = self.scan_sat.pls_code.value
+		self.t2mi_plp_id_memory = self.scan_sat.t2mi_plp_id.value
+		self.t2mi_pid_memory = self.scan_sat.t2mi_pid.value
 
 		self.scan_scansat = {}
 		for sat in nimmanager.satList:

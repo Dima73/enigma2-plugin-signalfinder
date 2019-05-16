@@ -366,3 +366,9 @@ msgstr ""
 
 msgid "Ordinary"
 msgstr ""
+
+msgid "Enabled"
+msgstr ""
+
+msgid "Disabled"
+msgstr ""
