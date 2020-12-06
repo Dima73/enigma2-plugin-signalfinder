@@ -19,7 +19,7 @@ import os
 
 config.misc.direct_tuner = ConfigYesNo(False)
 
-plugin_version = "2.3"
+plugin_version = "2.4"
 
 HD = False
 if getDesktop(0).size().width() >= 1280:
@@ -3565,6 +3565,11 @@ def SignalFinderMain(session, **kwargs):
 			continue
 		if nimConfig.configMode.value in ("loopthrough", "satposdepends", "nothing"):
 			continue
+		try:
+			if nimConfig.configMode.value == "advanced" and int(nimConfig.advanced.sat[3607].lnb.value) != 0:
+				continue
+		except:
+			pass
 		if nimConfig.configMode.value in ("simple" ,"advanced") and len(nimmanager.getSatListForNim(x.slot)) < 1:
 			nimConfig.configMode.value = "nothing"
 			nimConfig.configMode.save()
