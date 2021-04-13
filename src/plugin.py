@@ -30,20 +30,20 @@ t2mi = hasattr(eDVBFrontendParametersSatellite, "No_T2MI_PLP_Id") and hasattr(eD
 
 loadScript = "/usr/lib/enigma2/python/Plugins/SystemPlugins/Signalfinder/update-plugin.sh"
 
-VIASATUKR = [ (12288000, 0) ] #Amos 4w
-VIASAT = [ (11265000, 0), (11265000, 1), (11305000, 0), (11305000, 1), (11345000, 1), (11345000, 0), (11385000, 1) , (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12054000, 1), (12092000, 1), (12245000, 1), (12380000, 0), (12437000, 1), (12476000, 1), (12608000, 0), (12637000, 0) ]
-XTRATV = [ (12111000, 1),  (12149000, 1) ]
-VIASATLATVIJA = [ (11265000, 0), (11265000, 1), (11305000, 1), (11345000, 1), (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12437000, 1), (12608000, 0) ]
-NTVPLUS = [ (11785000, 1), (11823000, 1), (11862000, 1), (11900000, 1), (11938000, 1), (11977000, 1), (12015000, 1), (12092000, 1), (12130000, 1), (12207000, 1), (12245000, 1), (12265000, 0), (12284000, 1), (12322000, 1), (12341000, 0), (12399000, 1), (12437000, 1) ]
-TRIKOLOR = [ (11727000, 0), (11747000, 1), (11766000, 0), (11804000, 0), (11843000, 0), (11881000, 0), (11919000, 0), (11958000, 0), (11996000, 0), (12034000, 0), (12054000, 1), (12073000, 0), (12111000, 0), (12149000, 0), (12169000, 1), (12190000, 0), (12226000, 0), (12303000, 0), (12360000, 1), (12380000, 0), (12418000, 0), (12456000, 0), (12476000, 0) ]
-NTVPLUS_VOSTOK = [ (12054000, 1), (12092000, 1), (12169000, 1), (12245000, 1), (12322000, 1), (12399000, 1), (12437000, 1), (12476000, 1) ]
-TRIKOLOR_SIBIR = [ (11881000, 0), (11919000, 0), (11958000, 0), (11996000, 0), (12034000, 0), (12073000, 0), (12111000, 0), (12149000, 0), (12188000, 0), (12226000, 0), (12265000, 0), (12303000, 0), (12341000, 0) ]
-OTAUTV = [ (10720000, 0), (10762000, 0), (10804000, 0), (10887000, 0) ]
-RADUGA = [ (11473000, 1), (11559000, 1), (11793000, 1) ]
-MTSTV = [ (11740000, 1), (11800000, 1), (11860000, 1), (11920000, 1), (11980000, 1), (12040000, 1), (12100000, 1), (12160000, 1) ]
-KONTINENT = [ (11720000, 0), (11760000, 0), (11800000, 0), (11840000, 0), (11880000, 0), (11872000, 0), (11920000, 0), (11960000, 0), (12000000, 0), (12040000, 0), (12080000, 0), (12120000, 0), (12160000, 0), (12560000, 1), (12600000, 1), (12640000, 1) ]
-NTVPLUS_DAL_VOSTOK = [ (12226000, 0), (12245000, 1), (12303000, 0), (12322000, 1), (12380000, 0), (12399000, 1), (12456000, 0), (12476000, 1) ]
-KONTINENT_DAL_VOSTOK = [ (10981000, 1), (11387000, 1), (11530000, 0), (11557000, 0), (11665000, 1) ]
+VIASATUKR = [(12288000, 0)] #Amos 4w
+VIASAT = [(11265000, 0), (11265000, 1), (11305000, 0), (11305000, 1), (11345000, 1), (11345000, 0), (11385000, 1), (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12054000, 1), (12092000, 1), (12245000, 1), (12380000, 0), (12437000, 1), (12476000, 1), (12608000, 0), (12637000, 0)]
+XTRATV = [(12111000, 1),  (12149000, 1)]
+VIASATLATVIJA = [(11265000, 0), (11265000, 1), (11305000, 1), (11345000, 1), (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12437000, 1), (12608000, 0)]
+NTVPLUS = [(11785000, 1), (11823000, 1), (11862000, 1), (11900000, 1), (11938000, 1), (11977000, 1), (12015000, 1), (12092000, 1), (12130000, 1), (12207000, 1), (12245000, 1), (12265000, 0), (12284000, 1), (12322000, 1), (12341000, 0), (12399000, 1), (12437000, 1)]
+TRIKOLOR = [(11727000, 0), (11747000, 1), (11766000, 0), (11804000, 0), (11843000, 0), (11881000, 0), (11919000, 0), (11958000, 0), (11996000, 0), (12034000, 0), (12054000, 1), (12073000, 0), (12111000, 0), (12149000, 0), (12169000, 1), (12190000, 0), (12226000, 0), (12303000, 0), (12360000, 1), (12380000, 0), (12418000, 0), (12456000, 0), (12476000, 0)]
+NTVPLUS_VOSTOK = [(12054000, 1), (12092000, 1), (12169000, 1), (12245000, 1), (12322000, 1), (12399000, 1), (12437000, 1), (12476000, 1)]
+TRIKOLOR_SIBIR = [(11881000, 0), (11919000, 0), (11958000, 0), (11996000, 0), (12034000, 0), (12073000, 0), (12111000, 0), (12149000, 0), (12188000, 0), (12226000, 0), (12265000, 0), (12303000, 0), (12341000, 0)]
+OTAUTV = [(10720000, 0), (10762000, 0), (10804000, 0), (10887000, 0)]
+RADUGA = [(11473000, 1), (11559000, 1), (11793000, 1)]
+MTSTV = [(11740000, 1), (11800000, 1), (11860000, 1), (11920000, 1), (11980000, 1), (12040000, 1), (12100000, 1), (12160000, 1)]
+KONTINENT = [(11720000, 0), (11760000, 0), (11800000, 0), (11840000, 0), (11880000, 0), (11872000, 0), (11920000, 0), (11960000, 0), (12000000, 0), (12040000, 0), (12080000, 0), (12120000, 0), (12160000, 0), (12560000, 1), (12600000, 1), (12640000, 1)]
+NTVPLUS_DAL_VOSTOK = [(12226000, 0), (12245000, 1), (12303000, 0), (12322000, 1), (12380000, 0), (12399000, 1), (12456000, 0), (12476000, 1)]
+KONTINENT_DAL_VOSTOK = [(10981000, 1), (11387000, 1), (11530000, 0), (11557000, 0), (11665000, 1)]
 
 class TranspondersList(Screen):
 	skin = """
@@ -243,7 +243,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			"menu": self.extaMenu,
 		}, -2)
 		self.list = []
-		self.tpslist = [ ]
+		self.tpslist = []
 		self.tpslist_idx = 0
 		self["introduction"] = Label("")
 
@@ -406,12 +406,12 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		if configElement is None:
 			self.tpslist = []
 		self.tuneTimer.stop()
-		if self.scan_nims == [ ]:
+		if self.scan_nims == []:
 			return
 		if self.scan_nims.value == "":
 			return
 		self.tpslist_idx = 0
-		tpslist = [ ]
+		tpslist = []
 		status_text = ""
 		multi_tune = False
 		index_to_scan = int(self.scan_nims.value)
@@ -615,7 +615,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		self.tuneTimer.stop()
 		self.list = []
 		self.multiscanlist = []
-		if self.scan_nims == [ ] or self.scan_nims.value == "":
+		if self.scan_nims == [] or self.scan_nims.value == "":
 			return
 		index_to_scan = int(self.scan_nims.value)
 		config_list = True
@@ -1121,7 +1121,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		flags = None
 		startScan = True
 		removeAll = True
-		if self.scan_nims == [ ]:
+		if self.scan_nims == []:
 			self.session.open(MessageBox, _("No tuner is enabled!\nPlease setup your tuner settings before you start a service scan."), MessageBox.TYPE_ERROR)
 			return
 		nim = nimmanager.nim_slots[index_to_scan]
@@ -1452,7 +1452,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			"menu": self.extaMenu,
 		}, -2)
 		self.list = []
-		self.tpslist = [ ]
+		self.tpslist = []
 		self.tpslist_idx = 0
 		self["introduction"] = Label("")
 
@@ -1615,12 +1615,12 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		if configElement is None:
 			self.tpslist = []
 		self.tuneTimer.stop()
-		if self.scan_nims == [ ]:
+		if self.scan_nims == []:
 			return
 		if self.scan_nims.value == "":
 			return
 		self.tpslist_idx = 0
-		tpslist = [ ]
+		tpslist = []
 		status_text = ""
 		multi_tune = False
 		index_to_scan = int(self.scan_nims.value)
@@ -1817,7 +1817,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		self.tuneTimer.stop()
 		self.list = []
 		self.multiscanlist = []
-		if self.scan_nims == [ ] or self.scan_nims.value == "":
+		if self.scan_nims == [] or self.scan_nims.value == "":
 			return
 		index_to_scan = int(self.scan_nims.value)
 		config_list = True
@@ -2001,7 +2001,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			"modulation": eDVBFrontendParametersSatellite.Modulation_QPSK,
 			"is_id": 0,
 			"pls_mode": eDVBFrontendParametersSatellite.PLS_Root,
-			"pls_code": 0 }
+			"pls_code": 0}
 
 		default_scan = "single_transponder"
 		if frontendData is not None:
@@ -2260,7 +2260,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		flags = None
 		startScan = True
 		removeAll = True
-		if self.scan_nims == [ ]:
+		if self.scan_nims == []:
 			self.session.open(MessageBox, _("No tuner is enabled!\nPlease setup your tuner settings before you start a service scan."), MessageBox.TYPE_ERROR)
 			return
 		nim = nimmanager.nim_slots[index_to_scan]
@@ -2642,7 +2642,7 @@ class SignalFinder(ConfigListScreen, Screen):
 			"menu": self.extaMenu,
 		}, -2)
 		self.list = []
-		self.tpslist = [ ]
+		self.tpslist = []
 		self.tpslist_idx = 0
 		self["introduction"] = Label("")
 
@@ -2798,12 +2798,12 @@ class SignalFinder(ConfigListScreen, Screen):
 		if configElement is None:
 			self.tpslist = []
 		self.tuneTimer.stop()
-		if self.scan_nims == [ ]:
+		if self.scan_nims == []:
 			return
 		if self.scan_nims.value == "":
 			return
 		self.tpslist_idx = 0
-		tpslist = [ ]
+		tpslist = []
 		status_text = ""
 		multi_tune = False
 		index_to_scan = int(self.scan_nims.value)
@@ -2997,7 +2997,7 @@ class SignalFinder(ConfigListScreen, Screen):
 		self.tuneTimer.stop()
 		self.list = []
 		self.multiscanlist = []
-		if self.scan_nims == [ ] or self.scan_nims.value == "":
+		if self.scan_nims == [] or self.scan_nims.value == "":
 			return
 		index_to_scan = int(self.scan_nims.value)
 		config_list = True
@@ -3413,7 +3413,7 @@ class SignalFinder(ConfigListScreen, Screen):
 		flags = None
 		startScan = True
 		removeAll = True
-		if self.scan_nims == [ ]:
+		if self.scan_nims == []:
 			self.session.open(MessageBox, _("No tuner is enabled!\nPlease setup your tuner settings before you start a service scan."), MessageBox.TYPE_ERROR)
 			return
 		nim = nimmanager.nim_slots[index_to_scan]
@@ -3597,7 +3597,7 @@ def SignalFinderMain(session, **kwargs):
 				continue
 		except:
 			pass
-		if nimConfig.configMode.value in ("simple" ,"advanced") and len(nimmanager.getSatListForNim(x.slot)) < 1:
+		if nimConfig.configMode.value in ("simple","advanced") and len(nimmanager.getSatListForNim(x.slot)) < 1:
 			nimConfig.configMode.value = "nothing"
 			nimConfig.configMode.save()
 			continue
