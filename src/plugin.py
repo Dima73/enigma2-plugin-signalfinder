@@ -32,7 +32,7 @@ loadScript = "/usr/lib/enigma2/python/Plugins/SystemPlugins/Signalfinder/update-
 
 VIASATUKR = [(12288000, 0)] #Amos 4w
 VIASAT = [(11265000, 0), (11265000, 1), (11305000, 0), (11305000, 1), (11345000, 1), (11345000, 0), (11385000, 1), (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12054000, 1), (12092000, 1), (12245000, 1), (12380000, 0), (12437000, 1), (12476000, 1), (12608000, 0), (12637000, 0)]
-XTRATV = [(12111000, 1),  (12149000, 1)]
+XTRATV = [(12111000, 1), (12149000, 1)]
 VIASATLATVIJA = [(11265000, 0), (11265000, 1), (11305000, 1), (11345000, 1), (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12437000, 1), (12608000, 0)]
 NTVPLUS = [(11785000, 1), (11823000, 1), (11862000, 1), (11900000, 1), (11938000, 1), (11977000, 1), (12015000, 1), (12092000, 1), (12130000, 1), (12207000, 1), (12245000, 1), (12265000, 0), (12284000, 1), (12322000, 1), (12341000, 0), (12399000, 1), (12437000, 1)]
 TRIKOLOR = [(11727000, 0), (11747000, 1), (11766000, 0), (11804000, 0), (11843000, 0), (11881000, 0), (11919000, 0), (11958000, 0), (11996000, 0), (12034000, 0), (12054000, 1), (12073000, 0), (12111000, 0), (12149000, 0), (12169000, 1), (12190000, 0), (12226000, 0), (12303000, 0), (12360000, 1), (12380000, 0), (12418000, 0), (12456000, 0), (12476000, 0)]
@@ -587,9 +587,9 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			tps = nimmanager.getTransponders(orbpos)
 			for x in tps:
 				if x[0] == 0:	#SAT
-					s = str(x[1]/1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2]/1000) + " / " + self.FecToStr(x[4])
+					s = str(x[1] / 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
 					list.append((str(index), s))
-					if tr is not None and tr == x[1]/1000 and pol is not None and pol == x[3]:
+					if tr is not None and tr == x[1] / 1000 and pol is not None and pol == x[3]:
 						default = str(index)
 					index += 1
 			if orbpos == 360 and len(list) >= 20 and default == "0":
@@ -948,7 +948,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		self.scan_sat.pls_code = ConfigInteger(default=defaultSat.get("pls_code", 0), limits=(0, 262142))
 		self.scan_sat.t2mi_plp_id = ConfigInteger(default=defaultSat.get("t2mi_plp_id", eDVBFrontendParametersSatellite.No_T2MI_PLP_Id), limits=(0, 255))
 		self.scan_sat.t2mi_pid = ConfigInteger(default=defaultSat.get("t2mi_pid", eDVBFrontendParametersSatellite.T2MI_Default_Pid), limits=(0, 8191))
-		self.scan_sat.t2mi_plp_id_bool  = ConfigSelection(default=defaultSat["t2mi_plp_id"] != eDVBFrontendParametersSatellite.No_T2MI_PLP_Id, choices=[(True, _("Enabled")),(False, _("Disabled"))])
+		self.scan_sat.t2mi_plp_id_bool = ConfigSelection(default=defaultSat["t2mi_plp_id"] != eDVBFrontendParametersSatellite.No_T2MI_PLP_Id, choices=[(True, _("Enabled")),(False, _("Disabled"))])
 
 		self.is_id_memory = self.scan_sat.is_id.value # used to prevent is_id value being lost when self.scan_sat.is_id_bool state changes
 		self.pls_mode_memory = self.scan_sat.pls_mode.value
@@ -1098,7 +1098,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		tps = nimmanager.getTransponders(orbpos)
 		for x in tps:
 			if x[0] == 0:
-				s = str(x[1]/1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2]/1000) + " / " + self.FecToStr(x[4])
+				s = str(x[1] / 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
 				list.append((s, str(index)))
 				index += 1
 		return list
@@ -1795,9 +1795,9 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			tps = nimmanager.getTransponders(orbpos)
 			for x in tps:
 				if x[0] == 0:	#SAT
-					s = str(x[1]/1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2]/1000) + " / " + self.FecToStr(x[4])
+					s = str(x[1] / 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
 					list.append((str(index), s))
-					if tr is not None and tr == x[1]/1000 and pol is not None and pol == x[3]:
+					if tr is not None and tr == x[1] / 1000 and pol is not None and pol == x[3]:
 						default = str(index)
 					index += 1
 			if orbpos == 360 and len(list) >= 20 and default == "0":
@@ -2237,7 +2237,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		tps = nimmanager.getTransponders(orbpos)
 		for x in tps:
 			if x[0] == 0:
-				s = str(x[1]/1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2]/1000) + " / " + self.FecToStr(x[4])
+				s = str(x[1] / 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
 				list.append((s, str(index)))
 				index += 1
 		return list
@@ -2712,7 +2712,7 @@ class SignalFinder(ConfigListScreen, Screen):
 								root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
 								if n.config.connectedTo.value and int(n.config.connectedTo.value) == self.feid:
 									stop_service = True
-							elif hasattr(n, 'config') and hasattr(n.config, 'dvbs')  and hasattr(n.config.dvbs, 'configMode') and n.config.dvbs.configMode.value in ("loopthrough", "satposdepends"):
+							elif hasattr(n, 'config') and hasattr(n.config, 'dvbs') and hasattr(n.config.dvbs, 'configMode') and n.config.dvbs.configMode.value in ("loopthrough", "satposdepends"):
 								root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.dvbs.connectedTo.value))
 								if n.config.dvbs.connectedTo.value and int(n.config.dvbs.connectedTo.value) == self.feid:
 									stop_service = True
@@ -2975,9 +2975,9 @@ class SignalFinder(ConfigListScreen, Screen):
 			tps = nimmanager.getTransponders(orbpos)
 			for x in tps:
 				if x[0] == 0:	#SAT
-					s = str(x[1]/1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2]/1000) + " / " + self.FecToStr(x[4])
+					s = str(x[1] / 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
 					list.append((str(index), s))
-					if tr is not None and tr == x[1]/1000 and pol is not None and pol == x[3]:
+					if tr is not None and tr == x[1] / 1000 and pol is not None and pol == x[3]:
 						default = str(index)
 					index += 1
 			if orbpos == 360 and len(list) >= 20 and default == "0":
@@ -3390,7 +3390,7 @@ class SignalFinder(ConfigListScreen, Screen):
 		tps = nimmanager.getTransponders(orbpos)
 		for x in tps:
 			if x[0] == 0:
-				s = str(x[1]/1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2]/1000) + " / " + self.FecToStr(x[4])
+				s = str(x[1] / 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
 				list.append((s, str(index)))
 				index += 1
 		return list
