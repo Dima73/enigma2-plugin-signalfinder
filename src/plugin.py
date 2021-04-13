@@ -45,6 +45,7 @@ KONTINENT = [(11720000, 0), (11760000, 0), (11800000, 0), (11840000, 0), (118800
 NTVPLUS_DAL_VOSTOK = [(12226000, 0), (12245000, 1), (12303000, 0), (12322000, 1), (12380000, 0), (12399000, 1), (12456000, 0), (12476000, 1)]
 KONTINENT_DAL_VOSTOK = [(10981000, 1), (11387000, 1), (11530000, 0), (11557000, 0), (11665000, 1)]
 
+
 class TranspondersList(Screen):
 	skin = """
 	<screen position="center,center" size="400,450" title="Transponders list" >
@@ -81,6 +82,7 @@ class TranspondersList(Screen):
 
 	def cansel(self):
 		self.close(None)
+
 
 class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 	if HD:
@@ -268,6 +270,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		if not config.misc.direct_tuner.value:
 			menu_text = _("Set direct tuner")
 		menu = [(menu_text, "setdirect"), (_("Update plugin"), "update")]
+
 		def extraAction(choice):
 			if choice is not None:
 				if choice[1] == "setdirect":
@@ -893,7 +896,6 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		self.scan_onlyfree = ConfigYesNo(default=False)
 		self.scan_networkScan = ConfigYesNo(default=False)
 
-
 		self.scan_sat.system = ConfigSelection(default=defaultSat["system"], choices=[
 			(eDVBFrontendParametersSatellite.System_DVB_S, _("DVB-S")),
 			(eDVBFrontendParametersSatellite.System_DVB_S2, _("DVB-S2"))])
@@ -1291,6 +1293,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		else:
 			self.keyCancel()
 
+
 class SignalFinderMultistream(ConfigListScreen, Screen):
 	if HD:
 		skin = """
@@ -1477,6 +1480,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		if not config.misc.direct_tuner.value:
 			menu_text = _("Set direct tuner")
 		menu = [(menu_text, "setdirect"), (_("Update plugin"), "update")]
+
 		def extraAction(choice):
 			if choice is not None:
 				if choice[1] == "setdirect":
@@ -2048,7 +2052,6 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		self.scan_onlyfree = ConfigYesNo(default=False)
 		self.scan_networkScan = ConfigYesNo(default=False)
 
-
 		self.scan_sat.system = ConfigSelection(default=defaultSat["system"], choices=[
 			(eDVBFrontendParametersSatellite.System_DVB_S, _("DVB-S")),
 			(eDVBFrontendParametersSatellite.System_DVB_S2, _("DVB-S2"))])
@@ -2482,6 +2485,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 #		dlg = session.openWithCallback(boxAction, ChoiceBox, title=_("Select the type of tuner:"), list=menu)
 #		dlg.setTitle("DVB-S2/T(T2)")
 
+
 class SignalFinder(ConfigListScreen, Screen):
 	if HD:
 		skin = """
@@ -2667,6 +2671,7 @@ class SignalFinder(ConfigListScreen, Screen):
 		if not config.misc.direct_tuner.value:
 			menu_text = _("Set direct tuner")
 		menu = [(menu_text, "setdirect"), (_("Update plugin"), "update")]
+
 		def extraAction(choice):
 			if choice is not None:
 				if choice[1] == "setdirect":
@@ -3216,7 +3221,6 @@ class SignalFinder(ConfigListScreen, Screen):
 		self.scan_onlyfree = ConfigYesNo(default=False)
 		self.scan_networkScan = ConfigYesNo(default=False)
 
-
 		self.scan_sat.system = ConfigSelection(default=defaultSat["system"], choices=[
 			(eDVBFrontendParametersSatellite.System_DVB_S, _("DVB-S")),
 			(eDVBFrontendParametersSatellite.System_DVB_S2, _("DVB-S2"))])
@@ -3578,6 +3582,7 @@ class SignalFinder(ConfigListScreen, Screen):
 		else:
 			self.keyCancel()
 
+
 def SignalFinderMain(session, **kwargs):
 	nims = nimmanager.nim_slots
 	sat_nimList = []
@@ -3617,11 +3622,13 @@ def SignalFinderMain(session, **kwargs):
 	else:
 		session.open(SignalFinder)
 
+
 def SignalFinderStart(menuid, **kwargs):
 	if menuid == "scan":
 		return [(_("Signal Finder DVB-S2"), SignalFinderMain, "signal_finder", None)]
 	else:
 		return []
+
 
 def Plugins(**kwargs):
 	if nimmanager.hasNimType("DVB-S"):
