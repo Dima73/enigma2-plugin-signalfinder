@@ -373,7 +373,8 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 				self["introduction"].setText(_("Nothing to scan!\nPlease setup your tuner settings before you start a service scan."))
 
 	def updateTuneStatus(self):
-		if not self.frontend: return
+		if not self.frontend:
+			return
 		stop = False
 		dict = {}
 		self.frontend.getFrontendStatus(dict)
@@ -405,17 +406,22 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		if configElement is None:
 			self.tpslist = []
 		self.tuneTimer.stop()
-		if self.scan_nims == [ ]: return
-		if self.scan_nims.value == "": return
+		if self.scan_nims == [ ]:
+			return
+		if self.scan_nims.value == "":
+			return
 		self.tpslist_idx = 0
 		tpslist = [ ]
 		status_text = ""
 		multi_tune = False
 		index_to_scan = int(self.scan_nims.value)
-		if len(self.satList) <= index_to_scan: return
-		if len(self.scan_satselection) <= index_to_scan: return
+		if len(self.satList) <= index_to_scan:
+			return
+		if len(self.scan_satselection) <= index_to_scan:
+			return
 		nim = nimmanager.nim_slots[index_to_scan]
-		if not nim.isCompatible("DVB-S"): return
+		if not nim.isCompatible("DVB-S"):
+			return
 		nimsats = self.satList[index_to_scan]
 		selsatidx = self.scan_satselection[index_to_scan].index
 		if self.scan_type.value == "single_transponder":
@@ -478,7 +484,8 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 					for x in tps:
 						if x[0] == 0:	#SAT
 							tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
-					if len(tpslist): break
+					if len(tpslist):
+						break
 		elif self.scan_type.value == "provider":
 			if self.provider_list is not None:
 				if self.provider_list.value != "none":
@@ -557,7 +564,8 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		self["status"].setText(status_text)
 
 	def OrbToStr(self, orbpos=-1):
-		if orbpos == -1 or orbpos > 3600: return "??"
+		if orbpos == -1 or orbpos > 3600:
+			return "??"
 		if orbpos > 1800:
 			return "%d.%dW" % ((3600 - orbpos) / 10, (3600 - orbpos) % 10)
 		else:
@@ -1117,7 +1125,8 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			self.session.open(MessageBox, _("No tuner is enabled!\nPlease setup your tuner settings before you start a service scan."), MessageBox.TYPE_ERROR)
 			return
 		nim = nimmanager.nim_slots[index_to_scan]
-		if not nim.isCompatible("DVB-S"): return
+		if not nim.isCompatible("DVB-S"):
+			return
 		if self.scan_type.value.find("_transponder") != -1:
 			assert len(self.satList) > index_to_scan
 			assert len(self.scan_satselection) > index_to_scan
@@ -1573,7 +1582,8 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 				self["introduction"].setText(_("Nothing to scan!\nPlease setup your tuner settings before you start a service scan."))
 
 	def updateTuneStatus(self):
-		if not self.frontend: return
+		if not self.frontend:
+			return
 		stop = False
 		dict = {}
 		self.frontend.getFrontendStatus(dict)
@@ -1605,17 +1615,22 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		if configElement is None:
 			self.tpslist = []
 		self.tuneTimer.stop()
-		if self.scan_nims == [ ]: return
-		if self.scan_nims.value == "": return
+		if self.scan_nims == [ ]:
+			return
+		if self.scan_nims.value == "":
+			return
 		self.tpslist_idx = 0
 		tpslist = [ ]
 		status_text = ""
 		multi_tune = False
 		index_to_scan = int(self.scan_nims.value)
-		if len(self.satList) <= index_to_scan: return
-		if len(self.scan_satselection) <= index_to_scan: return
+		if len(self.satList) <= index_to_scan:
+			return
+		if len(self.scan_satselection) <= index_to_scan:
+			return
 		nim = nimmanager.nim_slots[index_to_scan]
-		if not nim.isCompatible("DVB-S"): return
+		if not nim.isCompatible("DVB-S"):
+			return
 		nimsats = self.satList[index_to_scan]
 		selsatidx = self.scan_satselection[index_to_scan].index
 		if self.scan_type.value == "single_transponder":
@@ -1677,7 +1692,8 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 					for x in tps:
 						if x[0] == 0:	#SAT
 							tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12]))
-					if len(tpslist): break
+					if len(tpslist):
+						break
 		elif self.scan_type.value == "provider":
 			if self.provider_list is not None:
 				if self.provider_list.value != "none":
@@ -1756,7 +1772,8 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		self["status"].setText(status_text)
 
 	def OrbToStr(self, orbpos=-1):
-		if orbpos == -1 or orbpos > 3600: return "??"
+		if orbpos == -1 or orbpos > 3600:
+			return "??"
 		if orbpos > 1800:
 			return "%d.%dW" % ((3600 - orbpos) / 10, (3600 - orbpos) % 10)
 		else:
@@ -2247,7 +2264,8 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			self.session.open(MessageBox, _("No tuner is enabled!\nPlease setup your tuner settings before you start a service scan."), MessageBox.TYPE_ERROR)
 			return
 		nim = nimmanager.nim_slots[index_to_scan]
-		if not nim.isCompatible("DVB-S"): return
+		if not nim.isCompatible("DVB-S"):
+			return
 		if self.scan_type.value.find("_transponder") != -1:
 			assert len(self.satList) > index_to_scan
 			assert len(self.scan_satselection) > index_to_scan
@@ -2747,7 +2765,8 @@ class SignalFinder(ConfigListScreen, Screen):
 				self["introduction"].setText(_("Nothing to scan!\nPlease setup your tuner settings before you start a service scan."))
 
 	def updateTuneStatus(self):
-		if not self.frontend: return
+		if not self.frontend:
+			return
 		stop = False
 		dict = {}
 		self.frontend.getFrontendStatus(dict)
@@ -2779,17 +2798,22 @@ class SignalFinder(ConfigListScreen, Screen):
 		if configElement is None:
 			self.tpslist = []
 		self.tuneTimer.stop()
-		if self.scan_nims == [ ]: return
-		if self.scan_nims.value == "": return
+		if self.scan_nims == [ ]:
+			return
+		if self.scan_nims.value == "":
+			return
 		self.tpslist_idx = 0
 		tpslist = [ ]
 		status_text = ""
 		multi_tune = False
 		index_to_scan = int(self.scan_nims.value)
-		if len(self.satList) <= index_to_scan: return
-		if len(self.scan_satselection) <= index_to_scan: return
+		if len(self.satList) <= index_to_scan:
+			return
+		if len(self.scan_satselection) <= index_to_scan:
+			return
 		nim = nimmanager.nim_slots[index_to_scan]
-		if not nim.isCompatible("DVB-S"): return
+		if not nim.isCompatible("DVB-S"):
+			return
 		nimsats = self.satList[index_to_scan]
 		selsatidx = self.scan_satselection[index_to_scan].index
 		if self.scan_type.value == "single_transponder":
@@ -2848,7 +2872,8 @@ class SignalFinder(ConfigListScreen, Screen):
 					for x in tps:
 						if x[0] == 0:	#SAT
 							tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9]))
-					if len(tpslist): break
+					if len(tpslist):
+						break
 		elif self.scan_type.value == "provider":
 			if self.provider_list is not None:
 				if self.provider_list.value != "none":
@@ -2927,7 +2952,8 @@ class SignalFinder(ConfigListScreen, Screen):
 		self["status"].setText(status_text)
 
 	def OrbToStr(self, orbpos=-1):
-		if orbpos == -1 or orbpos > 3600: return "??"
+		if orbpos == -1 or orbpos > 3600:
+			return "??"
 		if orbpos > 1800:
 			return "%d.%dW" % ((3600 - orbpos) / 10, (3600 - orbpos) % 10)
 		else:
@@ -3391,7 +3417,8 @@ class SignalFinder(ConfigListScreen, Screen):
 			self.session.open(MessageBox, _("No tuner is enabled!\nPlease setup your tuner settings before you start a service scan."), MessageBox.TYPE_ERROR)
 			return
 		nim = nimmanager.nim_slots[index_to_scan]
-		if not nim.isCompatible("DVB-S"): return
+		if not nim.isCompatible("DVB-S"):
+			return
 		if self.scan_type.value.find("_transponder") != -1:
 			assert len(self.satList) > index_to_scan
 			assert len(self.scan_satselection) > index_to_scan
