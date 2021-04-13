@@ -267,7 +267,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		menu_text = _("Set free tuner")
 		if not config.misc.direct_tuner.value:
 			menu_text = _("Set direct tuner")
-		menu = [(menu_text, "setdirect"),(_("Update plugin"), "update")]
+		menu = [(menu_text, "setdirect"), (_("Update plugin"), "update")]
 		def extraAction(choice):
 			if choice is not None:
 				if choice[1] == "setdirect":
@@ -805,7 +805,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 					continue
 				if hasattr(n, "isFBCLink") and n.isFBCLink():
 					continue
-				if n.config_mode in ("simple", "equal","advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
+				if n.config_mode in ("simple", "equal", "advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
 					continue
 				if n.config_mode in ("loopthrough", "satposdepends"):
 					root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
@@ -818,7 +818,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 					continue
 				if hasattr(n, "isFBCLink") and n.isFBCLink():
 					continue
-				if n.config.dvbs.configMode.value in ("simple", "equal","advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
+				if n.config.dvbs.configMode.value in ("simple", "equal", "advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
 					continue
 				if n.config.dvbs.configMode.value in ("loopthrough", "satposdepends"):
 					root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.dvbs.connectedTo.value))
@@ -927,11 +927,11 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			(eDVBFrontendParametersSatellite.FEC_7_8, "7/8"),
 			(eDVBFrontendParametersSatellite.FEC_8_9, "8/9"),
 			(eDVBFrontendParametersSatellite.FEC_9_10, "9/10")])
-		lst = [(eDVBFrontendParametersSatellite.Modulation_QPSK, "QPSK"),(eDVBFrontendParametersSatellite.Modulation_8PSK, "8PSK")]
+		lst = [(eDVBFrontendParametersSatellite.Modulation_QPSK, "QPSK"), (eDVBFrontendParametersSatellite.Modulation_8PSK, "8PSK")]
 		if hasattr(eDVBFrontendParametersSatellite, "Modulation_16APSK") and hasattr(eDVBFrontendParametersSatellite, "Modulation_32APSK"):
-			lst += [(eDVBFrontendParametersSatellite.Modulation_16APSK, "16APSK"),(eDVBFrontendParametersSatellite.Modulation_32APSK, "32APSK")]
+			lst += [(eDVBFrontendParametersSatellite.Modulation_16APSK, "16APSK"), (eDVBFrontendParametersSatellite.Modulation_32APSK, "32APSK")]
 		self.scan_sat.modulation = ConfigSelection(default=defaultSat["modulation"], choices=lst)
-		lst = [(eDVBFrontendParametersSatellite.RollOff_alpha_0_35, "0.35"),(eDVBFrontendParametersSatellite.RollOff_alpha_0_25, "0.25"),(eDVBFrontendParametersSatellite.RollOff_alpha_0_20, "0.20")]
+		lst = [(eDVBFrontendParametersSatellite.RollOff_alpha_0_35, "0.35"), (eDVBFrontendParametersSatellite.RollOff_alpha_0_25, "0.25"), (eDVBFrontendParametersSatellite.RollOff_alpha_0_20, "0.20")]
 		if hasattr(eDVBFrontendParametersSatellite, "RollOff_auto"):
 			lst += [(eDVBFrontendParametersSatellite.RollOff_auto, _("Auto"))]
 		self.scan_sat.rolloff = ConfigSelection(default=defaultSat.get("rolloff", eDVBFrontendParametersSatellite.RollOff_alpha_0_35), choices=lst)
@@ -939,7 +939,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			(eDVBFrontendParametersSatellite.Pilot_Off, _("Off")),
 			(eDVBFrontendParametersSatellite.Pilot_On, _("On")),
 			(eDVBFrontendParametersSatellite.Pilot_Unknown, _("Auto"))])
-		self.scan_sat.is_id_bool = ConfigSelection(default=defaultSat["is_id"] != eDVBFrontendParametersSatellite.No_Stream_Id_Filter, choices=[(True, _("Multistream")),(False, _("Ordinary"))])
+		self.scan_sat.is_id_bool = ConfigSelection(default=defaultSat["is_id"] != eDVBFrontendParametersSatellite.No_Stream_Id_Filter, choices=[(True, _("Multistream")), (False, _("Ordinary"))])
 		self.scan_sat.is_id = ConfigInteger(default=defaultSat["is_id"], limits=(0, 255))
 		self.scan_sat.pls_mode = ConfigSelection(default=defaultSat["pls_mode"], choices=[
 			(eDVBFrontendParametersSatellite.PLS_Root, _("Root")),
@@ -948,7 +948,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		self.scan_sat.pls_code = ConfigInteger(default=defaultSat.get("pls_code", 0), limits=(0, 262142))
 		self.scan_sat.t2mi_plp_id = ConfigInteger(default=defaultSat.get("t2mi_plp_id", eDVBFrontendParametersSatellite.No_T2MI_PLP_Id), limits=(0, 255))
 		self.scan_sat.t2mi_pid = ConfigInteger(default=defaultSat.get("t2mi_pid", eDVBFrontendParametersSatellite.T2MI_Default_Pid), limits=(0, 8191))
-		self.scan_sat.t2mi_plp_id_bool = ConfigSelection(default=defaultSat["t2mi_plp_id"] != eDVBFrontendParametersSatellite.No_T2MI_PLP_Id, choices=[(True, _("Enabled")),(False, _("Disabled"))])
+		self.scan_sat.t2mi_plp_id_bool = ConfigSelection(default=defaultSat["t2mi_plp_id"] != eDVBFrontendParametersSatellite.No_T2MI_PLP_Id, choices=[(True, _("Enabled")), (False, _("Disabled"))])
 
 		self.is_id_memory = self.scan_sat.is_id.value # used to prevent is_id value being lost when self.scan_sat.is_id_bool state changes
 		self.pls_mode_memory = self.scan_sat.pls_mode.value
@@ -1476,7 +1476,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		menu_text = _("Set free tuner")
 		if not config.misc.direct_tuner.value:
 			menu_text = _("Set direct tuner")
-		menu = [(menu_text, "setdirect"),(_("Update plugin"), "update")]
+		menu = [(menu_text, "setdirect"), (_("Update plugin"), "update")]
 		def extraAction(choice):
 			if choice is not None:
 				if choice[1] == "setdirect":
@@ -1964,7 +1964,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 					continue
 				if hasattr(n, "isFBCLink") and n.isFBCLink():
 					continue
-				if n.config_mode in ("simple", "equal","advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
+				if n.config_mode in ("simple", "equal", "advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
 					continue
 				if n.config_mode in ("loopthrough", "satposdepends"):
 					root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
@@ -1977,7 +1977,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 					continue
 				if hasattr(n, "isFBCLink") and n.isFBCLink():
 					continue
-				if n.config.dvbs.configMode.value in ("simple", "equal","advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
+				if n.config.dvbs.configMode.value in ("simple", "equal", "advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
 					continue
 				if n.config.dvbs.configMode.value in ("loopthrough", "satposdepends"):
 					root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.dvbs.connectedTo.value))
@@ -2082,11 +2082,11 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			(eDVBFrontendParametersSatellite.FEC_7_8, "7/8"),
 			(eDVBFrontendParametersSatellite.FEC_8_9, "8/9"),
 			(eDVBFrontendParametersSatellite.FEC_9_10, "9/10")])
-		lst = [(eDVBFrontendParametersSatellite.Modulation_QPSK, "QPSK"),(eDVBFrontendParametersSatellite.Modulation_8PSK, "8PSK")]
+		lst = [(eDVBFrontendParametersSatellite.Modulation_QPSK, "QPSK"), (eDVBFrontendParametersSatellite.Modulation_8PSK, "8PSK")]
 		if hasattr(eDVBFrontendParametersSatellite, "Modulation_16APSK") and hasattr(eDVBFrontendParametersSatellite, "Modulation_32APSK"):
-			lst += [(eDVBFrontendParametersSatellite.Modulation_16APSK, "16APSK"),(eDVBFrontendParametersSatellite.Modulation_32APSK, "32APSK")]
+			lst += [(eDVBFrontendParametersSatellite.Modulation_16APSK, "16APSK"), (eDVBFrontendParametersSatellite.Modulation_32APSK, "32APSK")]
 		self.scan_sat.modulation = ConfigSelection(default=defaultSat["modulation"], choices=lst)
-		lst = [(eDVBFrontendParametersSatellite.RollOff_alpha_0_35, "0.35"),(eDVBFrontendParametersSatellite.RollOff_alpha_0_25, "0.25"),(eDVBFrontendParametersSatellite.RollOff_alpha_0_20, "0.20")]
+		lst = [(eDVBFrontendParametersSatellite.RollOff_alpha_0_35, "0.35"), (eDVBFrontendParametersSatellite.RollOff_alpha_0_25, "0.25"), (eDVBFrontendParametersSatellite.RollOff_alpha_0_20, "0.20")]
 		if hasattr(eDVBFrontendParametersSatellite, "RollOff_auto"):
 			lst += [(eDVBFrontendParametersSatellite.RollOff_auto, _("Auto"))]
 		self.scan_sat.rolloff = ConfigSelection(default=defaultSat.get("rolloff", eDVBFrontendParametersSatellite.RollOff_alpha_0_35), choices=lst)
@@ -2666,7 +2666,7 @@ class SignalFinder(ConfigListScreen, Screen):
 		menu_text = _("Set free tuner")
 		if not config.misc.direct_tuner.value:
 			menu_text = _("Set direct tuner")
-		menu = [(menu_text, "setdirect"),(_("Update plugin"), "update")]
+		menu = [(menu_text, "setdirect"), (_("Update plugin"), "update")]
 		def extraAction(choice):
 			if choice is not None:
 				if choice[1] == "setdirect":
@@ -3138,7 +3138,7 @@ class SignalFinder(ConfigListScreen, Screen):
 					continue
 				if hasattr(n, "isFBCLink") and n.isFBCLink():
 					continue
-				if n.config_mode in ("simple", "equal","advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
+				if n.config_mode in ("simple", "equal", "advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
 					continue
 				if n.config_mode in ("loopthrough", "satposdepends"):
 					root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.connectedTo.value))
@@ -3151,7 +3151,7 @@ class SignalFinder(ConfigListScreen, Screen):
 					continue
 				if hasattr(n, "isFBCLink") and n.isFBCLink():
 					continue
-				if n.config.dvbs.configMode.value in ("simple", "equal","advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
+				if n.config.dvbs.configMode.value in ("simple", "equal", "advanced") and len(nimmanager.getSatListForNim(n.slot)) < 1:
 					continue
 				if n.config.dvbs.configMode.value in ("loopthrough", "satposdepends"):
 					root_id = nimmanager.sec.getRoot(n.slot_id, int(n.config.dvbs.connectedTo.value))
@@ -3250,11 +3250,11 @@ class SignalFinder(ConfigListScreen, Screen):
 			(eDVBFrontendParametersSatellite.FEC_7_8, "7/8"),
 			(eDVBFrontendParametersSatellite.FEC_8_9, "8/9"),
 			(eDVBFrontendParametersSatellite.FEC_9_10, "9/10")])
-		lst = [(eDVBFrontendParametersSatellite.Modulation_QPSK, "QPSK"),(eDVBFrontendParametersSatellite.Modulation_8PSK, "8PSK")]
+		lst = [(eDVBFrontendParametersSatellite.Modulation_QPSK, "QPSK"), (eDVBFrontendParametersSatellite.Modulation_8PSK, "8PSK")]
 		if hasattr(eDVBFrontendParametersSatellite, "Modulation_16APSK") and hasattr(eDVBFrontendParametersSatellite, "Modulation_32APSK"):
-			lst += [(eDVBFrontendParametersSatellite.Modulation_16APSK, "16APSK"),(eDVBFrontendParametersSatellite.Modulation_32APSK, "32APSK")]
+			lst += [(eDVBFrontendParametersSatellite.Modulation_16APSK, "16APSK"), (eDVBFrontendParametersSatellite.Modulation_32APSK, "32APSK")]
 		self.scan_sat.modulation = ConfigSelection(default=defaultSat["modulation"], choices=lst)
-		lst = [(eDVBFrontendParametersSatellite.RollOff_alpha_0_35, "0.35"),(eDVBFrontendParametersSatellite.RollOff_alpha_0_25, "0.25"),(eDVBFrontendParametersSatellite.RollOff_alpha_0_20, "0.20")]
+		lst = [(eDVBFrontendParametersSatellite.RollOff_alpha_0_35, "0.35"), (eDVBFrontendParametersSatellite.RollOff_alpha_0_25, "0.25"), (eDVBFrontendParametersSatellite.RollOff_alpha_0_20, "0.20")]
 		if hasattr(eDVBFrontendParametersSatellite, "RollOff_auto"):
 			lst += [(eDVBFrontendParametersSatellite.RollOff_auto, _("Auto"))]
 		self.scan_sat.rolloff = ConfigSelection(default=defaultSat.get("rolloff", eDVBFrontendParametersSatellite.RollOff_alpha_0_35), choices=lst)
@@ -3597,7 +3597,7 @@ def SignalFinderMain(session, **kwargs):
 				continue
 		except:
 			pass
-		if nimConfig.configMode.value in ("simple","advanced") and len(nimmanager.getSatListForNim(x.slot)) < 1:
+		if nimConfig.configMode.value in ("simple", "advanced") and len(nimmanager.getSatListForNim(x.slot)) < 1:
 			nimConfig.configMode.value = "nothing"
 			nimConfig.configMode.save()
 			continue
