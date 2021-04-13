@@ -280,7 +280,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 					text = _("Update plugin")
 					self.session.open(Console, text, [cmd])
 		self.session.openWithCallback(extraAction, ChoiceBox, title=_("Select action:"), list=menu)
-		
+
 	def setDirectTuners(self):
 		text = _("Set free tuner") + "?"
 		if not config.misc.direct_tuner.value:
@@ -533,7 +533,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 						providerList = MTSTV
 					elif self.provider_list.value == "kontinent":
 						kontinent = True
-						orbpos = 850 
+						orbpos = 850
 						providerList = KONTINENT
 					elif self.provider_list.value == "ntv_dalvostok":
 						orbpos = 1400
@@ -1216,7 +1216,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 						orbpos = 750
 						providerList = MTSTV
 					elif self.provider_list.value == "kontinent":
-						orbpos = 850 
+						orbpos = 850
 						providerList = KONTINENT
 						kontinent = True
 					elif self.provider_list.value == "ntv_dalvostok":
@@ -1490,7 +1490,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 					text = _("Update plugin")
 					self.session.open(Console, text, [cmd])
 		self.session.openWithCallback(extraAction, ChoiceBox, title=_("Select action:"), list=menu)
-		
+
 	def setDirectTuners(self):
 		text = _("Set free tuner") + "?"
 		if not config.misc.direct_tuner.value:
@@ -1742,7 +1742,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 						providerList = MTSTV
 					elif self.provider_list.value == "kontinent":
 						kontinent = True
-						orbpos = 850 
+						orbpos = 850
 						providerList = KONTINENT
 					elif self.provider_list.value == "ntv_dalvostok":
 						orbpos = 1400
@@ -2354,7 +2354,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 						orbpos = 750
 						providerList = MTSTV
 					elif self.provider_list.value == "kontinent":
-						orbpos = 850 
+						orbpos = 850
 						providerList = KONTINENT
 						kontinent = True
 					elif self.provider_list.value == "ntv_dalvostok":
@@ -2681,7 +2681,7 @@ class SignalFinder(ConfigListScreen, Screen):
 					text = _("Update plugin")
 					self.session.open(Console, text, [cmd])
 		self.session.openWithCallback(extraAction, ChoiceBox, title=_("Select action:"), list=menu)
-		
+
 	def setDirectTuners(self):
 		text = _("Set free tuner") + "?"
 		if not config.misc.direct_tuner.value:
@@ -2923,7 +2923,7 @@ class SignalFinder(ConfigListScreen, Screen):
 						providerList = MTSTV
 					elif self.provider_list.value == "kontinent":
 						kontinent = True
-						orbpos = 850 
+						orbpos = 850
 						providerList = KONTINENT
 					elif self.provider_list.value == "ntv_dalvostok":
 						orbpos = 1400
@@ -3505,7 +3505,7 @@ class SignalFinder(ConfigListScreen, Screen):
 						orbpos = 750
 						providerList = MTSTV
 					elif self.provider_list.value == "kontinent":
-						orbpos = 850 
+						orbpos = 850
 						providerList = KONTINENT
 						kontinent = True
 					elif self.provider_list.value == "ntv_dalvostok":
