@@ -1,3 +1,4 @@
+from __future__ import print_function
 from . import _
 from Screens.Screen import Screen
 from Plugins.Plugin import PluginDescriptor
