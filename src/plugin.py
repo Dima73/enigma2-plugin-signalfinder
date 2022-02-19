@@ -866,7 +866,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 				else:
 					defaultSat["fec"] = frontendData.get("fec_inner", eDVBFrontendParametersSatellite.FEC_Auto)
 				defaultSat["modulation"] = frontendData.get("modulation", eDVBFrontendParametersSatellite.Modulation_QPSK)
-				if frontendData.has_key('orbital_position'):
+				if 'orbital_position' in frontendData:
 					defaultSat["orbpos"] = frontendData['orbital_position']
 				defaultSat["is_id"] = frontendData.get("is_id", 0)
 				defaultSat["pls_mode"] = frontendData.get("pls_mode", eDVBFrontendParametersSatellite.PLS_Gold)
@@ -2024,7 +2024,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 				else:
 					defaultSat["fec"] = frontendData.get("fec_inner", eDVBFrontendParametersSatellite.FEC_Auto)
 				defaultSat["modulation"] = frontendData.get("modulation", eDVBFrontendParametersSatellite.Modulation_QPSK)
-				if frontendData.has_key('orbital_position'):
+				if 'orbital_position' in frontendData:
 					defaultSat["orbpos"] = frontendData['orbital_position']
 				defaultSat["is_id"] = frontendData.get("is_id", 0)
 				defaultSat["pls_mode"] = frontendData.get("pls_mode", eDVBFrontendParametersSatellite.PLS_Root)
@@ -3196,7 +3196,7 @@ class SignalFinder(ConfigListScreen, Screen):
 				else:
 					defaultSat["fec"] = frontendData.get("fec_inner", eDVBFrontendParametersSatellite.FEC_Auto)
 				defaultSat["modulation"] = frontendData.get("modulation", eDVBFrontendParametersSatellite.Modulation_QPSK)
-				if frontendData.has_key('orbital_position'):
+				if 'orbital_position' in frontendData:
 					defaultSat["orbpos"] = frontendData['orbital_position']
 				default_scan = "predefined_transponder"
 
