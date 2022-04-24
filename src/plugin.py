@@ -591,7 +591,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			tps = nimmanager.getTransponders(orbpos)
 			for x in tps:
 				if x[0] == 0:	#SAT
-					s = str(x[1] // 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
+					s = str(x[1] // 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] // 1000) + " / " + self.FecToStr(x[4])
 					list.append((str(index), s))
 					if tr is not None and tr == x[1] // 1000 and pol is not None and pol == x[3]:
 						default = str(index)
