@@ -458,7 +458,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 				tps = nimmanager.getTransponders(orbpos)
 				if len(tps) > index:
 					x = tps[index]
-					tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
+					tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
 		elif self.scan_type.value == "single_satellite":
 			if len(nimsats):
 				multi_tune = True
@@ -466,7 +466,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 				tps = nimmanager.getTransponders(orbpos)
 				for x in tps:
 					if x[0] == 0:	#SAT
-						tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
+						tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
 		elif "multisat" in self.scan_type.value:
 			if len(self.multiscanlist):
 				for sat in self.multiscanlist:
@@ -476,7 +476,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 						tps = nimmanager.getTransponders(sat[0])
 						for x in tps:
 							if x[0] == 0:	#SAT
-								tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
+								tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
 						if sat[1].value:
 							multi_tune = True
 							break
@@ -487,7 +487,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 					tps = nimmanager.getTransponders(sat[0])
 					for x in tps:
 						if x[0] == 0:	#SAT
-							tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
+							tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
 					if len(tpslist):
 						break
 		elif self.scan_type.value == "provider":
@@ -554,7 +554,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 									if x[3] == 3:
 										pol = 1
 									if (x[1], pol) in providerList:
-										tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
+										tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
 									if len(tpslist):
 										multi_tune = True
 				elif self.provider_list.value == "none":
@@ -571,9 +571,9 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		if orbpos == -1 or orbpos > 3600:
 			return "??"
 		if orbpos > 1800:
-			return "%d.%dW" % ((3600 - orbpos) / 10, (3600 - orbpos) % 10)
+			return "%d.%dW" % ((3600 - orbpos) // 10, (3600 - orbpos) % 10)
 		else:
-			return "%d.%dE" % (orbpos / 10, orbpos % 10)
+			return "%d.%dE" % (orbpos // 10, orbpos % 10)
 
 	def PolToStr(self, pol):
 		return (pol == 0 and "H") or (pol == 1 and "V") or (pol == 2 and "L") or (pol == 3 and "R") or "??"
@@ -591,9 +591,9 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			tps = nimmanager.getTransponders(orbpos)
 			for x in tps:
 				if x[0] == 0:	#SAT
-					s = str(x[1] / 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
+					s = str(x[1] // 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
 					list.append((str(index), s))
-					if tr is not None and tr == x[1] / 1000 and pol is not None and pol == x[3]:
+					if tr is not None and tr == x[1] // 1000 and pol is not None and pol == x[3]:
 						default = str(index)
 					index += 1
 			if orbpos == 360 and len(list) >= 20 and default == "0":
@@ -855,9 +855,9 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			ttype = frontendData.get("tuner_type", "UNKNOWN")
 			if ttype == "DVB-S":
 				defaultSat["system"] = frontendData.get("system", eDVBFrontendParametersSatellite.System_DVB_S)
-				defaultSat["frequency"] = frontendData.get("frequency", 0) / 1000
+				defaultSat["frequency"] = frontendData.get("frequency", 0) // 1000
 				defaultSat["inversion"] = frontendData.get("inversion", eDVBFrontendParametersSatellite.Inversion_Unknown)
-				defaultSat["symbolrate"] = frontendData.get("symbol_rate", 0) / 1000
+				defaultSat["symbolrate"] = frontendData.get("symbol_rate", 0) // 1000
 				defaultSat["polarization"] = frontendData.get("polarization", eDVBFrontendParametersSatellite.Polarisation_Horizontal)
 				if defaultSat["system"] == eDVBFrontendParametersSatellite.System_DVB_S2:
 					defaultSat["fec_s2"] = frontendData.get("fec_inner", eDVBFrontendParametersSatellite.FEC_Auto)
@@ -1101,7 +1101,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		tps = nimmanager.getTransponders(orbpos)
 		for x in tps:
 			if x[0] == 0:
-				s = str(x[1] / 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
+				s = str(x[1] // 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] // 1000) + " / " + self.FecToStr(x[4])
 				list.append((s, str(index)))
 				index += 1
 		return list
@@ -1161,7 +1161,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 					tps = nimmanager.getTransponders(orbpos)
 					if len(tps) > self.scan_transponders.index:
 						x = tps[self.scan_transponders.index]
-						self.addSatTransponder(tlist, x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13], x[14])
+						self.addSatTransponder(tlist, x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13], x[14])
 			removeAll = False
 		elif self.scan_type.value == "single_satellite":
 			sat = self.satList[index_to_scan][self.scan_satselection[index_to_scan].index]
@@ -1667,7 +1667,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 				tps = nimmanager.getTransponders(orbpos)
 				if len(tps) > index:
 					x = tps[index]
-					tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12]))
+					tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12]))
 		elif self.scan_type.value == "single_satellite":
 			if len(nimsats):
 				multi_tune = True
@@ -1675,7 +1675,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 				tps = nimmanager.getTransponders(orbpos)
 				for x in tps:
 					if x[0] == 0:	#SAT
-						tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12]))
+						tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12]))
 		elif "multisat" in self.scan_type.value:
 			if len(self.multiscanlist):
 				for sat in self.multiscanlist:
@@ -1685,7 +1685,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 						tps = nimmanager.getTransponders(sat[0])
 						for x in tps:
 							if x[0] == 0:	#SAT
-								tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12]))
+								tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12]))
 						if sat[1].value:
 							multi_tune = True
 							break
@@ -1696,7 +1696,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 					tps = nimmanager.getTransponders(sat[0])
 					for x in tps:
 						if x[0] == 0:	#SAT
-							tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12]))
+							tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12]))
 					if len(tpslist):
 						break
 		elif self.scan_type.value == "provider":
@@ -1763,7 +1763,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 									if x[3] == 3:
 										pol = 1
 									if (x[1], pol) in providerList:
-										tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12]))
+										tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12]))
 									if len(tpslist):
 										multi_tune = True
 				elif self.provider_list.value == "none":
@@ -1800,9 +1800,9 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			tps = nimmanager.getTransponders(orbpos)
 			for x in tps:
 				if x[0] == 0:	#SAT
-					s = str(x[1] / 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
+					s = str(x[1] // 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] // 1000) + " / " + self.FecToStr(x[4])
 					list.append((str(index), s))
-					if tr is not None and tr == x[1] / 1000 and pol is not None and pol == x[3]:
+					if tr is not None and tr == x[1] // 1000 and pol is not None and pol == x[3]:
 						default = str(index)
 					index += 1
 			if orbpos == 360 and len(list) >= 20 and default == "0":
@@ -2013,9 +2013,9 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			ttype = frontendData.get("tuner_type", "UNKNOWN")
 			if ttype == "DVB-S":
 				defaultSat["system"] = frontendData.get("system", eDVBFrontendParametersSatellite.System_DVB_S)
-				defaultSat["frequency"] = frontendData.get("frequency", 0) / 1000
+				defaultSat["frequency"] = frontendData.get("frequency", 0) // 1000
 				defaultSat["inversion"] = frontendData.get("inversion", eDVBFrontendParametersSatellite.Inversion_Unknown)
-				defaultSat["symbolrate"] = frontendData.get("symbol_rate", 0) / 1000
+				defaultSat["symbolrate"] = frontendData.get("symbol_rate", 0) // 1000
 				defaultSat["polarization"] = frontendData.get("polarization", eDVBFrontendParametersSatellite.Polarisation_Horizontal)
 				if defaultSat["system"] == eDVBFrontendParametersSatellite.System_DVB_S2:
 					defaultSat["fec_s2"] = frontendData.get("fec_inner", eDVBFrontendParametersSatellite.FEC_Auto)
@@ -2241,7 +2241,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		tps = nimmanager.getTransponders(orbpos)
 		for x in tps:
 			if x[0] == 0:
-				s = str(x[1] / 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
+				s = str(x[1] // 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] // 1000) + " / " + self.FecToStr(x[4])
 				list.append((s, str(index)))
 				index += 1
 		return list
@@ -2299,7 +2299,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 					tps = nimmanager.getTransponders(orbpos)
 					if len(tps) > self.scan_transponders.index:
 						x = tps[self.scan_transponders.index]
-						self.addSatTransponder(tlist, x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12])
+						self.addSatTransponder(tlist, x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12])
 			removeAll = False
 		elif self.scan_type.value == "single_satellite":
 			sat = self.satList[index_to_scan][self.scan_satselection[index_to_scan].index]
@@ -2848,7 +2848,7 @@ class SignalFinder(ConfigListScreen, Screen):
 				tps = nimmanager.getTransponders(orbpos)
 				if len(tps) > index:
 					x = tps[index]
-					tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9]))
+					tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9]))
 		elif self.scan_type.value == "single_satellite":
 			if len(nimsats):
 				multi_tune = True
@@ -2856,7 +2856,7 @@ class SignalFinder(ConfigListScreen, Screen):
 				tps = nimmanager.getTransponders(orbpos)
 				for x in tps:
 					if x[0] == 0:	#SAT
-						tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9]))
+						tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9]))
 		elif "multisat" in self.scan_type.value:
 			if len(self.multiscanlist):
 				for sat in self.multiscanlist:
@@ -2866,7 +2866,7 @@ class SignalFinder(ConfigListScreen, Screen):
 						tps = nimmanager.getTransponders(sat[0])
 						for x in tps:
 							if x[0] == 0:	#SAT
-								tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9]))
+								tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9]))
 						if sat[1].value:
 							multi_tune = True
 							break
@@ -2877,7 +2877,7 @@ class SignalFinder(ConfigListScreen, Screen):
 					tps = nimmanager.getTransponders(sat[0])
 					for x in tps:
 						if x[0] == 0:	#SAT
-							tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9]))
+							tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9]))
 					if len(tpslist):
 						break
 		elif self.scan_type.value == "provider":
@@ -2944,7 +2944,7 @@ class SignalFinder(ConfigListScreen, Screen):
 									if x[3] == 3:
 										pol = 1
 									if (x[1], pol) in providerList:
-										tpslist.append((x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9]))
+										tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9]))
 									if len(tpslist):
 										multi_tune = True
 				elif self.provider_list.value == "none":
@@ -2981,9 +2981,9 @@ class SignalFinder(ConfigListScreen, Screen):
 			tps = nimmanager.getTransponders(orbpos)
 			for x in tps:
 				if x[0] == 0:	#SAT
-					s = str(x[1] / 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
+					s = str(x[1] // 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] // 1000) + " / " + self.FecToStr(x[4])
 					list.append((str(index), s))
-					if tr is not None and tr == x[1] / 1000 and pol is not None and pol == x[3]:
+					if tr is not None and tr == x[1] // 1000 and pol is not None and pol == x[3]:
 						default = str(index)
 					index += 1
 			if orbpos == 360 and len(list) >= 20 and default == "0":
@@ -3185,9 +3185,9 @@ class SignalFinder(ConfigListScreen, Screen):
 			ttype = frontendData.get("tuner_type", "UNKNOWN")
 			if ttype == "DVB-S":
 				defaultSat["system"] = frontendData.get("system", eDVBFrontendParametersSatellite.System_DVB_S)
-				defaultSat["frequency"] = frontendData.get("frequency", 0) / 1000
+				defaultSat["frequency"] = frontendData.get("frequency", 0) // 1000
 				defaultSat["inversion"] = frontendData.get("inversion", eDVBFrontendParametersSatellite.Inversion_Unknown)
-				defaultSat["symbolrate"] = frontendData.get("symbol_rate", 0) / 1000
+				defaultSat["symbolrate"] = frontendData.get("symbol_rate", 0) // 1000
 				defaultSat["polarization"] = frontendData.get("polarization", eDVBFrontendParametersSatellite.Polarisation_Horizontal)
 				if defaultSat["system"] == eDVBFrontendParametersSatellite.System_DVB_S2:
 					defaultSat["fec_s2"] = frontendData.get("fec_inner", eDVBFrontendParametersSatellite.FEC_Auto)
@@ -3395,7 +3395,7 @@ class SignalFinder(ConfigListScreen, Screen):
 		tps = nimmanager.getTransponders(orbpos)
 		for x in tps:
 			if x[0] == 0:
-				s = str(x[1] / 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] / 1000) + " / " + self.FecToStr(x[4])
+				s = str(x[1] // 1000) + " " + self.PolToStr(x[3]) + " / " + str(x[2] // 1000) + " / " + self.FecToStr(x[4])
 				list.append((s, str(index)))
 				index += 1
 		return list
@@ -3450,7 +3450,7 @@ class SignalFinder(ConfigListScreen, Screen):
 					tps = nimmanager.getTransponders(orbpos)
 					if len(tps) > self.scan_transponders.index:
 						x = tps[self.scan_transponders.index]
-						self.addSatTransponder(tlist, x[1] / 1000, x[2] / 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9])
+						self.addSatTransponder(tlist, x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9])
 			removeAll = False
 		elif self.scan_type.value == "single_satellite":
 			sat = self.satList[index_to_scan][self.scan_satselection[index_to_scan].index]
