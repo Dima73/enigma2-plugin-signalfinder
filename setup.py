@@ -3,7 +3,7 @@ import setup_translate
 
 
 setup(name='enigma2-plugin-systemplugins-signalfinder',
-		version='1.0',
+		version='3.0',
 		author='Dima73',
 		author_email='dima-73@inbox.lv',
 		package_dir={'SystemPlugins.Signalfinder': 'src'},
