@@ -20,11 +20,15 @@ import os
 
 config.misc.direct_tuner = ConfigYesNo(False)
 
-plugin_version = "2.4"
+plugin_version = "3.0"
 
-HD = False
-if getDesktop(0).size().width() >= 1280:
-	HD = True
+def getDesktopSize():
+	s = getDesktop(0).size()
+	return (s.width(), s.height())
+
+def isHD():
+	desktopSize = getDesktopSize()
+	return desktopSize[0] == 1280
 
 multistream = hasattr(eDVBFrontendParametersSatellite, "PLS_Root")
 t2mi = hasattr(eDVBFrontendParametersSatellite, "No_T2MI_PLP_Id") and hasattr(eDVBFrontendParametersSatellite, "T2MI_Default_Pid")
@@ -86,7 +90,7 @@ class TranspondersList(Screen):
 
 
 class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
-	if HD:
+	if isHD():
 		skin = """
 			<screen position="center,center" size="1200,635" title="Signal finder" >
 				<widget name="pos" position="10,10" size="210,25" font="Regular;22" halign="right" transparent="1" />
@@ -135,47 +139,47 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			</screen>"""
 	else:
 		skin = """
-		<screen position="center,center" size="630,575" title="Signal finder">
-			<widget name="pos" position="10,10" size="210,20" font="Regular;19" halign="right" transparent="1" />
-			<widget name="status" position="230,10" size="270,20" font="Regular;19" halign="left" foregroundColor="#f8f711" transparent="1" />
-			<widget source="Frontend" render="Label" position="190,35" zPosition="2" size="260,20" font="Regular;19" halign="center" valign="center" transparent="1">
-				<convert type="FrontendInfo">SNRdB</convert>
-			</widget>
-			<eLabel name="snr" text="SNR:" position="120,35" size="60,22" font="Regular;21" halign="right" transparent="1" />
-			<widget source="Frontend" render="Progress" position="190,35" size="260,20" pixmap="skin_default/bar_snr.png" borderColor="#cccccc">
-				<convert type="FrontendInfo">SNR</convert>
-			</widget>
-			<widget source="Frontend" render="Label" position="460,35" size="60,22" font="Regular;21">
-				<convert type="FrontendInfo">SNR</convert>
-			</widget>
-			<eLabel name="lock" text="LOCK:" position="10,35" size="60,22" font="Regular;21" halign="right" transparent="1" />
-			<widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_on.png" position="80,32" zPosition="1" size="38,31" alphatest="on">
-				<convert type="FrontendInfo">LOCK</convert>
-				<convert type="ConditionalShowHide" />
-			</widget>
-			<widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_off.png" position="80,32" zPosition="1" size="38,31" alphatest="on">
-				<convert type="FrontendInfo">LOCK</convert>
-				<convert type="ConditionalShowHide">Invert</convert>
-			</widget>
-			<eLabel name="agc" text="AGC:" position="120,60" size="60,22" font="Regular;21" halign="right" transparent="1" />
-			<widget source="Frontend" render="Progress" position="190,60" size="260,20" pixmap="skin_default/bar_snr.png" borderColor="#cccccc">
-				<convert type="FrontendInfo">AGC</convert>
-			</widget>
-			<widget source="Frontend" render="Label" position="460,60" size="60,22" font="Regular;21">
-				<convert type="FrontendInfo">AGC</convert>
-			</widget>
-			<eLabel name="ber" text="BER:" position="120,85" size="60,22" font="Regular;21" halign="right" transparent="1" />
-			<widget source="Frontend" render="Progress" position="190,85" size="260,20" pixmap="skin_default/bar_ber.png" borderColor="#cccccc">
-				<convert type="FrontendInfo">BER</convert>
-			</widget>
-			<widget source="Frontend" render="Label" position="460,85" size="60,22" font="Regular;21">
-				<convert type="FrontendInfo">BER</convert>
-			</widget>
-			<widget name="config" position="10,120" size="610,390" scrollbarMode="showOnDemand" transparent="1" />
-			<widget name="introduction" position="10,520" size="530,22" font="Regular;20" halign="center" foregroundColor="#f8f711" valign="center" />
-			<widget name="Cancel" position="80,550" size="250,22" foregroundColor="#00ff2525" zPosition="1" transparent="1" font="Regular;21" />
-			<widget name="Scan" position="380,550" size="250,22" foregroundColor="#00389416" zPosition="1" transparent="1" font="Regular;21" />
-		</screen>"""
+  <screen position="center,center" size="1020,900" title="Signal finder">
+    <widget name="pos" position="20,5" size="300,33" font="Regular; 26" halign="right" transparent="1" />
+    <widget name="status" position="325,5" size="650,33" font="Regular; 26" halign="left" foregroundColor="#f8f711" transparent="1" />
+    <widget source="Frontend" render="Label" position="255,45" zPosition="2" size="130,125" font="Regular; 35" halign="center" valign="center" transparent="1">
+      <convert type="FrontendInfo">SNRdB</convert>
+    </widget>
+    <eLabel name="snr" text="SNR:" position="455,45" size="100,35" font="Regular; 30" halign="right" transparent="1" />
+    <widget source="Frontend" render="Progress" position="565,55" size="278,30" pixmap="skin_default/bar_snr.png" borderColor="uncccccc">
+      <convert type="FrontendInfo">SNR</convert>
+    </widget>
+    <widget source="Frontend" render="Label" position="850,45" size="80,35" font="Regular; 26">
+  <convert type="FrontendInfo">SNR</convert>
+</widget>
+    <eLabel name="lock" text="LOCK:" position="115,105" size="100,44" font="Regular; 30" halign="right" transparent="1" />
+    <widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_on.png" position="150,55" zPosition="1" size="38,31" alphatest="on">
+      <convert type="FrontendInfo">LOCK</convert>
+      <convert type="ConditionalShowHide" />
+    </widget>
+    <widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_off.png" position="150,55" zPosition="1" size="38,31" alphatest="on">
+      <convert type="FrontendInfo">LOCK</convert>
+      <convert type="ConditionalShowHide">Invert</convert>
+    </widget>
+    <eLabel name="agc" text="AGC:" position="455,90" size="100,35" font="Regular; 30" halign="right" transparent="1" />
+    <widget source="Frontend" render="Progress" position="565,100" size="278,30" pixmap="skin_default/bar_snr.png" borderColor="uncccccc">
+      <convert type="FrontendInfo">AGC</convert>
+    </widget>
+    <widget source="Frontend" render="Label" position="850,90" size="80,35" font="Regular; 26">
+      <convert type="FrontendInfo">AGC</convert>
+    </widget>
+    <eLabel name="ber" text="BER:" position="455,135" size="100,35" font="Regular; 30" halign="right" transparent="1" />
+    <widget source="Frontend" render="Progress" position="565,145" size="278,30" pixmap="skin_default/bar_ber.png" borderColor="uncccccc">
+      <convert type="FrontendInfo">BER</convert>
+    </widget>
+    <widget source="Frontend" render="Label" position="850,135" size="80,35" font="Regular; 26">
+      <convert type="FrontendInfo">BER</convert>
+    </widget>
+    <widget name="config" position="20,195" size="970,550" scrollbarMode="showOnDemand" transparent="1" itemHeight="50" font="Regular; 38" />
+    <widget name="introduction" position="20,763" size="970,48" font="Regular; 36" halign="center" foregroundColor="#f8f711" valign="center" />
+    <widget name="Cancel" position="85,830" size="250,38" foregroundColor="#ff2525" zPosition="1" transparent="1" font="Regular; 28" halign="center" />
+    <widget name="Scan" position="710,830" size="250,38" foregroundColor="green" zPosition="1" transparent="1" font="Regular; 28" halign="center" />
+  </screen>"""
 
 	def __init__(self, session):
 		self.skin = SignalFinderMultistreamT2MI.skin
@@ -1296,7 +1300,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 
 
 class SignalFinderMultistream(ConfigListScreen, Screen):
-	if HD:
+	if isHD():
 		skin = """
 			<screen position="center,center" size="1200,635" title="Signal finder" >
 				<widget name="pos" position="10,10" size="210,25" font="Regular;22" halign="right" transparent="1" />
@@ -1345,47 +1349,47 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			</screen>"""
 	else:
 		skin = """
-		<screen position="center,center" size="630,575" title="Signal finder">
-			<widget name="pos" position="10,10" size="210,20" font="Regular;19" halign="right" transparent="1" />
-			<widget name="status" position="230,10" size="270,20" font="Regular;19" halign="left" foregroundColor="#f8f711" transparent="1" />
-			<widget source="Frontend" render="Label" position="190,35" zPosition="2" size="260,20" font="Regular;19" halign="center" valign="center" transparent="1">
-				<convert type="FrontendInfo">SNRdB</convert>
-			</widget>
-			<eLabel name="snr" text="SNR:" position="120,35" size="60,22" font="Regular;21" halign="right" transparent="1" />
-			<widget source="Frontend" render="Progress" position="190,35" size="260,20" pixmap="skin_default/bar_snr.png" borderColor="#cccccc">
-				<convert type="FrontendInfo">SNR</convert>
-			</widget>
-			<widget source="Frontend" render="Label" position="460,35" size="60,22" font="Regular;21">
-				<convert type="FrontendInfo">SNR</convert>
-			</widget>
-			<eLabel name="lock" text="LOCK:" position="10,35" size="60,22" font="Regular;21" halign="right" transparent="1" />
-			<widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_on.png" position="80,32" zPosition="1" size="38,31" alphatest="on">
-				<convert type="FrontendInfo">LOCK</convert>
-				<convert type="ConditionalShowHide" />
-			</widget>
-			<widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_off.png" position="80,32" zPosition="1" size="38,31" alphatest="on">
-				<convert type="FrontendInfo">LOCK</convert>
-				<convert type="ConditionalShowHide">Invert</convert>
-			</widget>
-			<eLabel name="agc" text="AGC:" position="120,60" size="60,22" font="Regular;21" halign="right" transparent="1" />
-			<widget source="Frontend" render="Progress" position="190,60" size="260,20" pixmap="skin_default/bar_snr.png" borderColor="#cccccc">
-				<convert type="FrontendInfo">AGC</convert>
-			</widget>
-			<widget source="Frontend" render="Label" position="460,60" size="60,22" font="Regular;21">
-				<convert type="FrontendInfo">AGC</convert>
-			</widget>
-			<eLabel name="ber" text="BER:" position="120,85" size="60,22" font="Regular;21" halign="right" transparent="1" />
-			<widget source="Frontend" render="Progress" position="190,85" size="260,20" pixmap="skin_default/bar_ber.png" borderColor="#cccccc">
-				<convert type="FrontendInfo">BER</convert>
-			</widget>
-			<widget source="Frontend" render="Label" position="460,85" size="60,22" font="Regular;21">
-				<convert type="FrontendInfo">BER</convert>
-			</widget>
-			<widget name="config" position="10,120" size="610,390" scrollbarMode="showOnDemand" transparent="1" />
-			<widget name="introduction" position="10,520" size="530,22" font="Regular;20" halign="center" foregroundColor="#f8f711" valign="center" />
-			<widget name="Cancel" position="80,550" size="250,22" foregroundColor="#00ff2525" zPosition="1" transparent="1" font="Regular;21" />
-			<widget name="Scan" position="380,550" size="250,22" foregroundColor="#00389416" zPosition="1" transparent="1" font="Regular;21" />
-		</screen>"""
+  <screen position="center,center" size="1020,900" title="Signal finder">
+    <widget name="pos" position="20,5" size="300,33" font="Regular; 26" halign="right" transparent="1" />
+    <widget name="status" position="325,5" size="650,33" font="Regular; 26" halign="left" foregroundColor="#f8f711" transparent="1" />
+    <widget source="Frontend" render="Label" position="255,45" zPosition="2" size="130,125" font="Regular; 35" halign="center" valign="center" transparent="1">
+      <convert type="FrontendInfo">SNRdB</convert>
+    </widget>
+    <eLabel name="snr" text="SNR:" position="455,45" size="100,35" font="Regular; 30" halign="right" transparent="1" />
+    <widget source="Frontend" render="Progress" position="565,55" size="278,30" pixmap="skin_default/bar_snr.png" borderColor="uncccccc">
+      <convert type="FrontendInfo">SNR</convert>
+    </widget>
+    <widget source="Frontend" render="Label" position="850,45" size="80,35" font="Regular; 26">
+  <convert type="FrontendInfo">SNR</convert>
+</widget>
+    <eLabel name="lock" text="LOCK:" position="115,105" size="100,44" font="Regular; 30" halign="right" transparent="1" />
+    <widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_on.png" position="150,55" zPosition="1" size="38,31" alphatest="on">
+      <convert type="FrontendInfo">LOCK</convert>
+      <convert type="ConditionalShowHide" />
+    </widget>
+    <widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_off.png" position="150,55" zPosition="1" size="38,31" alphatest="on">
+      <convert type="FrontendInfo">LOCK</convert>
+      <convert type="ConditionalShowHide">Invert</convert>
+    </widget>
+    <eLabel name="agc" text="AGC:" position="455,90" size="100,35" font="Regular; 30" halign="right" transparent="1" />
+    <widget source="Frontend" render="Progress" position="565,100" size="278,30" pixmap="skin_default/bar_snr.png" borderColor="uncccccc">
+      <convert type="FrontendInfo">AGC</convert>
+    </widget>
+    <widget source="Frontend" render="Label" position="850,90" size="80,35" font="Regular; 26">
+      <convert type="FrontendInfo">AGC</convert>
+    </widget>
+    <eLabel name="ber" text="BER:" position="455,135" size="100,35" font="Regular; 30" halign="right" transparent="1" />
+    <widget source="Frontend" render="Progress" position="565,145" size="278,30" pixmap="skin_default/bar_ber.png" borderColor="uncccccc">
+      <convert type="FrontendInfo">BER</convert>
+    </widget>
+    <widget source="Frontend" render="Label" position="850,135" size="80,35" font="Regular; 26">
+      <convert type="FrontendInfo">BER</convert>
+    </widget>
+    <widget name="config" position="20,195" size="970,550" scrollbarMode="showOnDemand" transparent="1" itemHeight="50" font="Regular; 38" />
+    <widget name="introduction" position="20,763" size="970,48" font="Regular; 36" halign="center" foregroundColor="#f8f711" valign="center" />
+    <widget name="Cancel" position="85,830" size="250,38" foregroundColor="#ff2525" zPosition="1" transparent="1" font="Regular; 28" halign="center" />
+    <widget name="Scan" position="710,830" size="250,38" foregroundColor="green" zPosition="1" transparent="1" font="Regular; 28" halign="center" />
+  </screen>"""
 
 	def __init__(self, session):
 		self.skin = SignalFinderMultistream.skin
@@ -2488,7 +2492,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 
 
 class SignalFinder(ConfigListScreen, Screen):
-	if HD:
+	if isHD():
 		skin = """
 			<screen position="center,center" size="1200,640" title="Signal finder" >
 				<widget name="pos" position="10,10" size="210,25" font="Regular;22" halign="right" transparent="1" />
@@ -2537,47 +2541,47 @@ class SignalFinder(ConfigListScreen, Screen):
 			</screen>"""
 	else:
 		skin = """
-		<screen position="center,center" size="630,575" title="Signal finder">
-			<widget name="pos" position="10,10" size="210,20" font="Regular;19" halign="right" transparent="1" />
-			<widget name="status" position="230,10" size="270,20" font="Regular;19" halign="left" foregroundColor="#f8f711" transparent="1" />
-			<widget source="Frontend" render="Label" position="190,35" zPosition="2" size="260,20" font="Regular;19" halign="center" valign="center" transparent="1">
-				<convert type="FrontendInfo">SNRdB</convert>
-			</widget>
-			<eLabel name="snr" text="SNR:" position="120,35" size="60,22" font="Regular;21" halign="right" transparent="1" />
-			<widget source="Frontend" render="Progress" position="190,35" size="260,20" pixmap="skin_default/bar_snr.png" borderColor="#cccccc">
-				<convert type="FrontendInfo">SNR</convert>
-			</widget>
-			<widget source="Frontend" render="Label" position="460,35" size="60,22" font="Regular;21">
-				<convert type="FrontendInfo">SNR</convert>
-			</widget>
-			<eLabel name="lock" text="LOCK:" position="10,35" size="60,22" font="Regular;21" halign="right" transparent="1" />
-			<widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_on.png" position="80,32" zPosition="1" size="38,31" alphatest="on">
-				<convert type="FrontendInfo">LOCK</convert>
-				<convert type="ConditionalShowHide" />
-			</widget>
-			<widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_off.png" position="80,32" zPosition="1" size="38,31" alphatest="on">
-				<convert type="FrontendInfo">LOCK</convert>
-				<convert type="ConditionalShowHide">Invert</convert>
-			</widget>
-			<eLabel name="agc" text="AGC:" position="120,60" size="60,22" font="Regular;21" halign="right" transparent="1" />
-			<widget source="Frontend" render="Progress" position="190,60" size="260,20" pixmap="skin_default/bar_snr.png" borderColor="#cccccc">
-				<convert type="FrontendInfo">AGC</convert>
-			</widget>
-			<widget source="Frontend" render="Label" position="460,60" size="60,22" font="Regular;21">
-				<convert type="FrontendInfo">AGC</convert>
-			</widget>
-			<eLabel name="ber" text="BER:" position="120,85" size="60,22" font="Regular;21" halign="right" transparent="1" />
-			<widget source="Frontend" render="Progress" position="190,85" size="260,20" pixmap="skin_default/bar_ber.png" borderColor="#cccccc">
-				<convert type="FrontendInfo">BER</convert>
-			</widget>
-			<widget source="Frontend" render="Label" position="460,85" size="60,22" font="Regular;21">
-				<convert type="FrontendInfo">BER</convert>
-			</widget>
-			<widget name="config" position="10,120" size="610,390" scrollbarMode="showOnDemand" transparent="1" />
-			<widget name="introduction" position="10,520" size="530,22" font="Regular;20" halign="center" foregroundColor="#f8f711" valign="center" />
-			<widget name="Cancel" position="80,550" size="250,22" foregroundColor="#00ff2525" zPosition="1" transparent="1" font="Regular;21" />
-			<widget name="Scan" position="380,550" size="250,22" foregroundColor="#00389416" zPosition="1" transparent="1" font="Regular;21" />
-		</screen>"""
+  <screen position="center,center" size="1020,900" title="Signal finder">
+    <widget name="pos" position="20,5" size="300,33" font="Regular; 26" halign="right" transparent="1" />
+    <widget name="status" position="325,5" size="650,33" font="Regular; 26" halign="left" foregroundColor="#f8f711" transparent="1" />
+    <widget source="Frontend" render="Label" position="255,45" zPosition="2" size="130,125" font="Regular; 35" halign="center" valign="center" transparent="1">
+      <convert type="FrontendInfo">SNRdB</convert>
+    </widget>
+    <eLabel name="snr" text="SNR:" position="455,45" size="100,35" font="Regular; 30" halign="right" transparent="1" />
+    <widget source="Frontend" render="Progress" position="565,55" size="278,30" pixmap="skin_default/bar_snr.png" borderColor="uncccccc">
+      <convert type="FrontendInfo">SNR</convert>
+    </widget>
+    <widget source="Frontend" render="Label" position="850,45" size="80,35" font="Regular; 26">
+  <convert type="FrontendInfo">SNR</convert>
+</widget>
+    <eLabel name="lock" text="LOCK:" position="115,105" size="100,44" font="Regular; 30" halign="right" transparent="1" />
+    <widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_on.png" position="150,55" zPosition="1" size="38,31" alphatest="on">
+      <convert type="FrontendInfo">LOCK</convert>
+      <convert type="ConditionalShowHide" />
+    </widget>
+    <widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_off.png" position="150,55" zPosition="1" size="38,31" alphatest="on">
+      <convert type="FrontendInfo">LOCK</convert>
+      <convert type="ConditionalShowHide">Invert</convert>
+    </widget>
+    <eLabel name="agc" text="AGC:" position="455,90" size="100,35" font="Regular; 30" halign="right" transparent="1" />
+    <widget source="Frontend" render="Progress" position="565,100" size="278,30" pixmap="skin_default/bar_snr.png" borderColor="uncccccc">
+      <convert type="FrontendInfo">AGC</convert>
+    </widget>
+    <widget source="Frontend" render="Label" position="850,90" size="80,35" font="Regular; 26">
+      <convert type="FrontendInfo">AGC</convert>
+    </widget>
+    <eLabel name="ber" text="BER:" position="455,135" size="100,35" font="Regular; 30" halign="right" transparent="1" />
+    <widget source="Frontend" render="Progress" position="565,145" size="278,30" pixmap="skin_default/bar_ber.png" borderColor="uncccccc">
+      <convert type="FrontendInfo">BER</convert>
+    </widget>
+    <widget source="Frontend" render="Label" position="850,135" size="80,35" font="Regular; 26">
+      <convert type="FrontendInfo">BER</convert>
+    </widget>
+    <widget name="config" position="20,195" size="970,550" scrollbarMode="showOnDemand" transparent="1" itemHeight="50" font="Regular; 38" />
+    <widget name="introduction" position="20,763" size="970,48" font="Regular; 36" halign="center" foregroundColor="#f8f711" valign="center" />
+    <widget name="Cancel" position="85,830" size="250,38" foregroundColor="#ff2525" zPosition="1" transparent="1" font="Regular; 28" halign="center" />
+    <widget name="Scan" position="710,830" size="250,38" foregroundColor="green" zPosition="1" transparent="1" font="Regular; 28" halign="center" />
+  </screen>"""
 
 	def __init__(self, session):
 		self.skin = SignalFinder.skin
