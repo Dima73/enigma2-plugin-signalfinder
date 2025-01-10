@@ -20,7 +20,7 @@ import os
 
 config.misc.direct_tuner = ConfigYesNo(False)
 
-plugin_version = "3.0"
+plugin_version = "3.1"
 
 def getDesktopSize():
 	s = getDesktop(0).size()
@@ -139,47 +139,47 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			</screen>"""
 	else:
 		skin = """
-  <screen position="center,center" size="1020,900" title="Signal finder">
-    <widget name="pos" position="20,5" size="300,33" font="Regular; 26" halign="right" transparent="1" />
-    <widget name="status" position="325,5" size="650,33" font="Regular; 26" halign="left" foregroundColor="#f8f711" transparent="1" />
-    <widget source="Frontend" render="Label" position="255,45" zPosition="2" size="130,125" font="Regular; 35" halign="center" valign="center" transparent="1">
-      <convert type="FrontendInfo">SNRdB</convert>
-    </widget>
-    <eLabel name="snr" text="SNR:" position="455,45" size="100,35" font="Regular; 30" halign="right" transparent="1" />
-    <widget source="Frontend" render="Progress" position="565,55" size="278,30" pixmap="skin_default/bar_snr.png" borderColor="uncccccc">
-      <convert type="FrontendInfo">SNR</convert>
-    </widget>
-    <widget source="Frontend" render="Label" position="850,45" size="80,35" font="Regular; 26">
-  <convert type="FrontendInfo">SNR</convert>
-</widget>
-    <eLabel name="lock" text="LOCK:" position="115,105" size="100,44" font="Regular; 30" halign="right" transparent="1" />
-    <widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_on.png" position="150,55" zPosition="1" size="38,31" alphatest="on">
-      <convert type="FrontendInfo">LOCK</convert>
-      <convert type="ConditionalShowHide" />
-    </widget>
-    <widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_off.png" position="150,55" zPosition="1" size="38,31" alphatest="on">
-      <convert type="FrontendInfo">LOCK</convert>
-      <convert type="ConditionalShowHide">Invert</convert>
-    </widget>
-    <eLabel name="agc" text="AGC:" position="455,90" size="100,35" font="Regular; 30" halign="right" transparent="1" />
-    <widget source="Frontend" render="Progress" position="565,100" size="278,30" pixmap="skin_default/bar_snr.png" borderColor="uncccccc">
-      <convert type="FrontendInfo">AGC</convert>
-    </widget>
-    <widget source="Frontend" render="Label" position="850,90" size="80,35" font="Regular; 26">
-      <convert type="FrontendInfo">AGC</convert>
-    </widget>
-    <eLabel name="ber" text="BER:" position="455,135" size="100,35" font="Regular; 30" halign="right" transparent="1" />
-    <widget source="Frontend" render="Progress" position="565,145" size="278,30" pixmap="skin_default/bar_ber.png" borderColor="uncccccc">
-      <convert type="FrontendInfo">BER</convert>
-    </widget>
-    <widget source="Frontend" render="Label" position="850,135" size="80,35" font="Regular; 26">
-      <convert type="FrontendInfo">BER</convert>
-    </widget>
-    <widget name="config" position="20,195" size="970,550" scrollbarMode="showOnDemand" transparent="1" itemHeight="50" font="Regular; 38" />
-    <widget name="introduction" position="20,763" size="970,48" font="Regular; 36" halign="center" foregroundColor="#f8f711" valign="center" />
-    <widget name="Cancel" position="85,830" size="250,38" foregroundColor="#ff2525" zPosition="1" transparent="1" font="Regular; 28" halign="center" />
-    <widget name="Scan" position="710,830" size="250,38" foregroundColor="green" zPosition="1" transparent="1" font="Regular; 28" halign="center" />
-  </screen>"""
+			<screen position="center,center" size="1020,900" title="Signal finder">
+				<widget name="pos" position="20,5" size="300,33" font="Regular; 26" halign="right" transparent="1" />
+				<widget name="status" position="325,5" size="650,33" font="Regular; 26" halign="left" foregroundColor="#f8f711" transparent="1" />
+				<widget source="Frontend" render="Label" position="255,45" zPosition="2" size="130,125" font="Regular; 35" halign="center" valign="center" transparent="1">
+					<convert type="FrontendInfo">SNRdB</convert>
+				</widget>
+				<eLabel name="snr" text="SNR:" position="455,45" size="100,35" font="Regular; 30" halign="right" transparent="1" />
+				<widget source="Frontend" render="Progress" position="565,55" size="278,30" pixmap="skin_default/bar_snr.png" borderColor="uncccccc">
+					<convert type="FrontendInfo">SNR</convert>
+				</widget>
+				<widget source="Frontend" render="Label" position="850,45" size="80,35" font="Regular; 26">
+					<convert type="FrontendInfo">SNR</convert>
+				</widget>
+				<eLabel name="lock" text="LOCK:" position="115,105" size="100,44" font="Regular; 30" halign="right" transparent="1" />
+				<widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_on.png" position="150,55" zPosition="1" size="38,31" alphatest="on">
+					<convert type="FrontendInfo">LOCK</convert>
+					<convert type="ConditionalShowHide" />
+				</widget>
+				<widget source="Frontend" render="Pixmap" pixmap="skin_default/icons/lock_off.png" position="150,55" zPosition="1" size="38,31" alphatest="on">
+					<convert type="FrontendInfo">LOCK</convert>
+					<convert type="ConditionalShowHide">Invert</convert>
+				</widget>
+				<eLabel name="agc" text="AGC:" position="455,90" size="100,35" font="Regular; 30" halign="right" transparent="1" />
+				<widget source="Frontend" render="Progress" position="565,100" size="278,30" pixmap="skin_default/bar_snr.png" borderColor="uncccccc">
+					<convert type="FrontendInfo">AGC</convert>
+				</widget>
+				<widget source="Frontend" render="Label" position="850,90" size="80,35" font="Regular; 26">
+					<convert type="FrontendInfo">AGC</convert>
+				</widget>
+				<eLabel name="ber" text="BER:" position="455,135" size="100,35" font="Regular; 30" halign="right" transparent="1" />
+				<widget source="Frontend" render="Progress" position="565,145" size="278,30" pixmap="skin_default/bar_ber.png" borderColor="uncccccc">
+					<convert type="FrontendInfo">BER</convert>
+				</widget>
+				<widget source="Frontend" render="Label" position="850,135" size="80,35" font="Regular; 26">
+					<convert type="FrontendInfo">BER</convert>
+				</widget>
+				<widget name="config" position="20,195" size="970,550" scrollbarMode="showOnDemand" transparent="1" itemHeight="50" font="Regular; 38" />
+				<widget name="introduction" position="20,763" size="970,48" font="Regular; 36" halign="center" foregroundColor="#f8f711" valign="center" />
+				<widget name="Cancel" position="85,830" size="250,38" foregroundColor="#ff2525" zPosition="1" transparent="1" font="Regular; 28" halign="center" />
+				<widget name="Scan" position="710,830" size="250,38" foregroundColor="green" zPosition="1" transparent="1" font="Regular; 28" halign="center" />
+			</screen>"""
 
 	def __init__(self, session):
 		self.skin = SignalFinderMultistreamT2MI.skin
@@ -387,7 +387,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		dict = {}
 		self.frontend.getFrontendStatus(dict)
 		if dict["tuner_state"] == "TUNING":
-			self.tuneTimer.start(100, True)
+			self.tuneTimer.start(200, True)
 		else:
 			if dict["tuner_state"] == "LOSTLOCK" or dict["tuner_state"] == "FAILED":
 				self.tpslist_idx += 1
@@ -400,7 +400,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			if not stop:
 				self["status"].setText(self.OrbToStr(self.tpslist[self.tpslist_idx][5]) + ": " + str(self.tpslist[self.tpslist_idx][0]) + " " + self.PolToStr(self.tpslist[self.tpslist_idx][2]))
 				self.tune(self.tpslist[self.tpslist_idx])
-				self.tuneTimer.start(100, True)
+				self.tuneTimer.start(200, True)
 
 	def tune(self, transponder):
 		if self.initcomplete:
@@ -462,7 +462,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 				tps = nimmanager.getTransponders(orbpos)
 				if len(tps) > index:
 					x = tps[index]
-					tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
+					tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13], x[14]))
 		elif self.scan_type.value == "single_satellite":
 			if len(nimsats):
 				multi_tune = True
@@ -470,7 +470,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 				tps = nimmanager.getTransponders(orbpos)
 				for x in tps:
 					if x[0] == 0:	#SAT
-						tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
+						tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], orbpos, x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13], x[14]))
 		elif "multisat" in self.scan_type.value:
 			if len(self.multiscanlist):
 				for sat in self.multiscanlist:
@@ -480,7 +480,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 						tps = nimmanager.getTransponders(sat[0])
 						for x in tps:
 							if x[0] == 0:	#SAT
-								tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
+								tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13], x[14]))
 						if sat[1].value:
 							multi_tune = True
 							break
@@ -491,7 +491,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 					tps = nimmanager.getTransponders(sat[0])
 					for x in tps:
 						if x[0] == 0:	#SAT
-							tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
+							tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13], x[14]))
 					if len(tpslist):
 						break
 		elif self.scan_type.value == "provider":
@@ -558,7 +558,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 									if x[3] == 3:
 										pol = 1
 									if (x[1], pol) in providerList:
-										tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13]))
+										tpslist.append((x[1] // 1000, x[2] // 1000, x[3], x[4], x[7], sat[0], x[5], x[6], x[8], x[9], x[10], x[11], x[12], x[13], x[14]))
 									if len(tpslist):
 										multi_tune = True
 				elif self.provider_list.value == "none":
@@ -568,7 +568,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			status_text = self.OrbToStr(self.tpslist[self.tpslist_idx][5]) + ": " + str(self.tpslist[self.tpslist_idx][0]) + " " + self.PolToStr(self.tpslist[self.tpslist_idx][2])
 			self.tune(self.tpslist[self.tpslist_idx])
 			if multi_tune:
-				self.tuneTimer.start(100, True)
+				self.tuneTimer.start(200, True)
 		self["status"].setText(status_text)
 
 	def OrbToStr(self, orbpos=-1):
@@ -1597,7 +1597,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		dict = {}
 		self.frontend.getFrontendStatus(dict)
 		if dict["tuner_state"] == "TUNING":
-			self.tuneTimer.start(100, True)
+			self.tuneTimer.start(200, True)
 		else:
 			if dict["tuner_state"] == "LOSTLOCK" or dict["tuner_state"] == "FAILED":
 				self.tpslist_idx += 1
@@ -1610,7 +1610,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			if not stop:
 				self["status"].setText(self.OrbToStr(self.tpslist[self.tpslist_idx][5]) + ": " + str(self.tpslist[self.tpslist_idx][0]) + " " + self.PolToStr(self.tpslist[self.tpslist_idx][2]))
 				self.tune(self.tpslist[self.tpslist_idx])
-				self.tuneTimer.start(100, True)
+				self.tuneTimer.start(200, True)
 
 	def tune(self, transponder):
 		if self.initcomplete:
@@ -1777,7 +1777,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			status_text = self.OrbToStr(self.tpslist[self.tpslist_idx][5]) + ": " + str(self.tpslist[self.tpslist_idx][0]) + " " + self.PolToStr(self.tpslist[self.tpslist_idx][2])
 			self.tune(self.tpslist[self.tpslist_idx])
 			if multi_tune:
-				self.tuneTimer.start(100, True)
+				self.tuneTimer.start(200, True)
 		self["status"].setText(status_text)
 
 	def OrbToStr(self, orbpos=-1):
@@ -2781,7 +2781,7 @@ class SignalFinder(ConfigListScreen, Screen):
 		dict = {}
 		self.frontend.getFrontendStatus(dict)
 		if dict["tuner_state"] == "TUNING":
-			self.tuneTimer.start(100, True)
+			self.tuneTimer.start(200, True)
 		else:
 			if dict["tuner_state"] == "LOSTLOCK" or dict["tuner_state"] == "FAILED":
 				self.tpslist_idx += 1
@@ -2794,7 +2794,7 @@ class SignalFinder(ConfigListScreen, Screen):
 			if not stop:
 				self["status"].setText(self.OrbToStr(self.tpslist[self.tpslist_idx][5]) + ": " + str(self.tpslist[self.tpslist_idx][0]) + " " + self.PolToStr(self.tpslist[self.tpslist_idx][2]))
 				self.tune(self.tpslist[self.tpslist_idx])
-				self.tuneTimer.start(100, True)
+				self.tuneTimer.start(200, True)
 
 	def tune(self, transponder):
 		if self.initcomplete:
@@ -2958,7 +2958,7 @@ class SignalFinder(ConfigListScreen, Screen):
 			status_text = self.OrbToStr(self.tpslist[self.tpslist_idx][5]) + ": " + str(self.tpslist[self.tpslist_idx][0]) + " " + self.PolToStr(self.tpslist[self.tpslist_idx][2])
 			self.tune(self.tpslist[self.tpslist_idx])
 			if multi_tune:
-				self.tuneTimer.start(100, True)
+				self.tuneTimer.start(200, True)
 		self["status"].setText(status_text)
 
 	def OrbToStr(self, orbpos=-1):
