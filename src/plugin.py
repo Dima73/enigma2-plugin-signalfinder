@@ -452,7 +452,8 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 						self.scan_sat.is_id,
 						self.scan_sat.pls_mode,
 						self.scan_sat.pls_code,
-						self.scan_sat.t2mi_plp_id))
+						self.scan_sat.t2mi_plp_id,
+						self.scan_sat.t2mi_pid))
 		elif self.scan_type.value == "predefined_transponder":
 			if len(nimsats):
 				orbpos = nimsats[selsatidx][0]
