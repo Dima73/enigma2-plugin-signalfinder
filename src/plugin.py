@@ -449,11 +449,11 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 						self.scan_sat.modulation.value,
 						self.scan_sat.rolloff.value,
 						self.scan_sat.pilot.value,
-						self.scan_sat.is_id,
-						self.scan_sat.pls_mode,
-						self.scan_sat.pls_code,
-						self.scan_sat.t2mi_plp_id,
-						self.scan_sat.t2mi_pid))
+						self.scan_sat.is_id.value,
+						self.scan_sat.pls_mode.value,
+						self.scan_sat.pls_code.value,
+						self.scan_sat.t2mi_plp_id.value,
+						self.scan_sat.t2mi_pid.value))
 		elif self.scan_type.value == "predefined_transponder":
 			if len(nimsats):
 				orbpos = nimsats[selsatidx][0]
@@ -1660,9 +1660,9 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 						self.scan_sat.modulation.value,
 						self.scan_sat.rolloff.value,
 						self.scan_sat.pilot.value,
-						self.scan_sat.is_id,
-						self.scan_sat.pls_mode,
-						self.scan_sat.pls_code))
+						self.scan_sat.is_id.value,
+						self.scan_sat.pls_mode.value,
+						self.scan_sat.pls_code.value))
 		elif self.scan_type.value == "predefined_transponder":
 			if len(nimsats):
 				orbpos = nimsats[selsatidx][0]
