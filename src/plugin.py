@@ -17,10 +17,11 @@ from Components.MenuList import MenuList
 from Screens.ChoiceBox import ChoiceBox
 from Screens.ServiceScan import ServiceScan
 import os
+import re
 
 config.misc.direct_tuner = ConfigYesNo(False)
 
-plugin_version = "3.1"
+plugin_version = "3.2"
 
 def getDesktopSize():
 	s = getDesktop(0).size()
@@ -34,6 +35,127 @@ multistream = hasattr(eDVBFrontendParametersSatellite, "PLS_Root")
 t2mi = hasattr(eDVBFrontendParametersSatellite, "No_T2MI_PLP_Id") and hasattr(eDVBFrontendParametersSatellite, "T2MI_Default_Pid")
 
 loadScript = "/usr/lib/enigma2/python/Plugins/SystemPlugins/Signalfinder/update-plugin.sh"
+PLUGIN_DIR = os.path.dirname(os.path.realpath(__file__))
+FEED_KEYWORDS_FILES_GLOB = ".txt"
+DEFAULT_KEEP_FEED_KEYWORDS = ["feed", "sng", "enc"]
+
+
+def loadFeedKeepKeywordRegex():
+	patterns = []
+	custom_keywords_loaded = False
+	try:
+		file_list = sorted([x for x in os.listdir(PLUGIN_DIR) if x.lower().endswith(FEED_KEYWORDS_FILES_GLOB)])
+	except Exception as err:
+		print("[Signalfinder] Failed to read feed keywords list: %s" % err)
+		file_list = []
+	for file_name in file_list:
+		file_path = os.path.join(PLUGIN_DIR, file_name)
+		try:
+			fd = open(file_path, "r")
+			try:
+				for line in fd:
+					keyword = line.strip()
+					if not keyword or keyword.startswith("#"):
+						continue
+					try:
+						patterns.append(re.compile(keyword, re.IGNORECASE))
+						custom_keywords_loaded = True
+					except re.error as regex_err:
+						print("[Signalfinder] Invalid feed keyword regex '%s' in %s: %s" % (keyword, file_name, regex_err))
+			finally:
+				fd.close()
+		except Exception as err:
+			print("[Signalfinder] Failed to read feed keyword file %s: %s" % (file_name, err))
+	if not custom_keywords_loaded:
+		for keyword in DEFAULT_KEEP_FEED_KEYWORDS:
+			patterns.append(re.compile(keyword, re.IGNORECASE))
+	return patterns
+
+
+def filterKeptFeedsByKeywords():
+	patterns = loadFeedKeepKeywordRegex()
+	if not patterns:
+		return
+	default_patterns = [re.compile(keyword, re.IGNORECASE) for keyword in DEFAULT_KEEP_FEED_KEYWORDS]
+	lamedb_path = "/etc/enigma2/lamedb"
+	if not os.path.exists(lamedb_path):
+		return
+	try:
+		fd = open(lamedb_path, "r")
+		try:
+			lines = fd.readlines()
+		finally:
+			fd.close()
+	except Exception as err:
+		print("[Signalfinder] Failed to read lamedb: %s" % err)
+		return
+
+	services_idx = -1
+	services_end_idx = -1
+	for i, line in enumerate(lines):
+		if services_idx == -1 and line.strip() == "services":
+			services_idx = i
+		elif services_idx != -1 and line.strip() == "end":
+			services_end_idx = i
+			break
+	if services_idx == -1 or services_end_idx == -1 or services_end_idx <= services_idx:
+		return
+
+	services_data = lines[services_idx + 1:services_end_idx]
+	filtered = []
+	removed = 0
+	idx = 0
+	while idx + 2 < len(services_data):
+		ref_line = services_data[idx]
+		name_line = services_data[idx + 1]
+		provider_line = services_data[idx + 2]
+		service_name = name_line.strip()
+		is_potential_feed = False
+		for default_pattern in default_patterns:
+			if default_pattern.search(service_name):
+				is_potential_feed = True
+				break
+		if not is_potential_feed:
+			for pattern in patterns:
+				if pattern.search(service_name):
+					is_potential_feed = True
+					break
+		if is_potential_feed:
+			keep = False
+			for pattern in patterns:
+				if pattern.search(service_name):
+					keep = True
+					break
+			if not keep:
+				removed += 1
+				idx += 3
+				continue
+		filtered.extend([ref_line, name_line, provider_line])
+		idx += 3
+
+	if idx < len(services_data):
+		filtered.extend(services_data[idx:])
+
+	if removed < 1:
+		return
+
+	new_lines = lines[:services_idx + 1] + filtered + lines[services_end_idx:]
+	tmp_path = lamedb_path + ".tmp"
+	try:
+		fd = open(tmp_path, "w")
+		try:
+			fd.writelines(new_lines)
+		finally:
+			fd.close()
+		os.rename(tmp_path, lamedb_path)
+		print("[Signalfinder] Removed %d feed services that do not match configured keywords." % removed)
+	except Exception as err:
+		print("[Signalfinder] Failed to update lamedb after feed filtering: %s" % err)
+		try:
+			if os.path.exists(tmp_path):
+				os.remove(tmp_path)
+		except Exception:
+			pass
 
 VIASATUKR = [(12288000, 0)] #Amos 4w
 VIASAT = [(11265000, 0), (11265000, 1), (11305000, 0), (11305000, 1), (11345000, 1), (11345000, 0), (11385000, 1), (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12054000, 1), (12092000, 1), (12245000, 1), (12380000, 0), (12437000, 1), (12476000, 1), (12608000, 0), (12637000, 0)]
@@ -1324,6 +1446,8 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		if answer is not True:
 			self.session.openWithCallback(self.restartSignalFinder, MessageBox, _("Do you want to scan another transponder/satellite?"), MessageBox.TYPE_YESNO, timeout=10)
 		elif answer is True:
+			if self.scan_clearallservices.value == "yes_hold_feeds":
+				filterKeptFeedsByKeywords()
 			self.restartPrevService(True)
 
 	def restartSignalFinder(self, answer):
@@ -2497,6 +2621,8 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		if answer is not True:
 			self.session.openWithCallback(self.restartSignalFinder, MessageBox, _("Do you want to scan another transponder/satellite?"), MessageBox.TYPE_YESNO, timeout=10)
 		elif answer is True:
+			if self.scan_clearallservices.value == "yes_hold_feeds":
+				filterKeptFeedsByKeywords()
 			self.restartPrevService(True)
 
 	def restartSignalFinder(self, answer):
@@ -3683,6 +3809,8 @@ class SignalFinder(ConfigListScreen, Screen):
 		if answer is not True:
 			self.session.openWithCallback(self.restartSignalFinder, MessageBox, _("Do you want to scan another transponder/satellite?"), MessageBox.TYPE_YESNO, timeout=10)
 		elif answer is True:
+			if self.scan_clearallservices.value == "yes_hold_feeds":
+				filterKeptFeedsByKeywords()
 			self.restartPrevService(True)
 
 	def restartSignalFinder(self, answer):
