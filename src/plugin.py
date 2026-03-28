@@ -10,17 +10,89 @@ from Components.NimManager import nimmanager, getConfigSatlist
 from Components.Label import Label
 from Screens.Console import Console
 from Screens.MessageBox import MessageBox
-from enigma import eTimer, eDVBFrontendParametersSatellite, eDVBFrontendParametersTerrestrial, eComponentScan, eDVBResourceManager, getDesktop
+from enigma import eTimer, eDVBFrontendParametersSatellite, eDVBFrontendParametersTerrestrial, eComponentScan, eDVBResourceManager, eDVBDB, getDesktop
 from Components.Sources.FrontendStatus import FrontendStatus
 from Components.TuneTest import Tuner
 from Components.MenuList import MenuList
 from Screens.ChoiceBox import ChoiceBox
 from Screens.ServiceScan import ServiceScan
 import os
+import re
+import re
 
 config.misc.direct_tuner = ConfigYesNo(False)
 
-plugin_version = "3.1"
+plugin_version = "3.2"
+
+def getKeepKeywords():
+    keywords = []
+    # Path to the text file in the plugin directory
+    keywords_file = os.path.join(os.path.dirname(__file__), "keep_keywords.txt")
+    if os.path.exists(keywords_file):
+        with open(keywords_file, "r") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#"):
+                    keywords.append(line)
+    if not keywords:
+        # Defaults if file is empty or missing
+        keywords = ["feed", "sng", "enc", "dsng"]
+    return keywords
+
+def collectKeepServicesSnapshot(orb_filter=None):
+	# orb_filter is the integer orbital position (e.g. 192 for 19.2E, -70 for 7.0W)
+	lamedb_path = "/etc/enigma2/lamedb"
+	if not os.path.exists(lamedb_path):
+		return None
+	try:
+		with open(lamedb_path, "r") as fd:
+			lines = fd.readlines()
+	except:
+		return None
+
+	t_idx, t_end, s_idx, s_end = parseLamedb(lines)
+	if min(t_idx, t_end, s_idx, s_end) < 0:
+		return None
+
+	keywords = getKeepKeywords()
+	relevant_tp_keys = set()
+	keep_transponders = {}
+	transponders_data = lines[t_idx + 1:t_end]
+	
+	idx = 0
+	while idx < len(transponders_data):
+		line = transponders_data[idx].strip()
+		parts = line.split(":")
+		if len(parts) >= 3:
+			try:
+				# CORRECT ENIGMA2 LOGIC: Orbital position is in the top 16 bits
+				ns_val = int(parts[0], 16)
+				tp_orb = ns_val >> 16
+				if tp_orb > 1800: # Handle West positions
+					tp_orb -= 3600
+					
+				# Only snapshot if it matches our current satellite filter
+				if orb_filter is None or int(tp_orb) == int(orb_filter):
+					keep_transponders[line] = [transponders_data[idx], transponders_data[idx+1], transponders_data[idx+2]]
+					relevant_tp_keys.add(line)
+			except: pass
+		idx += 3
+
+	keep_services = []
+	services_data = lines[s_idx + 1:s_end]
+	idx = 0
+	while idx + 2 < len(services_data):
+		ref = services_data[idx].strip()
+		name = services_data[idx + 1].strip()
+		tp_key = getTpKeyFromServiceRef(ref)
+		
+		# Only keep services belonging to the filtered transponders
+		if tp_key in relevant_tp_keys:
+			if any(re.search(kw, name, re.IGNORECASE) for kw in keywords):
+				keep_services.append([services_data[idx], services_data[idx + 1], services_data[idx + 2]])
+		idx += 3
+
+	return {"transponders": keep_transponders, "services": keep_services}
 
 def getDesktopSize():
 	s = getDesktop(0).size()
@@ -34,6 +106,293 @@ multistream = hasattr(eDVBFrontendParametersSatellite, "PLS_Root")
 t2mi = hasattr(eDVBFrontendParametersSatellite, "No_T2MI_PLP_Id") and hasattr(eDVBFrontendParametersSatellite, "T2MI_Default_Pid")
 
 loadScript = "/usr/lib/enigma2/python/Plugins/SystemPlugins/Signalfinder/update-plugin.sh"
+DEFAULT_FEED_NAME_RE = re.compile("(feed|sng|enc)", re.IGNORECASE)
+
+
+def normalizeFeedNamespacesInLamedb():
+	lamedb_path = "/etc/enigma2/lamedb"
+	if not os.path.exists(lamedb_path):
+		return
+	try:
+		fd = open(lamedb_path, "r")
+		try:
+			lines = fd.readlines()
+		finally:
+			fd.close()
+	except Exception as err:
+		print("[Signalfinder] Failed to read lamedb for namespace normalization: %s" % err)
+		return
+
+	transponders_idx = services_idx = transponders_end_idx = services_end_idx = -1
+	for i, line in enumerate(lines):
+		token = line.strip()
+		if token == "transponders" and transponders_idx == -1:
+			transponders_idx = i
+		elif token == "services" and services_idx == -1:
+			services_idx = i
+		elif token == "end" and transponders_idx != -1 and transponders_end_idx == -1:
+			transponders_end_idx = i
+		elif token == "end" and services_idx != -1 and i > services_idx:
+			services_end_idx = i
+			break
+	if min(transponders_idx, services_idx, transponders_end_idx, services_end_idx) < 0:
+		return
+
+	trans_data = lines[transponders_idx + 1:transponders_end_idx]
+	services_data = lines[services_idx + 1:services_end_idx]
+	namespace_count = {}
+	for line in trans_data:
+		key = line.strip()
+		parts = key.split(":")
+		if len(parts) == 3:
+			ns = parts[0]
+			try:
+				orb = int(ns, 16) & 0xFFFF
+			except Exception:
+				continue
+			namespace_count.setdefault(orb, {})
+			namespace_count[orb][ns] = namespace_count[orb].get(ns, 0) + 1
+
+	preferred_ns = {}
+	for orb, counts in namespace_count.items():
+		preferred_ns[orb] = sorted(counts.items(), key=lambda x: x[1], reverse=True)[0][0]
+
+	key_replace = {}
+	idx = 0
+	while idx + 2 < len(services_data):
+		ref_line = services_data[idx].strip()
+		name_line = services_data[idx + 1].strip()
+		if DEFAULT_FEED_NAME_RE.search(name_line):
+			ref_tokens = ref_line.split(":")
+			if len(ref_tokens) >= 7 and ref_tokens[1] == "0":
+				ns = ref_tokens[6]
+				tsid = ref_tokens[4]
+				onid = ref_tokens[5]
+				try:
+					orb = int(ns, 16) & 0xFFFF
+				except Exception:
+					idx += 3
+					continue
+				target_ns = preferred_ns.get(orb, ns)
+				if target_ns != ns:
+					key_replace["%s:%s:%s" % (ns, tsid, onid)] = "%s:%s:%s" % (target_ns, tsid, onid)
+					ref_tokens[6] = target_ns
+					services_data[idx] = ":".join(ref_tokens) + "\n"
+		idx += 3
+
+	if not key_replace:
+		return
+
+	for i, line in enumerate(trans_data):
+		key = line.strip()
+		if key in key_replace:
+			trans_data[i] = key_replace[key] + "\n"
+
+	new_lines = lines[:transponders_idx + 1] + trans_data + lines[transponders_end_idx:services_idx + 1] + services_data + lines[services_end_idx:]
+	tmp_path = lamedb_path + ".tmp"
+	try:
+		fd = open(tmp_path, "w")
+		try:
+			fd.writelines(new_lines)
+		finally:
+			fd.close()
+		os.rename(tmp_path, lamedb_path)
+	except Exception as err:
+		print("[Signalfinder] Failed to write normalized lamedb: %s" % err)
+		try:
+			if os.path.exists(tmp_path):
+				os.remove(tmp_path)
+		except Exception:
+			pass
+PLUGIN_DIR = os.path.dirname(os.path.realpath(__file__))
+FEED_KEYWORDS_FILES_GLOB = ".txt"
+DEFAULT_KEEP_FEED_KEYWORDS = ["feed", "sng", "enc"]
+
+
+def loadFeedKeepKeywordRegex():
+	patterns = []
+	custom_keywords_loaded = False
+	try:
+		file_list = sorted([x for x in os.listdir(PLUGIN_DIR) if x.lower().endswith(FEED_KEYWORDS_FILES_GLOB)])
+	except Exception as err:
+		print("[Signalfinder] Failed to read feed keywords list: %s" % err)
+		file_list = []
+	for file_name in file_list:
+		file_path = os.path.join(PLUGIN_DIR, file_name)
+		try:
+			fd = open(file_path, "r")
+			try:
+				for line in fd:
+					keyword = line.strip()
+					if not keyword or keyword.startswith("#"):
+						continue
+					try:
+						patterns.append(re.compile(keyword, re.IGNORECASE))
+						custom_keywords_loaded = True
+					except re.error as regex_err:
+						print("[Signalfinder] Invalid feed keyword regex '%s' in %s: %s" % (keyword, file_name, regex_err))
+			finally:
+				fd.close()
+		except Exception as err:
+			print("[Signalfinder] Failed to read feed keyword file %s: %s" % (file_name, err))
+	if not custom_keywords_loaded:
+		for keyword in DEFAULT_KEEP_FEED_KEYWORDS:
+			patterns.append(re.compile(keyword, re.IGNORECASE))
+	return patterns
+
+
+def parseLamedb(lines):
+	transponders_idx = -1
+	transponders_end_idx = -1
+	services_idx = -1
+	services_end_idx = -1
+	for i, line in enumerate(lines):
+		token = line.strip()
+		if transponders_idx == -1 and token == "transponders":
+			transponders_idx = i
+			continue
+		if transponders_idx != -1 and transponders_end_idx == -1 and token == "end":
+			transponders_end_idx = i
+			continue
+		if services_idx == -1 and token == "services":
+			services_idx = i
+			continue
+		if services_idx != -1 and token == "end":
+			services_end_idx = i
+			break
+	return transponders_idx, transponders_end_idx, services_idx, services_end_idx
+
+
+def getTpKeyFromServiceRef(ref_line):
+	ref_tokens = ref_line.strip().split(":")
+	if len(ref_tokens) >= 7 and ref_tokens[1] == "0":
+		return "%s:%s:%s" % (ref_tokens[6], ref_tokens[4], ref_tokens[5])
+	if len(ref_tokens) >= 4:
+		return "%s:%s:%s" % (ref_tokens[1], ref_tokens[2], ref_tokens[3])
+	return None
+
+
+def replaceServiceRefTpKey(ref_line, tp_key):
+	ref_tokens = ref_line.strip().split(":")
+	tp_tokens = tp_key.split(":")
+	if len(ref_tokens) >= 7 and ref_tokens[1] == "0" and len(tp_tokens) == 3:
+		ref_tokens[6] = tp_tokens[0]
+		ref_tokens[4] = tp_tokens[1]
+		ref_tokens[5] = tp_tokens[2]
+		return ":".join(ref_tokens) + "\n"
+	if len(ref_tokens) >= 4 and len(tp_tokens) == 3:
+		ref_tokens[1] = tp_tokens[0]
+		ref_tokens[2] = tp_tokens[1]
+		ref_tokens[3] = tp_tokens[2]
+		return ":".join(ref_tokens) + "\n"
+	return ref_line
+
+
+def parseTransponderBlocks(transponders_data):
+	transponders = {}
+	signatures = {}
+	tp_idx = 0
+	while tp_idx < len(transponders_data):
+		key_line = transponders_data[tp_idx]
+		key = key_line.strip()
+		block = [key_line]
+		tp_idx += 1
+		while tp_idx < len(transponders_data):
+			block.append(transponders_data[tp_idx])
+			if transponders_data[tp_idx].strip() == "/":
+				tp_idx += 1
+				break
+			tp_idx += 1
+		if key:
+			transponders[key] = block
+			signature = tuple([x.strip() for x in block[1:]])
+			signatures[signature] = key
+	return transponders, signatures
+
+def appendSnapshotServicesToLamedb(snapshot):
+	if not snapshot or (not snapshot.get("services")):
+		return
+	lamedb_path = "/etc/enigma2/lamedb"
+	if not os.path.exists(lamedb_path):
+		return
+	try:
+		with open(lamedb_path, "r") as fd:
+			lines = fd.readlines()
+	except:
+		return
+
+	t_idx, t_end, s_idx, s_end = parseLamedb(lines)
+	if min(t_idx, t_end, s_idx, s_end) < 0:
+		return
+
+	# 1. Identify the 'Active' Namespace the scanner just used
+	# We look at the first 4 chars (e.g., '0dbf') to match the satellite
+	existing_tp, existing_sig = parseTransponderBlocks(lines[t_idx + 1:t_end])
+	active_namespaces = {}
+	for key in existing_tp.keys():
+		parts = key.split(":")
+		if len(parts) == 3:
+			ns_hex = parts[0].zfill(8)
+			sat_id = ns_hex[:4] # Grab '0dbf' or 'ffaf'
+			if sat_id not in active_namespaces:
+				active_namespaces[sat_id] = parts[0]
+
+	tp_key_map = {}
+	new_tp_blocks = []
+	existing_keys = set(existing_tp.keys())
+
+	# 2. Force Snapshot Transponders to use the New Scan's Namespace
+	for old_key, block in snapshot.get("transponders", {}).items():
+		target_key = old_key
+		parts = old_key.split(":")
+		if len(parts) == 3:
+			old_ns_hex = parts[0].zfill(8)
+			old_sat_id = old_ns_hex[:4]
+			
+			# If the scanner used a different namespace for this satellite id
+			new_ns = active_namespaces.get(old_sat_id)
+			if new_ns and new_ns != parts[0]:
+				target_key = "%s:%s:%s" % (new_ns, parts[1], parts[2])
+				# Update the block data line
+				block[0] = target_key + "\n"
+
+		tp_key_map[old_key] = target_key
+		if target_key not in existing_keys:
+			new_tp_blocks.extend(block)
+			existing_keys.add(target_key)
+
+	# 3. Restore Services using the mapped Transponder Keys
+	new_service_blocks = []
+	existing_refs = set()
+	idx = 0
+	s_data = lines[s_idx + 1:s_end]
+	while idx + 2 < len(s_data):
+		existing_refs.add(s_data[idx].strip())
+		idx += 3
+
+	for s_block in snapshot.get("services", []):
+		old_tp = getTpKeyFromServiceRef(s_block[0])
+		target_tp = tp_key_map.get(old_tp, old_tp)
+		
+		ref_line = s_block[0]
+		if old_tp != target_tp:
+			ref_line = replaceServiceRefTpKey(ref_line, target_tp)
+		
+		if ref_line.strip() not in existing_refs:
+			new_service_blocks.extend([ref_line, s_block[1], s_block[2]])
+
+	# 4. Write back to lamedb and reload
+	if new_tp_blocks or new_service_blocks:
+		new_lines = lines[:t_end] + new_tp_blocks + lines[t_end:s_end] + new_service_blocks + lines[s_end:]
+		try:
+			with open(lamedb_path, "w") as f:
+				f.writelines(new_lines)
+			# Force reload
+			db = eDVBDB.getInstance()
+			db.reloadServicelist()
+			db.reloadBouquets()
+		except:
+			pass
 
 VIASATUKR = [(12288000, 0)] #Amos 4w
 VIASAT = [(11265000, 0), (11265000, 1), (11305000, 0), (11305000, 1), (11345000, 1), (11345000, 0), (11385000, 1), (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12054000, 1), (12092000, 1), (12245000, 1), (12380000, 0), (12437000, 1), (12476000, 1), (12608000, 0), (12637000, 0)]
@@ -1276,13 +1635,25 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 
 		flags = self.scan_networkScan.value and eComponentScan.scanNetworkSearch or 0
 		tmp = self.scan_clearallservices.value
+		self.kept_feed_snapshot = None
 		if tmp == "yes":
 			flags |= eComponentScan.scanRemoveServices
 		elif tmp == "yes_hold_feeds":
-			flags |= eComponentScan.scanRemoveServices
-			flags |= eComponentScan.scanDontRemoveFeeds
+			current_orb = None
+			try:
+				# Check which configuration variable holds the satellite position
+				if hasattr(self, 'scan_sat') and hasattr(self.scan_sat, 'value'):
+					current_orb = int(self.scan_sat.value)
+				elif hasattr(self, 'satList') and hasattr(self.satList, 'value'):
+					current_orb = int(self.satList.value)
+			except:
+				pass
 
-		if tmp != "no" and not removeAll:
+			# Pass the current satellite position to only snapshot feeds on THIS sat
+			self.kept_feed_snapshot = collectKeepServicesSnapshot(orb_filter=current_orb)
+			flags |= eComponentScan.scanRemoveServices
+
+		if tmp == "yes" and not removeAll:
 			flags |= eComponentScan.scanDontRemoveUnscanned
 
 		if self.scan_onlyfree.value:
@@ -1301,6 +1672,9 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			self.restartPrevService(True)
 
 	def restartPrevService(self, answer):
+		if self.scan_clearallservices.value == "yes_hold_feeds":
+			appendSnapshotServicesToLamedb(getattr(self, "kept_feed_snapshot", None))
+			self.kept_feed_snapshot = None
 		for x in self["config"].list:
 			x[1].cancel()
 		self.tuneTimer.stop()
@@ -2449,13 +2823,25 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 
 		flags = self.scan_networkScan.value and eComponentScan.scanNetworkSearch or 0
 		tmp = self.scan_clearallservices.value
+		self.kept_feed_snapshot = None
 		if tmp == "yes":
 			flags |= eComponentScan.scanRemoveServices
 		elif tmp == "yes_hold_feeds":
-			flags |= eComponentScan.scanRemoveServices
-			flags |= eComponentScan.scanDontRemoveFeeds
+			current_orb = None
+			try:
+				# Check which configuration variable holds the satellite position
+				if hasattr(self, 'scan_sat') and hasattr(self.scan_sat, 'value'):
+					current_orb = int(self.scan_sat.value)
+				elif hasattr(self, 'satList') and hasattr(self.satList, 'value'):
+					current_orb = int(self.satList.value)
+			except:
+				pass
 
-		if tmp != "no" and not removeAll:
+			# Pass the current satellite position to only snapshot feeds on THIS sat
+			self.kept_feed_snapshot = collectKeepServicesSnapshot(orb_filter=current_orb)
+			flags |= eComponentScan.scanRemoveServices
+
+		if tmp == "yes" and not removeAll:
 			flags |= eComponentScan.scanDontRemoveUnscanned
 
 		if self.scan_onlyfree.value:
@@ -2474,6 +2860,9 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			self.restartPrevService(True)
 
 	def restartPrevService(self, answer):
+		if self.scan_clearallservices.value == "yes_hold_feeds":
+			appendSnapshotServicesToLamedb(getattr(self, "kept_feed_snapshot", None))
+			self.kept_feed_snapshot = None
 		for x in self["config"].list:
 			x[1].cancel()
 		self.tuneTimer.stop()
@@ -3635,13 +4024,25 @@ class SignalFinder(ConfigListScreen, Screen):
 
 		flags = self.scan_networkScan.value and eComponentScan.scanNetworkSearch or 0
 		tmp = self.scan_clearallservices.value
+		self.kept_feed_snapshot = None
 		if tmp == "yes":
 			flags |= eComponentScan.scanRemoveServices
 		elif tmp == "yes_hold_feeds":
-			flags |= eComponentScan.scanRemoveServices
-			flags |= eComponentScan.scanDontRemoveFeeds
+			current_orb = None
+			try:
+				# Check which configuration variable holds the satellite position
+				if hasattr(self, 'scan_sat') and hasattr(self.scan_sat, 'value'):
+					current_orb = int(self.scan_sat.value)
+				elif hasattr(self, 'satList') and hasattr(self.satList, 'value'):
+					current_orb = int(self.satList.value)
+			except:
+				pass
 
-		if tmp != "no" and not removeAll:
+			# Pass the current satellite position to only snapshot feeds on THIS sat
+			self.kept_feed_snapshot = collectKeepServicesSnapshot(orb_filter=current_orb)
+			flags |= eComponentScan.scanRemoveServices
+
+		if tmp == "yes" and not removeAll:
 			flags |= eComponentScan.scanDontRemoveUnscanned
 
 		if self.scan_onlyfree.value:
@@ -3660,6 +4061,9 @@ class SignalFinder(ConfigListScreen, Screen):
 			self.restartPrevService(True)
 
 	def restartPrevService(self, answer):
+		if self.scan_clearallservices.value == "yes_hold_feeds":
+			appendSnapshotServicesToLamedb(getattr(self, "kept_feed_snapshot", None))
+			self.kept_feed_snapshot = None
 		for x in self["config"].list:
 			x[1].cancel()
 		self.tuneTimer.stop()

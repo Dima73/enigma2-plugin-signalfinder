@@ -1,0 +1,16 @@
+# One regex keyword per line.
+# Only candidate feed services that match at least one regex are kept
+# when "yes (keep feeds)" is used in the plugin scan settings.
+# Leave this file empty (or remove it) to use default keywords:
+# feed
+# sng
+# enc
+#
+# Examples:
+# ^UHD
+# SPORT
+# DSNG
+Feed
+FEED
+DSNG
+enc
