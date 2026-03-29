@@ -5,111 +5,111 @@ msgstr ""
 "POT-Creation-Date: 2026-03-30 01:26+0300\n"
 "PO-Revision-Date: 2026-03-30 01:30+0300\n"
 "Last-Translator: \n"
-"Language-Team: Lithuanian\n"
-"Language: lt\n"
+"Language-Team: Arabic\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: plugin.py:125
 msgid "Signal finder"
-msgstr "Signalo paieška"
+msgstr "باحث الإشارة"
 
 #: plugin.py:158
 msgid "Signal finder for DVB-S(S2) tuners"
-msgstr "Signalo paieška DVB-S(S2) tiuneriams"
+msgstr "باحث الإشارة لموالفات DVB-S(S2)"
 
 #: plugin.py:202
 msgid "Left, right or press OK to select transporder."
-msgstr "Kairėn, dešinėn arba OK, kad pasirinktumėte transponderį."
+msgstr "يسار، يمين أو اضغط موافق (OK) لتحديد المرسل المستجيب."
 
 #: plugin.py:204
 msgid "Press button OK to start the scan."
-msgstr "Paspauskite OK, kad pradėtumėte paiešką."
+msgstr "اضغط على زر موافق (OK) لبدء البحث."
 
 #: plugin.py:208
 msgid "Tuner"
-msgstr "Tiuneris"
+msgstr "الموالف"
 
 #: plugin.py:212
 msgid "System"
-msgstr "Sistema"
+msgstr "النظام"
 
 #: plugin.py:214
 msgid "Satellite"
-msgstr "Palydovas"
+msgstr "القمر الصناعي"
 
 #: plugin.py:216
 msgid "Type of scan"
-msgstr "Paieškos tipas"
+msgstr "نوع البحث"
 
 #: plugin.py:216
 msgid "Single satellite"
-msgstr "Vienas palydovas"
+msgstr "قمر صناعي واحد"
 
 #: plugin.py:216
 msgid "Multisat"
-msgstr "Keli palydovai"
+msgstr "أقمار متعددة"
 
 #: plugin.py:216
 msgid "Multisat all select"
-msgstr "Pasirinkti visus palydovus"
+msgstr "تحديد كل الأقمار المتعددة"
 
 #: plugin.py:216
 msgid "Predefined transponder"
-msgstr "Iš anksto nustatytas transponderis"
+msgstr "مرسل مستجيب محدد مسبقاً"
 
 #: plugin.py:216
 msgid "User defined transponder"
-msgstr "Vartotojo nustatytas transponderis"
+msgstr "مرسل مستجيب من تحديد المستخدم"
 
 #: plugin.py:217
 msgid "Transponder"
-msgstr "Transponderis"
+msgstr "المرسل المستجيب"
 
 #: plugin.py:219
 msgid "Frequency"
-msgstr "Dažnis"
+msgstr "التردد"
 
 #: plugin.py:221
 msgid "Inversion"
-msgstr "Inversija"
+msgstr "انعكاس"
 
 #: plugin.py:221
 msgid "Auto"
-msgstr "Auto"
+msgstr "تلقائي"
 
 #: plugin.py:221
 msgid "On"
-msgstr "Įjungta"
+msgstr "تشغيل"
 
 #: plugin.py:221
 msgid "Off"
-msgstr "Išjungta"
+msgstr "إيقاف"
 
 #: plugin.py:223
 msgid "Symbol Rate"
-msgstr "Srautų greitis"
+msgstr "معدل الترميز"
 
 #: plugin.py:225
 msgid "Polarity"
-msgstr "Poliarizacija"
+msgstr "الاستقطاب"
 
 #: plugin.py:225
 msgid "horizontal"
-msgstr "horizontali"
+msgstr "أفقي"
 
 #: plugin.py:225
 msgid "vertical"
-msgstr "vertikali"
+msgstr "عمودي"
 
 #: plugin.py:225
 msgid "circular left"
-msgstr "kairinė apskritiminė"
+msgstr "دائري أيسر"
 
 #: plugin.py:225
 msgid "circular right"
-msgstr "dešininė apskritiminė"
+msgstr "دائري أيمن"
 
 #: plugin.py:227
 msgid "FEC"
@@ -117,7 +117,7 @@ msgstr "FEC"
 
 #: plugin.py:233
 msgid "Modulation"
-msgstr "Moduliacija"
+msgstr "التعديل"
 
 #: plugin.py:238
 msgid "Rolloff"
@@ -129,75 +129,75 @@ msgstr "Pilot"
 
 #: plugin.py:248
 msgid "Input Stream ID"
-msgstr "Input Stream ID"
+msgstr "معرف تدفق الإدخال (Stream ID)"
 
 #: plugin.py:253
 msgid "PLS Mode"
-msgstr "PLS režimas"
+msgstr "وضع PLS"
 
 #: plugin.py:258
 msgid "PLS Code"
-msgstr "PLS kodas"
+msgstr "كود PLS"
 
 #: plugin.py:265
 msgid "Network scan"
-msgstr "Tinklo paieška"
+msgstr "مسح الشبكة"
 
 #: plugin.py:268
 msgid "Clear before scan"
-msgstr "Išvalyti prieš paiešką"
+msgstr "مسح قبل البحث"
 
 #: plugin.py:268
 msgid "no"
-msgstr "ne"
+msgstr "لا"
 
 #: plugin.py:268
 msgid "yes"
-msgstr "taip"
+msgstr "نعم"
 
 #: plugin.py:268
 msgid "yes (keep feeds)"
-msgstr "taip (išlaikyti padavimus)"
+msgstr "نعم (الاحتفاظ بالقنوات المغذية)"
 
 #: plugin.py:270
 msgid "Only free scan"
-msgstr "Tik nemokami"
+msgstr "بحث القنوات المجانية فقط"
 
 #: plugin.py:274
 msgid "Update plugin"
-msgstr "Atnaujinti įskiepį"
+msgstr "تحديث الإضافة (Plugin)"
 
 #: plugin.py:307
 msgid "Select action:"
-msgstr "Pasirinkite veiksmą:"
+msgstr "حدد الإجراء:"
 
 #: plugin.py:308
 msgid "Transponders list"
-msgstr "Transponderių sąrašas"
+msgstr "قائمة المرسلات المستجيبة"
 
 #: plugin.py:309
 msgid "Russian providers"
-msgstr "Rusijos tiekėjai"
+msgstr "المزودون الروس"
 
 #: plugin.py:310
 msgid "Set free tuner"
-msgstr "Nustatyti laisvą tiunerį"
+msgstr "تعيين الموالف الحر"
 
 #: plugin.py:311
 msgid "Set direct tuner"
-msgstr "Nustatyti tiesioginį tiunerį"
+msgstr "تعيين الموالف المباشر"
 
 #: plugin.py:326
 msgid "None"
-msgstr "Nėra"
+msgstr "لا شيء"
 
 #: plugin.py:408
 msgid "Transponders list: %s"
-msgstr "Transponderių sąrašas: %s"
+msgstr "قائمة المرسلات المستجيبة: %s"
 
 #: plugin.py:427
 msgid "Provider"
-msgstr "Tiekėjas"
+msgstr "المزود"
 
 #: plugin.py:449
 msgid "NTV Plus"
@@ -205,11 +205,11 @@ msgstr "NTV Plus"
 
 #: plugin.py:450
 msgid "NTV Plus Vostok"
-msgstr "NTV Plus Rytai"
+msgstr "NTV Plus Vostok"
 
 #: plugin.py:451
 msgid "NTV Plus Dalniy Vostok"
-msgstr "NTV Plus Tolimieji Rytai"
+msgstr "NTV Plus Dalniy Vostok"
 
 #: plugin.py:452
 msgid "Tricolor TV"
@@ -217,7 +217,7 @@ msgstr "Tricolor TV"
 
 #: plugin.py:453
 msgid "Tricolor TV Sibir"
-msgstr "Tricolor TV Sibiras"
+msgstr "Tricolor TV Sibir"
 
 #: plugin.py:454
 msgid "Raduga TV"
@@ -229,7 +229,7 @@ msgstr "Telekarta (HD)"
 
 #: plugin.py:456
 msgid "Telekarta-Vostok"
-msgstr "Telekarta-Rytai"
+msgstr "Telekarta-Vostok"
 
 #: plugin.py:457
 msgid "MTS TV"
@@ -245,7 +245,7 @@ msgstr "Viasat"
 
 #: plugin.py:460
 msgid "Viasat Ukraine"
-msgstr "Viasat Ukraina"
+msgstr "Viasat Ukraine"
 
 #: plugin.py:461
 msgid "Viasat Latvija"
@@ -265,60 +265,60 @@ msgstr "BER:"
 
 #: plugin.py:542
 msgid "LOCK:"
-msgstr "LOCK:"
+msgstr "قفل:"
 
 #: plugin.py:575
 msgid "Cancel"
-msgstr "Atšaukti"
+msgstr "إلغاء"
 
 #: plugin.py:576
 msgid "Scan"
-msgstr "Paieška"
+msgstr "بحث"
 
 #: plugin.py:734
 msgid "No satellites configured for DVB-S2 tuner(s).\nPlease check your tuner(s) setup."
-msgstr "Nėra sukonfigūruotų palydovų DVB-S2 tiuneriui.\nPatikrinkite tiunerio nustatymus."
+msgstr "لم يتم تكوين أقمار صناعية لموالف (موالفات) DVB-S2.\nيرجى التحقق من إعداد الموالف الخاص بك."
 
 #: plugin.py:749
 msgid "No tuner is enabled!\nPlease setup your tuner settings before you start a service scan."
-msgstr "Nėra įjungtų tiunerių!\nNustatykite tiunerį prieš pradedant paiešką."
+msgstr "لم يتم تمكين أي موالف!\nيرجى إعداد إعدادات الموالف الخاص بك قبل بدء مسح الخدمة."
 
 #: plugin.py:758 plugin.py:768
 msgid "Nothing to scan!\nPlease setup your tuner settings before you start a service scan."
-msgstr "Nėra ko skenuoti!\nNustatykite tiunerį prieš pradedant paiešką."
+msgstr "لا يوجد شيء لمسحه!\nيرجى إعداد إعدادات الموالف الخاص بك قبل بدء مسح الخدمة."
 
 #: plugin.py:814
 msgid "A recording is currently running. Please stop the recording before trying to start a service scan."
-msgstr "Šiuo metu vyksta įrašymas. Sustabdykite įrašymą prieš pradedant paiešką."
+msgstr "هناك تسجيل قيد التشغيل حالياً. يرجى إيقاف التسجيل قبل محاولة بدء مسح الخدمة."
 
 #: plugin.py:814
 msgid "Maybe the reason that recording is currently running."
-msgstr "Galbūt priežastis yra ta, kad vyksta įrašymas."
+msgstr "ربما السبب هو أن هناك تسجيلاً قيد التشغيل حالياً."
 
 #: plugin.py:843
 msgid "Zap back to service before a service scan?"
-msgstr "Grįžti į kanalą prieš paiešką?"
+msgstr "العودة إلى القناة قبل بدء مسح الخدمة؟"
 
 #: plugin.py:867
 msgid "Sorry, this tuner is in use."
-msgstr "Atleiskite, šis tiuneris naudojamas."
+msgstr "عذراً، هذا الموالف قيد الاستخدام."
 
 #: plugin.py:898
 msgid "search failed!"
-msgstr "paieška nepavyko!"
+msgstr "فشل البحث!"
 
 #: plugin.py:910
 msgid "Do you want to scan another transponder/satellite?"
-msgstr "Ar norite skenuoti kitą transponderį/palydovą?"
+msgstr "هل تريد مسح مرسل مستجيب/قمر صناعي آخر؟"
 
 #: plugin.py:935
 msgid "not selected provider!"
-msgstr "nepasirinktas tiekėjas!"
+msgstr "لم يتم تحديد المزود!"
 
 #: plugin.py:956
 msgid "multi scan list empty!"
-msgstr "daugiatikslo nuskaitymo sąrašas tuščias!"
+msgstr "قائمة البحث المتعدد فارغة!"
 
 #: plugin.py:1003
 msgid "This image not support multistream!"
-msgstr "Šis imidžas nepalaiko multistream!"
+msgstr "هذه الصورة لا تدعم البث المتعدد (multistream)!"

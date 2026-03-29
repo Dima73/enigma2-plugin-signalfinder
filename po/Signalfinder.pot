@@ -1,14 +1,8 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Signalfinder\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-22 21:41+0300\n"
+"POT-Creation-Date: 2026-03-30 01:26+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,358 +11,314 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: plugin.py:616
-msgid " (only this transponder)"
-msgstr ""
-
-#: plugin.py:618
-msgid " (only transponders provider)"
-msgstr ""
-
-#: plugin.py:1123
-msgid "A recording is currently running. Please stop the recording before trying to start a service scan."
-msgstr ""
-
-#: plugin.py:722 plugin.py:730 plugin.py:757
-msgid "Auto"
-msgstr ""
-
-#: plugin.py:180
-msgid "Cancel"
-msgstr ""
-
-#: plugin.py:614
-msgid "Clear before scan"
-msgstr ""
-
-#: plugin.py:716
-msgid "DVB-S"
-msgstr ""
-
-#: plugin.py:717
-msgid "DVB-S2"
-msgstr ""
-
-#: plugin.py:1041
-msgid "Do you want to scan another transponder/satellite?"
-msgstr ""
-
-#: plugin.py:549 plugin.py:551
-msgid "FEC"
-msgstr ""
-
-#: plugin.py:544
-msgid "Frequency"
-msgstr ""
-
-#: plugin.py:545
-msgid "Inversion"
-msgstr ""
-
-#: plugin.py:606
-msgid "Kontinent TV"
-msgstr ""
-
-#: plugin.py:303
-msgid "Left, right or press OK to select transporder."
-msgstr ""
-
-#: plugin.py:604
-msgid "MTS TV"
-msgstr ""
-
-#: plugin.py:281 plugin.py:889
-msgid "Maybe the reason that recording is currently running."
-msgstr ""
-
-#: plugin.py:552
-msgid "Modulation"
-msgstr ""
-
-#: plugin.py:697 plugin.py:704
-msgid "Multisat"
-msgstr ""
-
-#: plugin.py:698 plugin.py:705
-msgid "Multisat all select"
-msgstr ""
-
-#: plugin.py:595
-msgid "NTV Plus"
-msgstr ""
-
-#: plugin.py:598
-msgid "NTV Plus Vostok"
-msgstr ""
-
-#: plugin.py:613
-msgid "Network scan"
-msgstr ""
-
-#: plugin.py:1120
-msgid ""
-"No satellites configured for DVB-S2 tuner(s).\n"
-"Please check your tuner(s) setup."
-msgstr ""
-
-#: plugin.py:903
-msgid ""
-"No tuner is enabled!\n"
-"Please setup your tuner settings before you start a service scan."
-msgstr ""
-
-#: plugin.py:589 plugin.py:736
-msgid "None"
-msgstr ""
-
-#: plugin.py:308 plugin.py:1036
-msgid ""
-"Nothing to scan!\n"
-"Please setup your tuner settings before you start a service scan."
-msgstr ""
-
-#: plugin.py:720 plugin.py:755
-msgid "Off"
-msgstr ""
-
-#: plugin.py:721 plugin.py:756
-msgid "On"
-msgstr ""
-
-#: plugin.py:621
-msgid "Only free scan"
-msgstr ""
-
-#: plugin.py:601
-msgid "Otau TV"
-msgstr ""
-
-#: plugin.py:555
-msgid "Pilot"
-msgstr ""
-
-#: plugin.py:547
-msgid "Polarity"
-msgstr ""
-
-#: plugin.py:695 plugin.py:702
-msgid "Predefined transponder"
-msgstr ""
-
-#: plugin.py:52
-msgid "Press OK to toggle the selection"
-msgstr ""
-
-#: plugin.py:305
-msgid "Press button OK to start the scan."
-msgstr ""
-
-#: plugin.py:608
-msgid "Provider"
-msgstr ""
-
-#: plugin.py:603
-msgid "Raduga TV"
-msgstr ""
-
-#: plugin.py:554
-msgid "Rolloff"
-msgstr ""
-
-#: plugin.py:706
-msgid "Russian providers"
-msgstr ""
-
-#: plugin.py:543 plugin.py:558 plugin.py:572
-msgid "Satellite"
-msgstr ""
-
-#: plugin.py:181
-msgid "Scan"
-msgstr ""
-
-#: plugin.py:1129
-msgid "Signal Finder DVB-S2"
-msgstr ""
-
-#: plugin.py:240
-msgid "Signal finder for DVB-S(S2) tuners"
-msgstr ""
-
-#: plugin.py:1135
-msgid "Signal finder for DVB-S2(X) tuners"
-msgstr ""
-
-#: plugin.py:696 plugin.py:703
-msgid "Single satellite"
-msgstr ""
-
-#: plugin.py:278 plugin.py:886
-msgid "Sorry, this tuner is in use."
-msgstr ""
-
-#: plugin.py:546
-msgid "Symbol Rate"
-msgstr ""
-
-#: plugin.py:539
-msgid "System"
-msgstr ""
-
-#: plugin.py:565
-msgid "Transponder"
-msgstr ""
-
-#: plugin.py:50
-msgid "Transponders list"
-msgstr ""
-
-#: plugin.py:48
-#, python-format
-msgid "Transponders list: %s"
-msgstr ""
-
-#: plugin.py:596
-msgid "Tricolor TV"
-msgstr ""
-
-#: plugin.py:599
-msgid "Tricolor TV Sibir"
-msgstr ""
-
-#: plugin.py:522
-msgid "Tuner"
-msgstr ""
-
-#: plugin.py:532
-msgid "Type of scan"
-msgstr ""
-
-#: plugin.py:694 plugin.py:701
-msgid "User defined transponder"
-msgstr ""
-
-#: plugin.py:592
-msgid "Viasat"
-msgstr ""
-
-#: plugin.py:593
-msgid "Viasat Ukraine"
-msgstr ""
-
-#: plugin.py:1015
-msgid "Zap back to service before a service scan?"
-msgstr ""
-
-#: plugin.py:727
-msgid "circular left"
-msgstr ""
-
-#: plugin.py:728
-msgid "circular right"
-msgstr ""
-
-#: plugin.py:725
-msgid "horizontal"
-msgstr ""
-
-#: plugin.py:404
-msgid "multi scan list empty!"
-msgstr ""
-
-#: plugin.py:710
-msgid "no"
-msgstr ""
-
-#: plugin.py:466
-msgid "not selected provider!"
-msgstr ""
-
-#: plugin.py:322
-msgid "search failed!"
-msgstr ""
-
-#: plugin.py:726
-msgid "vertical"
-msgstr ""
-
-#: plugin.py:710
-msgid "yes"
-msgstr ""
-
-#: plugin.py:710
-msgid "yes (keep feeds)"
-msgstr ""
-
-#: skin.xml
-msgid "AGC:"
-msgstr ""
-
-#: skin.xml
-msgid "BER:"
-msgstr ""
-
-#: skin.xml
-msgid "Current position:"
-msgstr ""
-
-#: skin.xml
-msgid "LOCK"
-msgstr ""
-
-#: skin.xml
-msgid "LOCK:"
-msgstr ""
-
-#: skin.xml
-msgid "SNR:"
-msgstr ""
-
-#: skin.xml
+#: plugin.py:125
 msgid "Signal finder"
 msgstr ""
 
-msgid "Set free tuner"
+#: plugin.py:158
+msgid "Signal finder for DVB-S(S2) tuners"
 msgstr ""
 
-msgid "Set direct tuner"
+#: plugin.py:202
+msgid "Left, right or press OK to select transporder."
 msgstr ""
 
+#: plugin.py:204
+msgid "Press button OK to start the scan."
+msgstr ""
+
+#: plugin.py:208
+msgid "Tuner"
+msgstr ""
+
+#: plugin.py:212
+msgid "System"
+msgstr ""
+
+#: plugin.py:214
+msgid "Satellite"
+msgstr ""
+
+#: plugin.py:216
+msgid "Type of scan"
+msgstr ""
+
+#: plugin.py:216
+msgid "Single satellite"
+msgstr ""
+
+#: plugin.py:216
+msgid "Multisat"
+msgstr ""
+
+#: plugin.py:216
+msgid "Multisat all select"
+msgstr ""
+
+#: plugin.py:216
+msgid "Predefined transponder"
+msgstr ""
+
+#: plugin.py:216
+msgid "User defined transponder"
+msgstr ""
+
+#: plugin.py:217
+msgid "Transponder"
+msgstr ""
+
+#: plugin.py:219
+msgid "Frequency"
+msgstr ""
+
+#: plugin.py:221
+msgid "Inversion"
+msgstr ""
+
+#: plugin.py:221
+msgid "Auto"
+msgstr ""
+
+#: plugin.py:221
+msgid "On"
+msgstr ""
+
+#: plugin.py:221
+msgid "Off"
+msgstr ""
+
+#: plugin.py:223
+msgid "Symbol Rate"
+msgstr ""
+
+#: plugin.py:225
+msgid "Polarity"
+msgstr ""
+
+#: plugin.py:225
+msgid "horizontal"
+msgstr ""
+
+#: plugin.py:225
+msgid "vertical"
+msgstr ""
+
+#: plugin.py:225
+msgid "circular left"
+msgstr ""
+
+#: plugin.py:225
+msgid "circular right"
+msgstr ""
+
+#: plugin.py:227
+msgid "FEC"
+msgstr ""
+
+#: plugin.py:233
+msgid "Modulation"
+msgstr ""
+
+#: plugin.py:238
+msgid "Rolloff"
+msgstr ""
+
+#: plugin.py:243
+msgid "Pilot"
+msgstr ""
+
+#: plugin.py:248
 msgid "Input Stream ID"
 msgstr ""
 
+#: plugin.py:253
 msgid "PLS Mode"
 msgstr ""
 
+#: plugin.py:258
 msgid "PLS Code"
 msgstr ""
 
-msgid "This image not support multistream!"
+#: plugin.py:265
+msgid "Network scan"
 msgstr ""
 
+#: plugin.py:268
+msgid "Clear before scan"
+msgstr ""
+
+#: plugin.py:268
+msgid "no"
+msgstr ""
+
+#: plugin.py:268
+msgid "yes"
+msgstr ""
+
+#: plugin.py:268
+msgid "yes (keep feeds)"
+msgstr ""
+
+#: plugin.py:270
+msgid "Only free scan"
+msgstr ""
+
+#: plugin.py:274
 msgid "Update plugin"
 msgstr ""
 
+#: plugin.py:307
 msgid "Select action:"
 msgstr ""
 
+#: plugin.py:308
+msgid "Transponders list"
+msgstr ""
+
+#: plugin.py:309
+msgid "Russian providers"
+msgstr ""
+
+#: plugin.py:310
+msgid "Set free tuner"
+msgstr ""
+
+#: plugin.py:311
+msgid "Set direct tuner"
+msgstr ""
+
+#: plugin.py:326
+msgid "None"
+msgstr ""
+
+#: plugin.py:408
+msgid "Transponders list: %s"
+msgstr ""
+
+#: plugin.py:427
+msgid "Provider"
+msgstr ""
+
+#: plugin.py:449
+msgid "NTV Plus"
+msgstr ""
+
+#: plugin.py:450
+msgid "NTV Plus Vostok"
+msgstr ""
+
+#: plugin.py:451
 msgid "NTV Plus Dalniy Vostok"
 msgstr ""
 
+#: plugin.py:452
+msgid "Tricolor TV"
+msgstr ""
+
+#: plugin.py:453
+msgid "Tricolor TV Sibir"
+msgstr ""
+
+#: plugin.py:454
+msgid "Raduga TV"
+msgstr ""
+
+#: plugin.py:455
+msgid "Telekarta (HD)"
+msgstr ""
+
+#: plugin.py:456
 msgid "Telekarta-Vostok"
 msgstr ""
 
-msgid "Transport Stream Type"
+#: plugin.py:457
+msgid "MTS TV"
 msgstr ""
 
-msgid "Multistream"
+#: plugin.py:458
+msgid "Otau TV"
 msgstr ""
 
-msgid "Ordinary"
+#: plugin.py:459
+msgid "Viasat"
 msgstr ""
 
-msgid "Enabled"
+#: plugin.py:460
+msgid "Viasat Ukraine"
 msgstr ""
 
-msgid "Disabled"
+#: plugin.py:461
+msgid "Viasat Latvija"
+msgstr ""
+
+#: plugin.py:539
+msgid "SNR:"
+msgstr ""
+
+#: plugin.py:540
+msgid "AGC:"
+msgstr ""
+
+#: plugin.py:541
+msgid "BER:"
+msgstr ""
+
+#: plugin.py:542
+msgid "LOCK:"
+msgstr ""
+
+#: plugin.py:575
+msgid "Cancel"
+msgstr ""
+
+#: plugin.py:576
+msgid "Scan"
+msgstr ""
+
+#: plugin.py:734
+msgid "No satellites configured for DVB-S2 tuner(s).\nPlease check your tuner(s) setup."
+msgstr ""
+
+#: plugin.py:749
+msgid "No tuner is enabled!\nPlease setup your tuner settings before you start a service scan."
+msgstr ""
+
+#: plugin.py:758 plugin.py:768
+msgid "Nothing to scan!\nPlease setup your tuner settings before you start a service scan."
+msgstr ""
+
+#: plugin.py:814
+msgid "A recording is currently running. Please stop the recording before trying to start a service scan."
+msgstr ""
+
+#: plugin.py:814
+msgid "Maybe the reason that recording is currently running."
+msgstr ""
+
+#: plugin.py:843
+msgid "Zap back to service before a service scan?"
+msgstr ""
+
+#: plugin.py:867
+msgid "Sorry, this tuner is in use."
+msgstr ""
+
+#: plugin.py:898
+msgid "search failed!"
+msgstr ""
+
+#: plugin.py:910
+msgid "Do you want to scan another transponder/satellite?"
+msgstr ""
+
+#: plugin.py:935
+msgid "not selected provider!"
+msgstr ""
+
+#: plugin.py:956
+msgid "multi scan list empty!"
+msgstr ""
+
+#: plugin.py:1003
+msgid "This image not support multistream!"
 msgstr ""
