@@ -1653,7 +1653,7 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			self.kept_feed_snapshot = collectKeepServicesSnapshot(orb_filter=current_orb)
 			flags |= eComponentScan.scanRemoveServices
 
-		if tmp == "yes" and not removeAll:
+		if tmp in ("yes", "yes_hold_feeds") and not removeAll:
 			flags |= eComponentScan.scanDontRemoveUnscanned
 
 		if self.scan_onlyfree.value:
@@ -2841,7 +2841,7 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			self.kept_feed_snapshot = collectKeepServicesSnapshot(orb_filter=current_orb)
 			flags |= eComponentScan.scanRemoveServices
 
-		if tmp == "yes" and not removeAll:
+		if tmp in ("yes", "yes_hold_feeds") and not removeAll:
 			flags |= eComponentScan.scanDontRemoveUnscanned
 
 		if self.scan_onlyfree.value:
@@ -4042,7 +4042,7 @@ class SignalFinder(ConfigListScreen, Screen):
 			self.kept_feed_snapshot = collectKeepServicesSnapshot(orb_filter=current_orb)
 			flags |= eComponentScan.scanRemoveServices
 
-		if tmp == "yes" and not removeAll:
+		if tmp in ("yes", "yes_hold_feeds") and not removeAll:
 			flags |= eComponentScan.scanDontRemoveUnscanned
 
 		if self.scan_onlyfree.value:
