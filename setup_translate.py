@@ -31,9 +31,11 @@ class build_trans(cmd.Command):
 					if not os.path.exists(destdir):
 						os.makedirs(destdir)
 					for lang_domain in lang_domains:
-						lang_domain = lang_domain.rsplit('/', 1)[1]
-						dest = os.path.join(destdir, lang_domain[:-3] + 'mo')
+						# Use os.path.basename to safely get the filename regardless of OS path separators
+						lang_domain_filename = os.path.basename(lang_domain)
+						dest = os.path.join(destdir, lang_domain_filename[:-3] + 'mo')
 						print("Language compile %s -> %s" % (src, dest))
+						# Quotes around paths ensure spaces in filenames don't break the command
 						if os.system("msgfmt '%s' -o '%s'" % (src, dest)) != 0:
 							raise Exception("Failed to compile: " + src)
 		else:
