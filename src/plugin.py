@@ -21,6 +21,7 @@ import re
 import re
 
 config.misc.direct_tuner = ConfigYesNo(False)
+config.misc.fix_unnamed_services = ConfigYesNo(False)
 
 plugin_version = "3.2"
 
@@ -756,17 +757,33 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 		menu_text = _("Set free tuner")
 		if not config.misc.direct_tuner.value:
 			menu_text = _("Set direct tuner")
-		menu = [(menu_text, "setdirect"), (_("Update plugin"), "update")]
+		fix_text = _("Enable unnamed services fix")
+		if config.misc.fix_unnamed_services.value:
+			fix_text = _("Disable unnamed services fix")
+		menu = [(menu_text, "setdirect"), (fix_text, "fixunnamed"), (_("Update plugin"), "update")]
 
 		def extraAction(choice):
 			if choice is not None:
 				if choice[1] == "setdirect":
 					self.setDirectTuners()
+				elif choice[1] == "fixunnamed":
+					self.toggleUnnamedServicesFix()
 				elif choice[1] == "update":
 					cmd = "chmod 755 %s && %s update" % (loadScript, loadScript)
 					text = _("Update plugin")
 					self.session.open(Console, text, [cmd])
 		self.session.openWithCallback(extraAction, ChoiceBox, title=_("Select action:"), list=menu)
+
+	def toggleUnnamedServicesFix(self):
+		text = _("Enable fixing of unnamed services after scan") + "?"
+		if config.misc.fix_unnamed_services.value:
+			text = _("Disable fixing of unnamed services after scan") + "?"
+		self.session.openWithCallback(self.toggleUnnamedServicesFixCallback, MessageBox, text, MessageBox.TYPE_YESNO)
+
+	def toggleUnnamedServicesFixCallback(self, answer):
+		if answer:
+			config.misc.fix_unnamed_services.value = not config.misc.fix_unnamed_services.value
+			config.misc.fix_unnamed_services.save()
 
 	def setDirectTuners(self):
 		text = _("Set free tuner") + "?"
@@ -1823,7 +1840,8 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 			self.keyCancel()
 
 	def serviceScanFinished(self, answer=None):
-		fixUnnamedAndTypeZeroServices(getattr(self, "scanned_orbs", None))
+		if config.misc.fix_unnamed_services.value:
+			fixUnnamedAndTypeZeroServices(getattr(self, "scanned_orbs", None))
 		if answer is not True:
 			self.session.openWithCallback(self.restartSignalFinder, MessageBox, _("Do you want to scan another transponder/satellite?"), MessageBox.TYPE_YESNO, timeout=10)
 		elif answer is True:
@@ -2026,17 +2044,33 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 		menu_text = _("Set free tuner")
 		if not config.misc.direct_tuner.value:
 			menu_text = _("Set direct tuner")
-		menu = [(menu_text, "setdirect"), (_("Update plugin"), "update")]
+		fix_text = _("Enable unnamed services fix")
+		if config.misc.fix_unnamed_services.value:
+			fix_text = _("Disable unnamed services fix")
+		menu = [(menu_text, "setdirect"), (fix_text, "fixunnamed"), (_("Update plugin"), "update")]
 
 		def extraAction(choice):
 			if choice is not None:
 				if choice[1] == "setdirect":
 					self.setDirectTuners()
+				elif choice[1] == "fixunnamed":
+					self.toggleUnnamedServicesFix()
 				elif choice[1] == "update":
 					cmd = "chmod 755 %s && %s update" % (loadScript, loadScript)
 					text = _("Update plugin")
 					self.session.open(Console, text, [cmd])
 		self.session.openWithCallback(extraAction, ChoiceBox, title=_("Select action:"), list=menu)
+
+	def toggleUnnamedServicesFix(self):
+		text = _("Enable fixing of unnamed services after scan") + "?"
+		if config.misc.fix_unnamed_services.value:
+			text = _("Disable fixing of unnamed services after scan") + "?"
+		self.session.openWithCallback(self.toggleUnnamedServicesFixCallback, MessageBox, text, MessageBox.TYPE_YESNO)
+
+	def toggleUnnamedServicesFixCallback(self, answer):
+		if answer:
+			config.misc.fix_unnamed_services.value = not config.misc.fix_unnamed_services.value
+			config.misc.fix_unnamed_services.save()
 
 	def setDirectTuners(self):
 		text = _("Set free tuner") + "?"
@@ -3020,7 +3054,8 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 			self.keyCancel()
 
 	def serviceScanFinished(self, answer=None):
-		fixUnnamedAndTypeZeroServices(getattr(self, "scanned_orbs", None))
+		if config.misc.fix_unnamed_services.value:
+			fixUnnamedAndTypeZeroServices(getattr(self, "scanned_orbs", None))
 		if answer is not True:
 			self.session.openWithCallback(self.restartSignalFinder, MessageBox, _("Do you want to scan another transponder/satellite?"), MessageBox.TYPE_YESNO, timeout=10)
 		elif answer is True:
@@ -3276,17 +3311,33 @@ class SignalFinder(ConfigListScreen, Screen):
 		menu_text = _("Set free tuner")
 		if not config.misc.direct_tuner.value:
 			menu_text = _("Set direct tuner")
-		menu = [(menu_text, "setdirect"), (_("Update plugin"), "update")]
+		fix_text = _("Enable unnamed services fix")
+		if config.misc.fix_unnamed_services.value:
+			fix_text = _("Disable unnamed services fix")
+		menu = [(menu_text, "setdirect"), (fix_text, "fixunnamed"), (_("Update plugin"), "update")]
 
 		def extraAction(choice):
 			if choice is not None:
 				if choice[1] == "setdirect":
 					self.setDirectTuners()
+				elif choice[1] == "fixunnamed":
+					self.toggleUnnamedServicesFix()
 				elif choice[1] == "update":
 					cmd = "chmod 755 %s && %s update" % (loadScript, loadScript)
 					text = _("Update plugin")
 					self.session.open(Console, text, [cmd])
 		self.session.openWithCallback(extraAction, ChoiceBox, title=_("Select action:"), list=menu)
+
+	def toggleUnnamedServicesFix(self):
+		text = _("Enable fixing of unnamed services after scan") + "?"
+		if config.misc.fix_unnamed_services.value:
+			text = _("Disable fixing of unnamed services after scan") + "?"
+		self.session.openWithCallback(self.toggleUnnamedServicesFixCallback, MessageBox, text, MessageBox.TYPE_YESNO)
+
+	def toggleUnnamedServicesFixCallback(self, answer):
+		if answer:
+			config.misc.fix_unnamed_services.value = not config.misc.fix_unnamed_services.value
+			config.misc.fix_unnamed_services.save()
 
 	def setDirectTuners(self):
 		text = _("Set free tuner") + "?"
@@ -4230,7 +4281,8 @@ class SignalFinder(ConfigListScreen, Screen):
 			self.keyCancel()
 
 	def serviceScanFinished(self, answer=None):
-		fixUnnamedAndTypeZeroServices(getattr(self, "scanned_orbs", None))
+		if config.misc.fix_unnamed_services.value:
+			fixUnnamedAndTypeZeroServices(getattr(self, "scanned_orbs", None))
 		if answer is not True:
 			self.session.openWithCallback(self.restartSignalFinder, MessageBox, _("Do you want to scan another transponder/satellite?"), MessageBox.TYPE_YESNO, timeout=10)
 		elif answer is True:
