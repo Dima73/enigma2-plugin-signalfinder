@@ -394,6 +394,126 @@ def appendSnapshotServicesToLamedb(snapshot):
 		except:
 			pass
 
+def normalizeOrbitalPosition(value):
+	# Satellite positions are tenths of a degree, east positive. West
+	# positions are sometimes encoded as 3600 - degrees (e.g. 3560 for
+	# 4.0W); normalize those to the negative form (-40).
+	value = int(value)
+	if value > 1800:
+		value -= 3600
+	return value
+
+def fixUnnamedAndTypeZeroServices(orb_filter=None):
+	# Some satellites (e.g. 88.0E) provide services without a name and/or
+	# with service type 0 (unknown). Rename those to "unnamed sid <sid>"
+	# and promote type 0 services to type 1 (TV) so they become zappable.
+	# When orb_filter is given (an orbital position or a collection of
+	# them), only services on those satellites are touched.
+	if orb_filter is None:
+		orb_set = None
+	else:
+		try:
+			orb_set = set()
+			for orb in orb_filter:
+				orb_set.add(normalizeOrbitalPosition(orb))
+		except TypeError:
+			try:
+				orb_set = set([normalizeOrbitalPosition(orb_filter)])
+			except:
+				orb_set = None
+		except:
+			orb_set = None
+		if not orb_set:
+			orb_set = None
+	lamedb_path = "/etc/enigma2/lamedb"
+	if not os.path.exists(lamedb_path):
+		return
+	db = eDVBDB.getInstance()
+	try:
+		# Flush the in-memory database first so the services that were just
+		# scanned are present in the file we are about to fix.
+		db.saveServicelist()
+	except:
+		print("[Signalfinder] Failed to save servicelist, skipping unnamed/type-0 service fixup")
+		return
+	try:
+		with open(lamedb_path, "r") as fd:
+			lines = fd.readlines()
+	except:
+		return
+
+	t_idx, t_end, s_idx, s_end = parseLamedb(lines)
+	if min(t_idx, t_end, s_idx, s_end) < 0:
+		return
+
+	renamed = 0
+	retyped = 0
+	services_data = lines[s_idx + 1:s_end]
+	fixed_blocks = []
+	idx = 0
+	while idx + 2 < len(services_data):
+		ref_line = services_data[idx]
+		name_line = services_data[idx + 1]
+		flags_line = services_data[idx + 2]
+		# Two reference layouts exist: the classic
+		# "1:flags:type:sid:tsid:onid:namespace:..." and the newer
+		# "sid:namespace:tsid:onid:type:number:source_id"
+		# (%04x:%08x:%04x:%04x:%d:%d:%x) written by current enigma2 versions.
+		tokens = ref_line.strip().split(":")
+		if len(tokens) >= 10 and tokens[0] == "1":
+			type_idx, sid_idx, ns_idx = 2, 3, 6
+		elif len(tokens) == 7:
+			type_idx, sid_idx, ns_idx = 4, 0, 1
+		else:
+			type_idx = sid_idx = ns_idx = -1
+		matched = type_idx != -1
+		if matched and orb_set is not None:
+			# Restrict the fixup to the scanned orbital position(s): the
+			# satellite is encoded in the top 16 bits of the namespace
+			# (tenths of a degree, east positive).
+			try:
+				tp_orb = int(tokens[ns_idx], 16) >> 16
+				if tp_orb > 1800:
+					tp_orb -= 3600
+			except:
+				tp_orb = None
+			matched = tp_orb in orb_set
+		if matched:
+			if tokens[type_idx] == "0":
+				tokens[type_idx] = "1"
+				ref_line = ":".join(tokens) + "\n"
+				retyped += 1
+			if not name_line.strip():
+				new_name = "unnamed sid %s" % tokens[sid_idx]
+				name_line = new_name + "\n"
+				renamed += 1
+				# Fill an empty provider with the new name so the service
+				# shows up consistently.
+				if flags_line.startswith("p:"):
+					rest = flags_line[2:]
+					if rest.startswith(","):
+						flags_line = "p:%s%s" % (new_name, rest)
+					elif not rest.strip():
+						flags_line = "p:%s\n" % new_name
+				elif not flags_line.strip():
+					flags_line = "p:%s\n" % new_name
+				elif flags_line[1:2] == ":":
+					# tag-format data line without a provider tag
+					flags_line = "p:%s,%s" % (new_name, flags_line)
+		fixed_blocks.extend([ref_line, name_line, flags_line])
+		idx += 3
+
+	if renamed or retyped:
+		new_lines = lines[:s_idx + 1] + fixed_blocks + lines[s_end:]
+		try:
+			with open(lamedb_path, "w") as f:
+				f.writelines(new_lines)
+			db.reloadServicelist()
+			db.reloadBouquets()
+			print("[Signalfinder] Fixed %d unnamed and %d type-0 services" % (renamed, retyped))
+		except:
+			print("[Signalfinder] Failed to write fixed lamedb")
+
 VIASATUKR = [(12288000, 0)] #Amos 4w
 VIASAT = [(11265000, 0), (11265000, 1), (11305000, 0), (11305000, 1), (11345000, 1), (11345000, 0), (11385000, 1), (11727000, 0), (11785000, 1), (11804000, 0), (11823000, 1), (11843000, 0), (11862000, 1), (11881000, 0), (11900000, 1), (11919000, 0), (11938000, 1), (11958000, 0), (11977000, 1), (11996000, 0), (12015000, 1), (12034000, 0), (12054000, 1), (12092000, 1), (12245000, 1), (12380000, 0), (12437000, 1), (12476000, 1), (12608000, 0), (12637000, 0)]
 XTRATV = [(12111000, 1), (12149000, 1)]
@@ -1689,12 +1809,21 @@ class SignalFinderMultistreamT2MI(ConfigListScreen, Screen):
 
 	def startScan(self, tlist, flags, feid):
 		if len(tlist):
+			# Remember which satellites are being scanned so the unnamed /
+			# type-0 service fixup only touches those orbital positions.
+			scanned_orbs = set()
+			for tp in tlist:
+				orb = getattr(tp, "orbital_position", None)
+				if orb is not None:
+					scanned_orbs.add(normalizeOrbitalPosition(orb))
+			self.scanned_orbs = scanned_orbs or None
 			self.session.openWithCallback(self.serviceScanFinished, ServiceScan, [{"transponders": tlist, "feid": feid, "flags": flags}])
 		else:
 			self.session.open(MessageBox, _("Nothing to scan!\nPlease setup your tuner settings before you start a service scan."), MessageBox.TYPE_ERROR)
 			self.keyCancel()
 
 	def serviceScanFinished(self, answer=None):
+		fixUnnamedAndTypeZeroServices(getattr(self, "scanned_orbs", None))
 		if answer is not True:
 			self.session.openWithCallback(self.restartSignalFinder, MessageBox, _("Do you want to scan another transponder/satellite?"), MessageBox.TYPE_YESNO, timeout=10)
 		elif answer is True:
@@ -2877,12 +3006,21 @@ class SignalFinderMultistream(ConfigListScreen, Screen):
 
 	def startScan(self, tlist, flags, feid):
 		if len(tlist):
+			# Remember which satellites are being scanned so the unnamed /
+			# type-0 service fixup only touches those orbital positions.
+			scanned_orbs = set()
+			for tp in tlist:
+				orb = getattr(tp, "orbital_position", None)
+				if orb is not None:
+					scanned_orbs.add(normalizeOrbitalPosition(orb))
+			self.scanned_orbs = scanned_orbs or None
 			self.session.openWithCallback(self.serviceScanFinished, ServiceScan, [{"transponders": tlist, "feid": feid, "flags": flags}])
 		else:
 			self.session.open(MessageBox, _("Nothing to scan!\nPlease setup your tuner settings before you start a service scan."), MessageBox.TYPE_ERROR)
 			self.keyCancel()
 
 	def serviceScanFinished(self, answer=None):
+		fixUnnamedAndTypeZeroServices(getattr(self, "scanned_orbs", None))
 		if answer is not True:
 			self.session.openWithCallback(self.restartSignalFinder, MessageBox, _("Do you want to scan another transponder/satellite?"), MessageBox.TYPE_YESNO, timeout=10)
 		elif answer is True:
@@ -4078,12 +4216,21 @@ class SignalFinder(ConfigListScreen, Screen):
 
 	def startScan(self, tlist, flags, feid):
 		if len(tlist):
+			# Remember which satellites are being scanned so the unnamed /
+			# type-0 service fixup only touches those orbital positions.
+			scanned_orbs = set()
+			for tp in tlist:
+				orb = getattr(tp, "orbital_position", None)
+				if orb is not None:
+					scanned_orbs.add(normalizeOrbitalPosition(orb))
+			self.scanned_orbs = scanned_orbs or None
 			self.session.openWithCallback(self.serviceScanFinished, ServiceScan, [{"transponders": tlist, "feid": feid, "flags": flags}])
 		else:
 			self.session.open(MessageBox, _("Nothing to scan!\nPlease setup your tuner settings before you start a service scan."), MessageBox.TYPE_ERROR)
 			self.keyCancel()
 
 	def serviceScanFinished(self, answer=None):
+		fixUnnamedAndTypeZeroServices(getattr(self, "scanned_orbs", None))
 		if answer is not True:
 			self.session.openWithCallback(self.restartSignalFinder, MessageBox, _("Do you want to scan another transponder/satellite?"), MessageBox.TYPE_YESNO, timeout=10)
 		elif answer is True:
